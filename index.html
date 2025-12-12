@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>FitSync</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      background: #000; 
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #000; position: relative; padding-bottom: 90px; }
+    
+    .header { background: #000; padding: 50px 20px 16px; }
+    .header h1 { font-size: 32px; font-weight: 800; letter-spacing: -1px; }
+    .accent { color: #ff2d2d; }
+    
+    .card { background: #111; margin: 12px 16px; border-radius: 16px; padding: 18px; border: 1px solid #222; }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; font-size: 11px; font-weight: 600; color: #888; letter-spacing: 1.5px; }
+    
+    .stats-row { display: flex; justify-content: space-around; align-items: center; }
+    .stat-item { text-align: center; flex: 1; }
+    .stat-value { font-size: 36px; font-weight: 700; }
+    .stat-label { font-size: 10px; color: #666; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .stat-divider { width: 1px; height: 50px; background: #333; }
+    .recovery-high { color: #00ff88; }
+    
+    .screen { display: none; }
+    .screen.active { display: block; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header"><h1>FIT<span class="accent">SYNC</span></h1></div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="screen active">
+    <div class="card">
+      <div class="card-header">❤️ TODAY'S RECOVERY</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value recovery-high" id="recovery-score">78%</div><div class="stat-label">Recovery</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" id="strain-score">12.4</div><div class="stat-label">Strain</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">📅 THIS WEEK</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value" id="week-workouts">0</div><div class="stat-label">Workouts</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" id="week-time">0h 0m</div><div class="stat-label">Total Time</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">🏆 RECENT PRS</div>
+      <div id="recent-prs" class="empty-state">No PRs yet</div>
+    </div>
+    <div class="card">
+      <div class="card-header">🏃 RECENT WORKOUTS</div>
+      <div id="recent-workouts"></div>
+    </div>
+  </div>
+
+  <!-- Workouts -->
+  <div id="workouts" class="screen">
+    <div style="padding: 16px;"><div class="card-header" style="margin-bottom:16px;">ALL WORKOUTS</div><div id="all-workouts"></div></div>
+  </div>
+
+  <!-- More -->
+  <div id="more" class="screen">
+    <div style="padding: 16px;">
+      <div class="card" onclick="alert('PRs - Coming soon!')"><div class="menu-item">🏆 <span>Personal Records</span></div></div>
+      <div class="card" onclick="alert('Nutrition - Coming soon!')"><div class="menu-item">🍎 <span>Nutrition</span></div></div>
+      <div class="card" onclick="alert('Body Comp - Coming soon!')"><div class="menu-item">📊 <span>Body Composition</span></div></div>
+      <div class="card" onclick="alert('Analytics - Coming soon!')"><div class="menu-item">📈 <span>Analytics</span></div></div>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div id="settings" class="screen">
+    <div style="padding: 16px;">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="avatar">D</div>
+          <div><div style="font-weight:600;font-size:18px;">Demo User</div><div style="color:#666;font-size:13px;">demo@fitsync.app</div><div class="role-badge">CLIENT</div></div>
+        </div>
+      </div>
+      <div class="card-header" style="margin:24px 0 12px;">CONNECTED APPS</div>
+      <div class="card">
+        <div class="setting-row">❤️ Whoop <span style="color:#555">Not connected</span></div>
+        <div class="setting-row">🚴 Strava <span style="color:#555">Not connected</span></div>
+        <div class="setting-row">📅 Calendly <span style="color:#555">Not connected</span></div>
+      </div>
+      <button class="btn-outline" onclick="clearData()">Clear All Data</button>
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" onclick="openModal()">+</button>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tab active" onclick="showScreen('dashboard')"><span class="tab-icon">🏠</span>Home</div>
+    <div class="tab" onclick="showScreen('workouts')"><span class="tab-icon">🏋️</span>Workouts</div>
+    <div class="tab" onclick="showScreen('more')"><span class="tab-icon">📱</span>More</div>
+    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon">⚙️</span>Settings</div>
+  </div>
+
+  <!-- Add Modal -->
+  <div id="add-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-title">ADD WORKOUT</div>
+      <div class="modal-option" onclick="showEntry()"><span>✏️</span><div><div class="opt-title">Manual Entry</div><div class="opt-sub">Log workout details</div></div></div>
+      <div class="modal-option" onclick="alert('Screenshot import requires backend')"><span>📷</span><div><div class="opt-title">Import Screenshot</div><div class="opt-sub">TrainHeroic, MyFitnessPal</div></div></div>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Entry Modal -->
+  <div id="entry-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-title">LOG WORKOUT</div>
+      <label class="input-label">WORKOUT NAME</label>
+      <input type="text" id="workout-name" class="input" placeholder="e.g., Upper Body, Morning Run">
+      <label class="input-label">DURATION (MINUTES)</label>
+      <input type="number" id="workout-duration" class="input" placeholder="60">
+      <label class="input-label">TYPE</label>
+      <select id="workout-type" class="input">
+        <option value="STRENGTH">Strength</option>
+        <option value="RUNNING">Running</option>
+        <option value="CYCLING">Cycling</option>
+        <option value="HIIT">HIIT</option>
+      </select>
+      <button class="btn" onclick="saveWorkout()">SAVE WORKOUT</button>
+      <button class="btn-cancel" onclick="closeEntry()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; display: flex; border-top: 1px solid #222; padding: 10px 0 25px; }
+  .tab { flex: 1; text-align: center; cursor: pointer; color: #555; font-size: 10px; font-weight: 500; letter-spacing: 0.5px; }
+  .tab.active { color: #ff2d2d; }
+  .tab-icon { font-size: 22px; display: block; margin-bottom: 4px; }
+  
+  .fab { position: fixed; bottom: 100px; right: calc(50% - 195px); width: 60px; height: 60px; border-radius: 30px; background: #ff2d2d; color: #fff; border: none; font-size: 32px; cursor: pointer; box-shadow: 0 4px 20px rgba(255,45,45,0.4); }
+  
+  .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); justify-content: flex-end; align-items: center; z-index: 100; }
+  .modal.active { display: flex; }
+  .modal-content { background: #111; width: 100%; max-width: 430px; border-radius: 24px 24px 0 0; padding: 24px; border: 1px solid #222; }
+  .modal-title { font-size: 12px; font-weight: 600; color: #888; letter-spacing: 2px; text-align: center; margin-bottom: 24px; }
+  .modal-option { display: flex; align-items: center; gap: 16px; padding: 18px; background: #1a1a1a; border-radius: 12px; margin-bottom: 12px; cursor: pointer; border: 1px solid #333; }
+  .modal-option span { font-size: 24px; }
+  .opt-title { font-weight: 500; color: #fff; }
+  .opt-sub { font-size: 12px; color: #666; margin-top: 2px; }
+  
+  .input-label { display: block; font-size: 11px; color: #888; letter-spacing: 1px; margin-bottom: 8px; margin-top: 16px; }
+  .input { width: 100%; padding: 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; color: #fff; font-size: 16px; }
+  .input::placeholder { color: #555; }
+  
+  .btn { width: 100%; padding: 18px; background: #ff2d2d; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; letter-spacing: 1px; cursor: pointer; margin-top: 24px; }
+  .btn-cancel { width: 100%; padding: 16px; background: transparent; color: #ff2d2d; border: none; font-size: 16px; cursor: pointer; margin-top: 8px; }
+  .btn-outline { width: 100%; padding: 16px; background: transparent; color: #ff2d2d; border: 1px solid #333; border-radius: 10px; font-size: 14px; cursor: pointer; margin-top: 24px; }
+  
+  .empty-state { color: #555; text-align: center; padding: 20px; }
+  .workout-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #222; }
+  .workout-item:last-child { border-bottom: none; }
+  .workout-name { font-weight: 500; }
+  .workout-date { font-size: 12px; color: #555; margin-top: 4px; }
+  .source-badge { font-size: 10px; padding: 5px 10px; border-radius: 6px; color: #fff; font-weight: 600; }
+  
+  .menu-item { display: flex; align-items: center; gap: 14px; font-size: 16px; }
+  .avatar { width: 56px; height: 56px; border-radius: 28px; background: #ff2d2d; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; }
+  .role-badge { display: inline-block; background: rgba(255,45,45,0.2); color: #ff2d2d; font-size: 10px; padding: 4px 8px; border-radius: 4px; margin-top: 6px; font-weight: 600; }
+  .setting-row { padding: 14px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between; }
+  .setting-row:last-child { border-bottom: none; }
+</style>
+
+<script>
+let workouts = JSON.parse(localStorage.getItem('fitsync_workouts') || '[]');
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.closest('.tab').classList.add('active');
+  updateUI();
+}
+
+function openModal() { document.getElementById('add-modal').classList.add('active'); }
+function closeModal() { document.getElementById('add-modal').classList.remove('active'); }
+function showEntry() { closeModal(); document.getElementById('entry-modal').classList.add('active'); }
+function closeEntry() { document.getElementById('entry-modal').classList.remove('active'); }
+
+function saveWorkout() {
+  const name = document.getElementById('workout-name').value;
+  const duration = parseInt(document.getElementById('workout-duration').value) || 60;
+  const type = document.getElementById('workout-type').value;
+  if (!name) { alert('Please enter a workout name'); return; }
+  
+  workouts.unshift({
+    id: Date.now().toString(),
+    name, type, source: 'MANUAL',
+    duration: duration * 60,
+    date: new Date().toISOString(),
+    strain: (Math.random() * 10 + 5).toFixed(1)
+  });
+  localStorage.setItem('fitsync_workouts', JSON.stringify(workouts));
+  document.getElementById('workout-name').value = '';
+  document.getElementById('workout-duration').value = '';
+  closeEntry();
+  updateUI();
+}
+
+function updateUI() {
+  const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+  const thisWeek = workouts.filter(w => new Date(w.date) > weekAgo);
+  document.getElementById('week-workouts').textContent = thisWeek.length;
+  const totalSec = thisWeek.reduce((sum, w) => sum + w.duration, 0);
+  document.getElementById('week-time').textContent = `${Math.floor(totalSec/3600)}h ${Math.floor((totalSec%3600)/60)}m`;
+
+  const recentEl = document.getElementById('recent-workouts');
+  const allEl = document.getElementById('all-workouts');
+  
+  if (workouts.length === 0) {
+    recentEl.innerHTML = '<div class="empty-state">🏋️<br>No workouts yet<br><span style="font-size:12px;color:#444">Tap + to add your first workout</span></div>';
+    allEl.innerHTML = '<div class="empty-state">No workouts yet</div>';
+  } else {
+    const renderWorkout = w => `<div class="workout-item"><div><div class="workout-name">${w.name}</div><div class="workout-date">${new Date(w.date).toLocaleDateString()}</div></div><span class="source-badge" style="background:#666">${w.source}</span></div>`;
+    recentEl.innerHTML = workouts.slice(0,5).map(renderWorkout).join('');
+    allEl.innerHTML = workouts.map(w => `<div class="card"><div style="display:flex;justify-content:space-between;align-items:start;"><div><div style="font-weight:600">${w.name}</div><div style="font-size:12px;color:#666;margin-top:6px">⏱️ ${Math.floor(w.duration/60)}m &nbsp; 🔥 ${w.strain}</div><div style="font-size:12px;color:#444;margin-top:6px">${new Date(w.date).toLocaleString()}</div></div><span class="source-badge" style="background:#666">${w.source}</span></div></div>`).join('');
+  }
+}
+
+function clearData() {
+  if (confirm('Clear all data?')) {
+    localStorage.removeItem('fitsync_workouts');
+    workouts = [];
+    updateUI();
+  }
+}
+
+updateUI();
+</script>
+</body>
+</html>
