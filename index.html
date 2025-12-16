@@ -182,6 +182,75 @@
     </div>
   </div>
 
+  <!-- TRAINER: Client Health Dashboard -->
+  <div id="client-health" class="screen">
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span onclick="showScreen('clients')" style="cursor:pointer;font-size:20px;color:#666;">←</span>
+        <div class="card-header" style="margin:0;" id="health-client-name">Client</div>
+      </div>
+      
+      <div class="card" style="background:#0a0a0a;">
+        <div style="text-align:center;">
+          <div style="font-size:11px;color:#666;letter-spacing:1px;">OVERALL COMPLIANCE</div>
+          <div id="health-compliance-score" style="font-size:48px;font-weight:800;margin:8px 0;"></div>
+          <div id="health-compliance-label" style="font-size:12px;"></div>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin-top:20px;">AREAS TO WATCH</div>
+      <div id="health-alerts"></div>
+      
+      <div class="card-header" style="margin-top:20px;">7-DAY BREAKDOWN</div>
+      <div class="card">
+        <div class="health-metric-row">
+          <span>Calorie Compliance</span>
+          <span id="health-cal-compliance"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Protein Compliance</span>
+          <span id="health-protein-compliance"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Sleep Average</span>
+          <span id="health-sleep-avg"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Recovery Average</span>
+          <span id="health-recovery-avg"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Workouts Completed</span>
+          <span id="health-workouts"></span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin-top:20px;">RECENT BIOMETRICS</div>
+      <div class="card">
+        <div class="health-metric-row">
+          <span>Body Weight</span>
+          <span id="health-weight"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Body Fat %</span>
+          <span id="health-bf"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Squat PR</span>
+          <span id="health-squat"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Deadlift PR</span>
+          <span id="health-deadlift"></span>
+        </div>
+        <div class="health-metric-row">
+          <span>Bench PR</span>
+          <span id="health-bench"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TRAINER: Sessions Calendar -->
   <div id="sessions" class="screen">
     <div style="padding:16px;">
@@ -596,9 +665,22 @@
   .legend-text { font-size:11px; color:#666; }
   .legend-item.active .legend-text { color:#fff; }
   .client-card { background:#111; border:1px solid #222; border-radius:12px; padding:16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:14px; }
+  .client-card-expanded { background:#111; border:1px solid #222; border-radius:12px; margin-bottom:10px; overflow:hidden; }
+  .client-card-header { padding:16px; cursor:pointer; display:flex; align-items:center; gap:14px; }
+  .client-card-header:hover { background:#1a1a1a; }
+  .client-actions { display:flex; gap:8px; padding:0 16px 16px; }
+  .client-action-btn { flex:1; padding:10px; background:#1a1a1a; border:1px solid #333; border-radius:8px; color:#fff; font-size:11px; cursor:pointer; text-align:center; }
+  .client-action-btn:hover { background:#222; border-color:#4169E1; }
   .client-avatar { width:44px; height:44px; border-radius:22px; background:#4169E1; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; }
   .client-name { font-weight:600; font-size:15px; }
   .client-meta { font-size:11px; color:#666; margin-top:2px; }
+  .health-metric-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #222; font-size:13px; }
+  .health-metric-row:last-child { border-bottom:none; }
+  .health-alert { background:#1a1a1a; border-radius:8px; padding:12px; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+  .health-alert.warning { border-left:3px solid #ffaa00; }
+  .health-alert.danger { border-left:3px solid #ff6b6b; }
+  .health-alert-icon { font-size:18px; }
+  .health-alert-text { font-size:12px; color:#ccc; }
   .macro-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
   .macro-item { background:#1a1a1a; border-radius:10px; padding:12px 8px; text-align:center; }
   .macro-value { font-size:18px; font-weight:700; }
@@ -686,10 +768,12 @@ const metricConfig = {
   squatPR: { label: 'Squat PR', color: '#00ff88', unit: 'lbs' },
   deadliftPR: { label: 'Deadlift PR', color: '#4169E1', unit: 'lbs' },
   benchPR: { label: 'Bench PR', color: '#ff6b6b', unit: 'lbs' },
-  protein: { label: 'Protein', color: '#ffaa00', unit: 'g' },
-  carbs: { label: 'Carbs', color: '#00aaff', unit: 'g' },
-  fats: { label: 'Fats', color: '#ff66aa', unit: 'g' },
-  calories: { label: 'Calories', color: '#ffffff', unit: '' }
+  protein: { label: 'Protein', color: '#ffaa00', unit: 'g', hasTarget: true },
+  carbs: { label: 'Carbs', color: '#00aaff', unit: 'g', hasTarget: true },
+  fats: { label: 'Fats', color: '#ff66aa', unit: 'g', hasTarget: true },
+  calories: { label: 'Calories', color: '#ffffff', unit: 'kcal', hasTarget: true },
+  calorieCompliance: { label: 'Calorie Compliance', color: '#00ff88', unit: '%', isCompliance: true },
+  proteinCompliance: { label: 'Protein Compliance', color: '#ffaa00', unit: '%', isCompliance: true }
 };
 
 function init() {
@@ -704,57 +788,74 @@ function init() {
 function generateDemoData() {
   if (biometrics.length === 0) {
     const now = new Date();
-    // Starting values 6 months ago for a fit 31yo woman, progressing to current PRs
-    // Current: Squat 225, Deadlift 265, Bench 115
-    let squat = 185, deadlift = 215, bench = 95;
-    let weight = 138, bf = 22; // Starting body comp
+    // Programmed targets (what trainer prescribed)
+    const targets = { protein: 140, carbs: 180, fats: 55, calories: 1950 };
+    
+    // Starting values 6 months ago - changes VERY slowly over months
+    // Current: Squat 225, Deadlift 265, Bench 115, Weight ~135, BF ~19%
+    let squat = 205, deadlift = 240, bench = 100;
+    let weight = 137.5, bf = 21.5;
     
     for (let i = 180; i >= 0; i--) {
       const date = new Date(now); date.setDate(date.getDate() - i);
+      const monthsAgo = Math.floor(i / 30);
       
-      // PR progression every 2-3 weeks (realistic strength gains)
-      if (i % 14 === 0 && i > 0) { 
-        squat += Math.floor(3 + Math.random() * 5); // +3-8 lbs
-        deadlift += Math.floor(4 + Math.random() * 6); // +4-10 lbs
-        bench += Math.floor(1 + Math.random() * 3); // +1-4 lbs (slower upper body gains for women)
+      // PRs change only every 4-6 weeks (very slow, realistic progression)
+      if (i % 35 === 0 && i > 0) { 
+        squat += Math.floor(2 + Math.random() * 3); // +2-5 lbs per month
+        deadlift += Math.floor(3 + Math.random() * 4); // +3-7 lbs per month
+        bench += Math.floor(1 + Math.random() * 2); // +1-3 lbs per month
       }
-      // Cap at current PRs
       squat = Math.min(squat, 225);
       deadlift = Math.min(deadlift, 265);
       bench = Math.min(bench, 115);
       
-      // Body comp changes weekly - slight recomp (lose fat, maintain/gain muscle)
-      if (i % 7 === 0) { 
-        weight += (Math.random() - 0.4) * 0.8; // Slight downward trend
-        bf += (Math.random() - 0.6) * 0.3; // Gradual fat loss
+      // Body comp changes MONTHLY - very gradual recomp
+      if (i % 30 === 0 && i > 0) { 
+        weight += (Math.random() - 0.5) * 0.5; // +/- 0.25 lbs per month
+        bf -= 0.3 + Math.random() * 0.2; // Slow fat loss ~0.3-0.5% per month
       }
-      weight = Math.max(132, Math.min(140, weight)); // Keep in realistic range
-      bf = Math.max(18, Math.min(23, bf)); // 18-23% BF range
+      weight = Math.max(134, Math.min(138, weight));
+      bf = Math.max(19, Math.min(22, bf));
       
-      // Daily variation in biometrics
+      // Daily biometrics variation
       const dayOfWeek = date.getDay();
-      const isRestDay = dayOfWeek === 0 || dayOfWeek === 4; // Sun, Thu rest
-      const recoveryBase = isRestDay ? 75 : 60;
-      const strainBase = isRestDay ? 6 : 12;
+      const isRestDay = dayOfWeek === 0 || dayOfWeek === 3; // Sun, Wed rest
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+      const recoveryBase = isRestDay ? 75 : 62;
+      const strainBase = isRestDay ? 5 : 11;
+      
+      // Nutrition compliance - varies by day, weekends harder
+      // Some days hit targets, some days under, some over
+      const complianceFactor = isWeekend ? 0.7 + Math.random() * 0.5 : 0.85 + Math.random() * 0.3;
+      const proteinActual = Math.floor(targets.protein * (0.75 + Math.random() * 0.5)); // 75-125% of target
+      const carbsActual = Math.floor(targets.carbs * complianceFactor);
+      const fatsActual = Math.floor(targets.fats * (0.8 + Math.random() * 0.6));
+      const caloriesActual = Math.floor(targets.calories * complianceFactor);
       
       biometrics.push({
         date: date.toISOString().split('T')[0],
-        recovery: Math.floor(recoveryBase + Math.random() * 25), // 60-95% typical
-        strain: +(strainBase + Math.random() * 6).toFixed(1), // 6-18 range
-        hrv: Math.floor(45 + Math.random() * 35), // 45-80ms (good for fit woman)
-        sleep: +(6.5 + Math.random() * 2).toFixed(1), // 6.5-8.5 hrs
-        restingHR: Math.floor(52 + Math.random() * 10), // 52-62 bpm (athletic)
-        vo2max: +(38 + Math.random() * 6).toFixed(1), // 38-44 (good for 31yo woman)
+        recovery: Math.floor(recoveryBase + Math.random() * 25),
+        strain: +(strainBase + Math.random() * 6).toFixed(1),
+        hrv: Math.floor(48 + Math.random() * 30),
+        sleep: +(6.5 + Math.random() * 2).toFixed(1),
+        restingHR: Math.floor(52 + Math.random() * 8),
+        vo2max: +(39 + Math.random() * 4).toFixed(1),
         bodyWeight: +weight.toFixed(1),
         bodyFat: +bf.toFixed(1),
         squatPR: squat, 
         deadliftPR: deadlift, 
         benchPR: bench,
-        // Nutrition - targeting ~135g protein, moderate carbs, tracking compliance
-        protein: Math.floor(120 + Math.random() * 40), // 120-160g (some days better than others)
-        carbs: Math.floor(140 + Math.random() * 80), // 140-220g
-        fats: Math.floor(45 + Math.random() * 30), // 45-75g
-        calories: Math.floor(1700 + Math.random() * 500) // 1700-2200 kcal
+        // Actual intake
+        protein: proteinActual,
+        carbs: carbsActual,
+        fats: fatsActual,
+        calories: caloriesActual,
+        // Targets (for compliance calculation)
+        proteinTarget: targets.protein,
+        carbsTarget: targets.carbs,
+        fatsTarget: targets.fats,
+        caloriesTarget: targets.calories
       });
     }
     localStorage.setItem('fitsync_biometrics', JSON.stringify(biometrics));
@@ -989,7 +1090,142 @@ function viewCompleted(id) {
 function closeViewModal() { document.getElementById('view-modal').classList.remove('active'); }
 
 function renderClients() {
-  document.getElementById('clients-list').innerHTML = clients.map(c => `<div class="client-card" onclick="selectClient('${c.id}')"><div class="client-avatar">${c.name[0]}</div><div><div class="client-name">${c.name}</div><div class="client-meta">${c.email}</div></div><span style="color:#666">→</span></div>`).join('');
+  document.getElementById('clients-list').innerHTML = clients.map(c => {
+    const compliance = calculateClientCompliance(c.id);
+    const complianceColor = compliance >= 85 ? '#00ff88' : compliance >= 70 ? '#ffaa00' : '#ff6b6b';
+    return `
+      <div class="client-card-expanded">
+        <div class="client-card-header" onclick="toggleClientExpand('${c.id}')">
+          <div class="client-avatar">${c.name[0]}</div>
+          <div style="flex:1;">
+            <div class="client-name">${c.name}</div>
+            <div class="client-meta">${c.email}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:18px;font-weight:700;color:${complianceColor}">${compliance}%</div>
+            <div style="font-size:9px;color:#666;">COMPLIANCE</div>
+          </div>
+        </div>
+        <div class="client-actions" id="client-actions-${c.id}" style="display:none;">
+          <button class="client-action-btn" onclick="openClientHealth('${c.id}')">📊 Health Dashboard</button>
+          <button class="client-action-btn" onclick="selectClient('${c.id}')">📝 Program Builder</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleClientExpand(id) {
+  const el = document.getElementById('client-actions-' + id);
+  el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+}
+
+function calculateClientCompliance(clientId) {
+  // Calculate 7-day compliance score
+  const last7 = biometrics.slice(-7);
+  if (last7.length === 0) return 0;
+  
+  let scores = [];
+  last7.forEach(d => {
+    // Calorie compliance (within 10% of target)
+    if (d.caloriesTarget && d.calories) {
+      const calPct = (d.calories / d.caloriesTarget) * 100;
+      scores.push(calPct >= 90 && calPct <= 110 ? 100 : Math.max(0, 100 - Math.abs(100 - calPct)));
+    }
+    // Protein compliance (within 15% of target)
+    if (d.proteinTarget && d.protein) {
+      const protPct = (d.protein / d.proteinTarget) * 100;
+      scores.push(protPct >= 85 ? 100 : protPct);
+    }
+    // Sleep compliance (7+ hours = 100%)
+    if (d.sleep) {
+      scores.push(d.sleep >= 7 ? 100 : (d.sleep / 7) * 100);
+    }
+  });
+  
+  return scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+}
+
+function openClientHealth(id) {
+  selectedClient = id;
+  const client = clients.find(c => c.id === id);
+  document.getElementById('health-client-name').textContent = client.name;
+  renderClientHealthDashboard();
+  showScreen('client-health');
+}
+
+function renderClientHealthDashboard() {
+  const last7 = biometrics.slice(-7);
+  const last30 = biometrics.slice(-30);
+  const latest = biometrics[biometrics.length - 1] || {};
+  
+  // Calculate compliance score
+  const compliance = calculateClientCompliance(selectedClient);
+  const complianceColor = compliance >= 85 ? '#00ff88' : compliance >= 70 ? '#ffaa00' : '#ff6b6b';
+  const complianceLabel = compliance >= 85 ? 'Excellent' : compliance >= 70 ? 'Good' : compliance >= 50 ? 'Needs Work' : 'At Risk';
+  
+  document.getElementById('health-compliance-score').textContent = compliance + '%';
+  document.getElementById('health-compliance-score').style.color = complianceColor;
+  document.getElementById('health-compliance-label').textContent = complianceLabel;
+  document.getElementById('health-compliance-label').style.color = complianceColor;
+  
+  // Calculate 7-day metrics
+  const avgSleep = last7.length ? (last7.reduce((s, d) => s + (d.sleep || 0), 0) / last7.length).toFixed(1) : '--';
+  const avgRecovery = last7.length ? Math.round(last7.reduce((s, d) => s + (d.recovery || 0), 0) / last7.length) : '--';
+  
+  // Calorie compliance (days within 10% of target)
+  const calCompDays = last7.filter(d => {
+    if (!d.caloriesTarget || !d.calories) return false;
+    const pct = (d.calories / d.caloriesTarget) * 100;
+    return pct >= 90 && pct <= 110;
+  }).length;
+  
+  // Protein compliance (days hitting 85%+ of target)
+  const protCompDays = last7.filter(d => {
+    if (!d.proteinTarget || !d.protein) return false;
+    return (d.protein / d.proteinTarget) >= 0.85;
+  }).length;
+  
+  // Workouts completed (count scheduled workouts in last 7 days that have completedWorkouts)
+  const workoutsCompleted = completedWorkouts.filter(w => {
+    const wDate = new Date(w.date);
+    const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+    return wDate >= weekAgo;
+  }).length;
+  
+  document.getElementById('health-cal-compliance').innerHTML = `<span style="color:${calCompDays >= 5 ? '#00ff88' : calCompDays >= 3 ? '#ffaa00' : '#ff6b6b'}">${calCompDays}/7 days</span>`;
+  document.getElementById('health-protein-compliance').innerHTML = `<span style="color:${protCompDays >= 5 ? '#00ff88' : protCompDays >= 3 ? '#ffaa00' : '#ff6b6b'}">${protCompDays}/7 days</span>`;
+  document.getElementById('health-sleep-avg').innerHTML = `<span style="color:${avgSleep >= 7 ? '#00ff88' : avgSleep >= 6 ? '#ffaa00' : '#ff6b6b'}">${avgSleep} hrs</span>`;
+  document.getElementById('health-recovery-avg').innerHTML = `<span style="color:${avgRecovery >= 70 ? '#00ff88' : avgRecovery >= 50 ? '#ffaa00' : '#ff6b6b'}">${avgRecovery}%</span>`;
+  document.getElementById('health-workouts').innerHTML = `<span style="color:#4169E1">${workoutsCompleted}</span>`;
+  
+  // Recent biometrics
+  document.getElementById('health-weight').textContent = latest.bodyWeight ? latest.bodyWeight + ' lbs' : '--';
+  document.getElementById('health-bf').textContent = latest.bodyFat ? latest.bodyFat + '%' : '--';
+  document.getElementById('health-squat').textContent = latest.squatPR ? latest.squatPR + ' lbs' : '--';
+  document.getElementById('health-deadlift').textContent = latest.deadliftPR ? latest.deadliftPR + ' lbs' : '--';
+  document.getElementById('health-bench').textContent = latest.benchPR ? latest.benchPR + ' lbs' : '--';
+  
+  // Generate alerts
+  let alerts = [];
+  if (avgSleep < 6.5) alerts.push({ type: 'danger', icon: '😴', text: 'Sleep averaging below 6.5 hours - may impact recovery' });
+  else if (avgSleep < 7) alerts.push({ type: 'warning', icon: '😴', text: 'Sleep slightly below target (7+ hrs recommended)' });
+  
+  if (calCompDays < 3) alerts.push({ type: 'danger', icon: '🍽️', text: 'Calorie compliance low - only ' + calCompDays + '/7 days on target' });
+  else if (calCompDays < 5) alerts.push({ type: 'warning', icon: '🍽️', text: 'Calorie compliance could improve - ' + calCompDays + '/7 days on target' });
+  
+  if (protCompDays < 3) alerts.push({ type: 'danger', icon: '🥩', text: 'Protein intake low - only ' + protCompDays + '/7 days hitting target' });
+  else if (protCompDays < 5) alerts.push({ type: 'warning', icon: '🥩', text: 'Protein could be more consistent - ' + protCompDays + '/7 days on target' });
+  
+  if (avgRecovery < 50) alerts.push({ type: 'danger', icon: '⚡', text: 'Recovery scores low - consider deload or extra rest' });
+  else if (avgRecovery < 65) alerts.push({ type: 'warning', icon: '⚡', text: 'Recovery trending down - monitor closely' });
+  
+  if (alerts.length === 0) {
+    alerts.push({ type: 'success', icon: '✅', text: 'All metrics looking good! Keep it up.' });
+  }
+  
+  document.getElementById('health-alerts').innerHTML = alerts.map(a => 
+    `<div class="health-alert ${a.type}"><span class="health-alert-icon">${a.icon}</span><span class="health-alert-text">${a.text}</span></div>`
+  ).join('');
 }
 
 function selectClient(id) {
