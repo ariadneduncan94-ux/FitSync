@@ -94,6 +94,13 @@
         <button class="time-btn" onclick="setTimeRange('6M')">6M</button>
       </div>
       <div class="card" style="padding:12px;height:220px;"><canvas id="analyticsChart"></canvas></div>
+      
+      <div class="card-header" style="margin-top:16px;">RAW DATA SUMMARY</div>
+      <div id="raw-data-summary" class="card" style="background:#0a0a0a;"></div>
+      
+      <div class="card-header" style="margin-top:16px;">CORRELATION INSIGHTS</div>
+      <div id="correlation-insights" class="card" style="background:#0a0a0a;"></div>
+      
       <div class="card-header" style="margin-top:16px;">SELECT METRICS</div>
       <div id="legend-grid"></div>
     </div>
@@ -1334,7 +1341,7 @@ function renderAnalytics() {
     'NUTRITION': ['protein', 'carbs', 'fats', 'calories']
   };
   
-  let legendHTML = '<p style="font-size:10px;color:#666;margin-bottom:12px;">All metrics normalized to % change from baseline for comparison. Select up to 5.</p>';
+  let legendHTML = '<p style="font-size:10px;color:#666;margin-bottom:12px;">Metrics scaled 0-100 to show trends together. Hover for actual values. Select up to 5.</p>';
   Object.entries(metricGroups).forEach(([groupName, metrics]) => {
     legendHTML += `<div class="legend-section"><div class="legend-section-title">${groupName}</div><div class="legend-grid">`;
     metrics.forEach(key => {
@@ -1353,24 +1360,36 @@ function renderAnalytics() {
   const ctx = document.getElementById('analyticsChart').getContext('2d');
   if (analyticsChart) analyticsChart.destroy();
   
-  // Normalize ALL metrics to % change from baseline
-  // This allows comparing protein intake trends with PR trends on the same chart
+  // Min-Max normalization: scale each metric to 0-100 based on its own range
+  // This preserves trend shapes while allowing visual comparison
+  const metricStats = {};
   const datasets = activeMetrics.map(metric => {
     const cfg = metricConfig[metric];
     const rawValues = data.map(d => parseFloat(d[metric]) || 0);
+    const validValues = rawValues.filter(v => v > 0);
     
-    // Find first non-zero value as baseline
-    const baseline = rawValues.find(v => v > 0) || 1;
+    // Get min/max for this metric
+    const minVal = Math.min(...validValues);
+    const maxVal = Math.max(...validValues);
+    const range = maxVal - minVal || 1;
+    const avg = validValues.reduce((a,b) => a+b, 0) / validValues.length;
     
-    // Convert to % change from baseline
-    const pctValues = rawValues.map(v => {
-      if (v === 0) return null; // Skip zero values
-      return ((v - baseline) / baseline) * 100;
+    // Store stats for raw data summary
+    metricStats[metric] = { 
+      min: minVal, max: maxVal, avg: avg.toFixed(1),
+      start: validValues[0], end: validValues[validValues.length - 1],
+      change: validValues.length > 1 ? (validValues[validValues.length - 1] - validValues[0]).toFixed(1) : 0
+    };
+    
+    // Normalize to 0-100 scale
+    const normalizedValues = rawValues.map(v => {
+      if (v === 0) return null;
+      return ((v - minVal) / range) * 100;
     });
     
     return {
       label: cfg.label,
-      data: pctValues,
+      data: normalizedValues,
       borderColor: cfg.color,
       backgroundColor: cfg.color + '15',
       borderWidth: 2.5,
@@ -1378,19 +1397,13 @@ function renderAnalytics() {
       pointHoverRadius: 4,
       tension: 0.3,
       fill: false,
-      // Store raw data for tooltip
       rawData: rawValues,
-      baseline: baseline,
+      minVal: minVal,
+      maxVal: maxVal,
       metricKey: metric,
       unit: cfg.unit
     };
   });
-  
-  // Calculate Y-axis range based on all % values
-  const allPctValues = datasets.flatMap(ds => ds.data.filter(v => v !== null));
-  const minPct = Math.min(...allPctValues, 0);
-  const maxPct = Math.max(...allPctValues, 0);
-  const padding = Math.max(Math.abs(minPct), Math.abs(maxPct)) * 0.15;
   
   analyticsChart = new Chart(ctx, {
     type: 'line',
@@ -1415,11 +1428,8 @@ function renderAnalytics() {
             title: (items) => items[0]?.label || '',
             label: (ctx) => {
               const ds = ctx.dataset;
-              const pctChange = ctx.raw;
               const rawVal = ds.rawData[ctx.dataIndex];
-              const arrow = pctChange > 0 ? '↑' : pctChange < 0 ? '↓' : '→';
-              const sign = pctChange > 0 ? '+' : '';
-              return `${ds.label}: ${rawVal}${ds.unit} (${arrow}${sign}${pctChange?.toFixed(1)}%)`;
+              return `${ds.label}: ${rawVal}${ds.unit} (range: ${ds.minVal}-${ds.maxVal})`;
             }
           } 
         } 
@@ -1431,16 +1441,17 @@ function renderAnalytics() {
         },
         y: {
           grid: { color: '#1a1a1a' },
+          min: 0,
+          max: 100,
           ticks: { 
             color: '#888', 
             font: { size: 9 },
-            callback: val => (val > 0 ? '+' : '') + val.toFixed(0) + '%'
+            stepSize: 25,
+            callback: val => val === 0 ? 'Low' : val === 50 ? 'Mid' : val === 100 ? 'High' : ''
           },
-          min: Math.floor(minPct - padding),
-          max: Math.ceil(maxPct + padding),
           title: {
             display: true,
-            text: '% Change from Baseline',
+            text: 'Relative Trend (scaled)',
             color: '#666',
             font: { size: 10 }
           }
@@ -1448,6 +1459,177 @@ function renderAnalytics() {
       }
     }
   });
+  
+  // Render raw data summary
+  renderRawDataSummary(data, metricStats);
+  
+  // Render correlation insights
+  renderCorrelationInsights(data);
+}
+
+function renderRawDataSummary(data, metricStats) {
+  if (activeMetrics.length === 0) {
+    document.getElementById('raw-data-summary').innerHTML = '<p style="font-size:11px;color:#555;text-align:center;">Select metrics above to see raw data</p>';
+    return;
+  }
+  
+  let html = '<table style="width:100%;font-size:11px;border-collapse:collapse;">';
+  html += '<tr style="color:#666;border-bottom:1px solid #222;"><th style="text-align:left;padding:8px 4px;">Metric</th><th>Start</th><th>End</th><th>Change</th><th>Avg</th><th>Range</th></tr>';
+  
+  activeMetrics.forEach(metric => {
+    const cfg = metricConfig[metric];
+    const stats = metricStats[metric];
+    const changeNum = parseFloat(stats.change);
+    const changeColor = changeNum > 0 ? '#00ff88' : changeNum < 0 ? '#ff6b6b' : '#888';
+    const changeSign = changeNum > 0 ? '+' : '';
+    
+    html += `<tr style="border-bottom:1px solid #1a1a1a;">
+      <td style="padding:8px 4px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${cfg.color};margin-right:6px;"></span>${cfg.label}</td>
+      <td style="text-align:center;color:#888;">${stats.start}${cfg.unit}</td>
+      <td style="text-align:center;color:#fff;">${stats.end}${cfg.unit}</td>
+      <td style="text-align:center;color:${changeColor};">${changeSign}${stats.change}${cfg.unit}</td>
+      <td style="text-align:center;color:#888;">${stats.avg}${cfg.unit}</td>
+      <td style="text-align:center;color:#555;">${stats.min}-${stats.max}</td>
+    </tr>`;
+  });
+  
+  html += '</table>';
+  
+  // Add compliance summary if nutrition metrics selected
+  const nutritionMetrics = ['protein', 'carbs', 'fats', 'calories'].filter(m => activeMetrics.includes(m));
+  if (nutritionMetrics.length > 0 && data.length > 0) {
+    html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid #222;">';
+    html += '<div style="font-size:10px;color:#666;margin-bottom:8px;letter-spacing:1px;">COMPLIANCE VS TARGET</div>';
+    
+    nutritionMetrics.forEach(metric => {
+      const targetKey = metric + 'Target';
+      const withTargets = data.filter(d => d[targetKey]);
+      if (withTargets.length > 0) {
+        const avgActual = withTargets.reduce((sum, d) => sum + (d[metric] || 0), 0) / withTargets.length;
+        const avgTarget = withTargets.reduce((sum, d) => sum + (d[targetKey] || 0), 0) / withTargets.length;
+        const compliance = Math.round((avgActual / avgTarget) * 100);
+        const compColor = compliance >= 90 && compliance <= 110 ? '#00ff88' : compliance >= 80 ? '#ffaa00' : '#ff6b6b';
+        
+        html += `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:11px;">
+          <span>${metricConfig[metric].label}</span>
+          <span><span style="color:#888;">${Math.round(avgActual)} / ${Math.round(avgTarget)}</span> <span style="color:${compColor};margin-left:8px;">${compliance}%</span></span>
+        </div>`;
+      }
+    });
+    html += '</div>';
+  }
+  
+  document.getElementById('raw-data-summary').innerHTML = html;
+}
+
+function renderCorrelationInsights(data) {
+  if (data.length < 14) {
+    document.getElementById('correlation-insights').innerHTML = '<p style="font-size:11px;color:#555;text-align:center;">Need at least 2 weeks of data for insights</p>';
+    return;
+  }
+  
+  const insights = [];
+  
+  // Split data into periods to detect changes
+  const midpoint = Math.floor(data.length / 2);
+  const firstHalf = data.slice(0, midpoint);
+  const secondHalf = data.slice(midpoint);
+  
+  // Helper to calculate average
+  const avg = (arr, key) => arr.reduce((sum, d) => sum + (parseFloat(d[key]) || 0), 0) / arr.length;
+  
+  // Analyze calorie/carb changes vs outcomes
+  const calFirst = avg(firstHalf, 'calories');
+  const calSecond = avg(secondHalf, 'calories');
+  const calChange = ((calSecond - calFirst) / calFirst * 100).toFixed(0);
+  
+  const carbFirst = avg(firstHalf, 'carbs');
+  const carbSecond = avg(secondHalf, 'carbs');
+  const carbChange = ((carbSecond - carbFirst) / carbFirst * 100).toFixed(0);
+  
+  const sleepFirst = avg(firstHalf, 'sleep');
+  const sleepSecond = avg(secondHalf, 'sleep');
+  const sleepChange = (sleepSecond - sleepFirst).toFixed(1);
+  
+  const recoveryFirst = avg(firstHalf, 'recovery');
+  const recoverySecond = avg(secondHalf, 'recovery');
+  const recoveryChange = (recoverySecond - recoveryFirst).toFixed(0);
+  
+  const bfFirst = avg(firstHalf, 'bodyFat');
+  const bfSecond = avg(secondHalf, 'bodyFat');
+  const bfChange = (bfSecond - bfFirst).toFixed(1);
+  
+  // Get PR changes
+  const squatFirst = firstHalf[firstHalf.length - 1]?.squatPR || 0;
+  const squatSecond = secondHalf[secondHalf.length - 1]?.squatPR || 0;
+  const deadliftFirst = firstHalf[firstHalf.length - 1]?.deadliftPR || 0;
+  const deadliftSecond = secondHalf[secondHalf.length - 1]?.deadliftPR || 0;
+  
+  // Generate insights based on correlations
+  if (Math.abs(calChange) > 5) {
+    const calDir = calChange > 0 ? 'increased' : 'decreased';
+    const calIcon = calChange > 0 ? '↑' : '↓';
+    
+    // Calories vs Sleep
+    if (calChange > 5 && sleepChange > 0.2) {
+      insights.push({ icon: '😴', color: '#00ff88', text: `When calories ${calDir} ${Math.abs(calChange)}%, sleep improved by ${sleepChange}hrs` });
+    } else if (calChange < -5 && sleepChange < -0.2) {
+      insights.push({ icon: '⚠️', color: '#ffaa00', text: `Calorie deficit may be affecting sleep (-${Math.abs(sleepChange)}hrs avg)` });
+    }
+    
+    // Calories vs Body Fat
+    if (calChange > 5 && bfChange < -0.3) {
+      insights.push({ icon: '🔥', color: '#00ff88', text: `Higher calories (${calIcon}${Math.abs(calChange)}%) + training = body fat ↓${Math.abs(bfChange)}%` });
+    } else if (calChange < -5 && bfChange < -0.5) {
+      insights.push({ icon: '📉', color: '#4169E1', text: `Calorie deficit working: body fat down ${Math.abs(bfChange)}%` });
+    }
+    
+    // Calories vs PRs
+    if (calChange > 5 && (squatSecond > squatFirst || deadliftSecond > deadliftFirst)) {
+      const prGains = [];
+      if (squatSecond > squatFirst) prGains.push(`Squat +${squatSecond - squatFirst}lbs`);
+      if (deadliftSecond > deadliftFirst) prGains.push(`Deadlift +${deadliftSecond - deadliftFirst}lbs`);
+      insights.push({ icon: '💪', color: '#00ff88', text: `Higher fuel = PR gains: ${prGains.join(', ')}` });
+    }
+  }
+  
+  // Carbs vs Recovery
+  if (Math.abs(carbChange) > 8) {
+    if (carbChange > 8 && recoveryChange > 3) {
+      insights.push({ icon: '⚡', color: '#00ff88', text: `Carb increase (${carbChange}%) correlates with +${recoveryChange}% recovery` });
+    } else if (carbChange < -8 && recoveryChange < -3) {
+      insights.push({ icon: '🔋', color: '#ffaa00', text: `Lower carbs may be impacting recovery (${recoveryChange}%)` });
+    }
+  }
+  
+  // Sleep vs Recovery correlation
+  if (sleepChange > 0.3 && recoveryChange > 5) {
+    insights.push({ icon: '✨', color: '#00ff88', text: `Better sleep (+${sleepChange}hrs) driving recovery improvements` });
+  }
+  
+  // Compliance insight
+  const calCompliance = data.filter(d => d.caloriesTarget).map(d => d.calories / d.caloriesTarget);
+  const avgCompliance = calCompliance.reduce((a,b) => a+b, 0) / calCompliance.length;
+  if (avgCompliance >= 0.9 && avgCompliance <= 1.1) {
+    insights.push({ icon: '🎯', color: '#00ff88', text: `Strong nutrition compliance (${Math.round(avgCompliance * 100)}%) - keep it up!` });
+  } else if (avgCompliance < 0.85) {
+    insights.push({ icon: '📊', color: '#ffaa00', text: `Calorie intake averaging ${Math.round(avgCompliance * 100)}% of target - room to improve` });
+  }
+  
+  // Default insight if none generated
+  if (insights.length === 0) {
+    insights.push({ icon: '📈', color: '#4169E1', text: 'Tracking data - correlations will appear as patterns emerge' });
+  }
+  
+  let html = '';
+  insights.forEach(insight => {
+    html += `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #1a1a1a;">
+      <span style="font-size:18px;">${insight.icon}</span>
+      <span style="font-size:12px;color:${insight.color};line-height:1.4;">${insight.text}</span>
+    </div>`;
+  });
+  
+  document.getElementById('correlation-insights').innerHTML = html;
 }
 
 function toggleSource(source) {
@@ -2564,3 +2746,4 @@ init();
 </script>
 </body>
 </html>
+
