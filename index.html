@@ -102,9 +102,9 @@
   <!-- CLIENT: Labs -->
   <div id="labs" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">BLOOD PANEL HISTORY</div>
+      <div class="card-header">BLOOD PANEL HISTORY <span style="font-size:9px;color:#00ff88;font-weight:400;">● Auto-synced</span></div>
       <div id="labs-list"></div>
-      <button class="btn-small" onclick="openLabsModal()" style="width:100%;margin-top:16px;">+ Add Lab Results</button>
+      <p style="font-size:11px;color:#555;text-align:center;margin-top:16px;">Lab results are uploaded by your trainer from partner labs</p>
     </div>
   </div>
 
@@ -133,6 +133,11 @@
             <input type="file" accept=".xlsx,.xls,.csv" onchange="handleBulkExcelUpload(event)" style="display:none;">
           </label>
         </div>
+      </div>
+      <div class="card" style="margin-top:12px;background:#0a0a0a;">
+        <div class="card-header">LAB RESULTS</div>
+        <p style="font-size:11px;color:#666;margin-bottom:12px;">Upload blood panel results for clients</p>
+        <button class="btn-small" onclick="openLabsModal()" style="width:100%;">Upload Lab Results</button>
       </div>
     </div>
   </div>
@@ -235,13 +240,57 @@
     </div>
   </div>
 
+  <!-- TRAINER: Billing -->
+  <div id="billing" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">BILLING OVERVIEW</div>
+      <div class="card" style="background:#0a0a0a;">
+        <div class="revenue-summary">
+          <div class="revenue-item"><div class="revenue-value" id="billing-collected">$0</div><div class="revenue-label">Collected</div></div>
+          <div class="revenue-item"><div class="revenue-value" id="billing-pending" style="color:#ffaa00;">$0</div><div class="revenue-label">Pending</div></div>
+          <div class="revenue-item"><div class="revenue-value" id="billing-overdue" style="color:#ff6b6b;">$0</div><div class="revenue-label">Overdue</div></div>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin-top:20px;">PAYMENT INTEGRATIONS</div>
+      <div class="card">
+        <div class="import-option" onclick="connectPaddle()">
+          <img src="https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/v1505375214/ggqhvyfdqsxfpufigcsa.png" class="brand-logo" alt="Paddle">
+          <span>Paddle</span>
+          <span id="paddle-status" class="source-status" style="margin-left:auto;">Connect</span>
+        </div>
+        <div class="import-option" onclick="connectStripe()">
+          <img src="https://cdn.brandfetch.io/idxAg10C0L/theme/dark/symbol.svg?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Stripe">
+          <span>Stripe</span>
+          <span id="stripe-status" class="source-status" style="margin-left:auto;">Connect</span>
+        </div>
+        <div class="import-option" onclick="connectSquare()">
+          <img src="https://cdn.brandfetch.io/idVxYBVkue/w/400/h/400/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Square">
+          <span>Square</span>
+          <span id="square-status" class="source-status" style="margin-left:auto;">Connect</span>
+        </div>
+        <div class="import-option" onclick="connectQuickbooks()">
+          <img src="https://cdn.brandfetch.io/id_KsyK7J9/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="QuickBooks">
+          <span>QuickBooks</span>
+          <span id="quickbooks-status" class="source-status" style="margin-left:auto;">Connect</span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin-top:20px;">RECENT TRANSACTIONS</div>
+      <div id="billing-transactions"></div>
+      
+      <div class="card-header" style="margin-top:20px;">CLIENT BILLING STATUS</div>
+      <div id="client-billing-list"></div>
+    </div>
+  </div>
+
   <!-- Settings -->
   <div id="settings" class="screen">
     <div style="padding:16px;">
       <div class="card">
         <div style="display:flex;align-items:center;gap:16px;">
           <div class="avatar">A</div>
-          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@fitsync.app</div></div>
+          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@arsenalhealth.com</div></div>
         </div>
       </div>
       <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
@@ -288,7 +337,7 @@
     <div class="tab active" onclick="showScreen('clients')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></span>Clients</div>
     <div class="tab" onclick="showScreen('sessions')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></span>Sessions</div>
     <div class="tab" onclick="showScreen('business')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>Business</div>
-    <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>Analytics</div>
+    <div class="tab" onclick="showScreen('billing')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></span>Billing</div>
   </div>
 
   <!-- Log Workout Modal -->
@@ -365,15 +414,38 @@
     </div>
   </div>
 
-  <!-- Labs Modal -->
+  <!-- Labs Modal (Trainer Upload) -->
   <div id="labs-modal" class="modal">
     <div class="modal-content modal-full">
-      <div class="modal-header"><span onclick="closeLabsModal()">✕</span><span class="modal-title">ADD LAB RESULTS</span><span onclick="saveLabResults()" style="color:#4169E1">Save</span></div>
+      <div class="modal-header"><span onclick="closeLabsModal()">✕</span><span class="modal-title">UPLOAD LAB RESULTS</span><span onclick="saveLabResults()" style="color:#4169E1">Save</span></div>
       <div class="modal-body">
+        <label class="input-label">CLIENT</label>
+        <select id="lab-client" class="input"><option value="demo">Sarah Johnson</option><option value="c2">Mike Chen</option><option value="c3">Emma Davis</option></select>
         <label class="input-label">TEST DATE</label>
         <input type="date" id="lab-date" class="input">
-        <label class="input-label">LAB NAME / PROVIDER</label>
+        <label class="input-label">LAB PROVIDER</label>
         <input type="text" id="lab-provider" class="input" placeholder="e.g., Quest Diagnostics">
+        
+        <div class="card-header" style="margin-top:24px;">COMPLETE BLOOD COUNT (CBC)</div>
+        <div class="lab-inputs">
+          <div class="lab-input"><label>WBC</label><input type="number" id="lab-wbc" placeholder="K/uL" step="0.1"></div>
+          <div class="lab-input"><label>RBC</label><input type="number" id="lab-rbc" placeholder="M/uL" step="0.1"></div>
+          <div class="lab-input"><label>Hemoglobin</label><input type="number" id="lab-hemoglobin" placeholder="g/dL" step="0.1"></div>
+          <div class="lab-input"><label>Hematocrit</label><input type="number" id="lab-hematocrit" placeholder="%" step="0.1"></div>
+          <div class="lab-input"><label>Platelets</label><input type="number" id="lab-platelets" placeholder="K/uL"></div>
+        </div>
+        
+        <div class="card-header" style="margin-top:24px;">METABOLIC PANEL</div>
+        <div class="lab-inputs">
+          <div class="lab-input"><label>Glucose</label><input type="number" id="lab-glucose" placeholder="mg/dL"></div>
+          <div class="lab-input"><label>HbA1c</label><input type="number" id="lab-a1c" placeholder="%" step="0.1"></div>
+          <div class="lab-input"><label>Creatinine</label><input type="number" id="lab-creatinine" placeholder="mg/dL" step="0.1"></div>
+          <div class="lab-input"><label>BUN</label><input type="number" id="lab-bun" placeholder="mg/dL"></div>
+          <div class="lab-input"><label>eGFR</label><input type="number" id="lab-egfr" placeholder="mL/min"></div>
+          <div class="lab-input"><label>Sodium</label><input type="number" id="lab-sodium" placeholder="mEq/L"></div>
+          <div class="lab-input"><label>Potassium</label><input type="number" id="lab-potassium" placeholder="mEq/L" step="0.1"></div>
+        </div>
+        
         <div class="card-header" style="margin-top:24px;">LIPID PANEL</div>
         <div class="lab-inputs">
           <div class="lab-input"><label>Total Cholesterol</label><input type="number" id="lab-cholesterol" placeholder="mg/dL"></div>
@@ -381,18 +453,20 @@
           <div class="lab-input"><label>HDL</label><input type="number" id="lab-hdl" placeholder="mg/dL"></div>
           <div class="lab-input"><label>Triglycerides</label><input type="number" id="lab-triglycerides" placeholder="mg/dL"></div>
         </div>
-        <div class="card-header" style="margin-top:24px;">METABOLIC</div>
+        
+        <div class="card-header" style="margin-top:24px;">LIVER FUNCTION</div>
         <div class="lab-inputs">
-          <div class="lab-input"><label>Glucose (Fasting)</label><input type="number" id="lab-glucose" placeholder="mg/dL"></div>
-          <div class="lab-input"><label>Hemoglobin A1C</label><input type="number" id="lab-a1c" placeholder="%" step="0.1"></div>
+          <div class="lab-input"><label>ALT</label><input type="number" id="lab-alt" placeholder="U/L"></div>
+          <div class="lab-input"><label>AST</label><input type="number" id="lab-ast" placeholder="U/L"></div>
         </div>
-        <div class="card-header" style="margin-top:24px;">BLOOD COUNT</div>
+        
+        <div class="card-header" style="margin-top:24px;">OTHER MARKERS</div>
         <div class="lab-inputs">
-          <div class="lab-input"><label>White Blood Cells</label><input type="number" id="lab-wbc" placeholder="K/uL" step="0.1"></div>
-          <div class="lab-input"><label>Red Blood Cells</label><input type="number" id="lab-rbc" placeholder="M/uL" step="0.1"></div>
-          <div class="lab-input"><label>Hemoglobin</label><input type="number" id="lab-hemoglobin" placeholder="g/dL" step="0.1"></div>
+          <div class="lab-input"><label>TSH</label><input type="number" id="lab-tsh" placeholder="mIU/L" step="0.01"></div>
+          <div class="lab-input"><label>hs-CRP</label><input type="number" id="lab-crp" placeholder="mg/L" step="0.1"></div>
         </div>
-        <p style="font-size:11px;color:#555;margin-top:20px;text-align:center;">Leave blank any values not on your panel</p>
+        
+        <p style="font-size:11px;color:#555;margin-top:20px;text-align:center;">Leave blank any values not on the panel</p>
       </div>
     </div>
   </div>
@@ -459,6 +533,7 @@
   .session-reminder { background:#4169E120; border:1px solid #4169E140; border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#4169E1; display:flex; align-items:center; gap:10px; }
   .biz-stat-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #222; font-size:13px; }
   .biz-stat-row:last-child { border-bottom:none; }
+  .billing-row { display:flex; justify-content:space-between; align-items:center; padding:14px; background:#111; border:1px solid #222; border-radius:10px; margin-bottom:8px; }
   .trainer-revenue-card { background:#111; border:1px solid #222; border-radius:10px; padding:14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
   .trainer-revenue-name { font-weight:600; font-size:14px; }
   .trainer-revenue-sessions { font-size:11px; color:#666; margin-top:2px; }
@@ -720,6 +795,7 @@ function showScreen(id) {
   if (id === 'sessions') renderTrainerSessions();
   if (id === 'my-sessions') renderClientSessions();
   if (id === 'business') renderBusinessDashboard();
+  if (id === 'billing') renderBilling();
   updateUI();
 }
 
@@ -1592,14 +1668,22 @@ function requestSessionCancel(sessionId) {
   }
 }
 
-// Labs / Blood Panels
+// Labs / Blood Panels (Full Panel)
 let labResults = JSON.parse(localStorage.getItem('fitsync_labs') || '[]');
 
 function initLabs() {
   if (labResults.length === 0) {
     labResults = [
-      { id: 1, date: '2025-11-15', provider: 'Quest Diagnostics', cholesterol: 185, ldl: 110, hdl: 55, triglycerides: 100, glucose: 92, a1c: 5.4, wbc: 6.2, rbc: 4.8, hemoglobin: 14.5 },
-      { id: 2, date: '2025-08-20', provider: 'LabCorp', cholesterol: 195, ldl: 125, hdl: 50, triglycerides: 120, glucose: 98, a1c: 5.6, wbc: 5.8, rbc: 4.6, hemoglobin: 14.2 }
+      { id: 1, clientId: 'demo', date: '2025-11-15', provider: 'Quest Diagnostics', 
+        wbc: 6.2, rbc: 4.8, hemoglobin: 14.5, hematocrit: 43, platelets: 250,
+        glucose: 92, a1c: 5.4, creatinine: 0.9, bun: 15, egfr: 95, sodium: 140, potassium: 4.2,
+        cholesterol: 185, ldl: 110, hdl: 55, triglycerides: 100,
+        alt: 22, ast: 25, tsh: 2.1, crp: 0.8 },
+      { id: 2, clientId: 'demo', date: '2025-08-20', provider: 'LabCorp',
+        wbc: 5.8, rbc: 4.6, hemoglobin: 14.2, hematocrit: 42, platelets: 245,
+        glucose: 98, a1c: 5.6, creatinine: 1.0, bun: 16, egfr: 90, sodium: 141, potassium: 4.0,
+        cholesterol: 195, ldl: 125, hdl: 50, triglycerides: 120,
+        alt: 28, ast: 30, tsh: 2.5, crp: 1.2 }
     ];
     localStorage.setItem('fitsync_labs', JSON.stringify(labResults));
   }
@@ -1610,32 +1694,30 @@ function renderLabs() {
   const container = document.getElementById('labs-list');
   if (!container) return;
   
-  if (labResults.length === 0) {
+  const clientLabs = labResults.filter(l => l.clientId === 'demo');
+  if (clientLabs.length === 0) {
     container.innerHTML = '<div class="calendar-empty">No lab results yet</div>';
     return;
   }
   
-  container.innerHTML = labResults.sort((a,b) => b.date.localeCompare(a.date)).map(lab => {
+  container.innerHTML = clientLabs.sort((a,b) => b.date.localeCompare(a.date)).map(lab => {
     const dateObj = new Date(lab.date + 'T12:00:00');
     const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     
-    // Determine status colors based on typical ranges
-    const cholClass = lab.cholesterol > 200 ? 'warning' : lab.cholesterol > 240 ? 'high' : 'normal';
-    const ldlClass = lab.ldl > 100 ? 'warning' : lab.ldl > 160 ? 'high' : 'normal';
-    const glucoseClass = lab.glucose > 100 ? 'warning' : lab.glucose > 126 ? 'high' : 'normal';
-    const a1cClass = lab.a1c > 5.7 ? 'warning' : lab.a1c > 6.5 ? 'high' : 'normal';
+    // Color coding based on typical ranges
+    const getClass = (val, low, high) => !val ? '' : val < low || val > high ? 'warning' : 'normal';
     
     return `
       <div class="lab-card" onclick="viewLabDetail('${lab.id}')">
         <div class="lab-card-date">${dateStr}</div>
         <div class="lab-card-provider">${lab.provider}</div>
         <div class="lab-metrics">
-          <div class="lab-metric"><div class="lab-metric-value ${cholClass}">${lab.cholesterol || '--'}</div><div class="lab-metric-label">CHOL</div></div>
-          <div class="lab-metric"><div class="lab-metric-value ${ldlClass}">${lab.ldl || '--'}</div><div class="lab-metric-label">LDL</div></div>
-          <div class="lab-metric"><div class="lab-metric-value ${glucoseClass}">${lab.glucose || '--'}</div><div class="lab-metric-label">GLUCOSE</div></div>
-          <div class="lab-metric"><div class="lab-metric-value ${a1cClass}">${lab.a1c || '--'}</div><div class="lab-metric-label">A1C</div></div>
-          <div class="lab-metric"><div class="lab-metric-value">${lab.wbc || '--'}</div><div class="lab-metric-label">WBC</div></div>
-          <div class="lab-metric"><div class="lab-metric-value">${lab.hemoglobin || '--'}</div><div class="lab-metric-label">HGB</div></div>
+          <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.glucose, 70, 100)}">${lab.glucose || '--'}</div><div class="lab-metric-label">GLUCOSE</div></div>
+          <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.a1c, 0, 5.7)}">${lab.a1c || '--'}</div><div class="lab-metric-label">A1C</div></div>
+          <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.cholesterol, 0, 200)}">${lab.cholesterol || '--'}</div><div class="lab-metric-label">CHOL</div></div>
+          <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.ldl, 0, 100)}">${lab.ldl || '--'}</div><div class="lab-metric-label">LDL</div></div>
+          <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.wbc, 4.5, 11)}">${lab.wbc || '--'}</div><div class="lab-metric-label">WBC</div></div>
+          <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.crp, 0, 3)}">${lab.crp || '--'}</div><div class="lab-metric-label">hs-CRP</div></div>
         </div>
       </div>`;
   }).join('');
@@ -1643,16 +1725,10 @@ function renderLabs() {
 
 function openLabsModal() {
   document.getElementById('lab-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('lab-provider').value = '';
-  document.getElementById('lab-cholesterol').value = '';
-  document.getElementById('lab-ldl').value = '';
-  document.getElementById('lab-hdl').value = '';
-  document.getElementById('lab-triglycerides').value = '';
-  document.getElementById('lab-glucose').value = '';
-  document.getElementById('lab-a1c').value = '';
-  document.getElementById('lab-wbc').value = '';
-  document.getElementById('lab-rbc').value = '';
-  document.getElementById('lab-hemoglobin').value = '';
+  ['provider','wbc','rbc','hemoglobin','hematocrit','platelets','glucose','a1c','creatinine','bun','egfr','sodium','potassium','cholesterol','ldl','hdl','triglycerides','alt','ast','tsh','crp'].forEach(f => {
+    const el = document.getElementById('lab-' + f);
+    if (el) el.value = '';
+  });
   document.getElementById('labs-modal').classList.add('active');
 }
 
@@ -1661,24 +1737,35 @@ function closeLabsModal() { document.getElementById('labs-modal').classList.remo
 function saveLabResults() {
   const lab = {
     id: Date.now(),
+    clientId: document.getElementById('lab-client').value,
     date: document.getElementById('lab-date').value,
     provider: document.getElementById('lab-provider').value || 'Unknown',
+    wbc: parseFloat(document.getElementById('lab-wbc').value) || null,
+    rbc: parseFloat(document.getElementById('lab-rbc').value) || null,
+    hemoglobin: parseFloat(document.getElementById('lab-hemoglobin').value) || null,
+    hematocrit: parseFloat(document.getElementById('lab-hematocrit').value) || null,
+    platelets: parseFloat(document.getElementById('lab-platelets').value) || null,
+    glucose: parseFloat(document.getElementById('lab-glucose').value) || null,
+    a1c: parseFloat(document.getElementById('lab-a1c').value) || null,
+    creatinine: parseFloat(document.getElementById('lab-creatinine').value) || null,
+    bun: parseFloat(document.getElementById('lab-bun').value) || null,
+    egfr: parseFloat(document.getElementById('lab-egfr').value) || null,
+    sodium: parseFloat(document.getElementById('lab-sodium').value) || null,
+    potassium: parseFloat(document.getElementById('lab-potassium').value) || null,
     cholesterol: parseFloat(document.getElementById('lab-cholesterol').value) || null,
     ldl: parseFloat(document.getElementById('lab-ldl').value) || null,
     hdl: parseFloat(document.getElementById('lab-hdl').value) || null,
     triglycerides: parseFloat(document.getElementById('lab-triglycerides').value) || null,
-    glucose: parseFloat(document.getElementById('lab-glucose').value) || null,
-    a1c: parseFloat(document.getElementById('lab-a1c').value) || null,
-    wbc: parseFloat(document.getElementById('lab-wbc').value) || null,
-    rbc: parseFloat(document.getElementById('lab-rbc').value) || null,
-    hemoglobin: parseFloat(document.getElementById('lab-hemoglobin').value) || null
+    alt: parseFloat(document.getElementById('lab-alt').value) || null,
+    ast: parseFloat(document.getElementById('lab-ast').value) || null,
+    tsh: parseFloat(document.getElementById('lab-tsh').value) || null,
+    crp: parseFloat(document.getElementById('lab-crp').value) || null
   };
   
   labResults.push(lab);
   localStorage.setItem('fitsync_labs', JSON.stringify(labResults));
   closeLabsModal();
-  renderLabs();
-  alert('Lab results saved!');
+  alert('Lab results uploaded for client!');
 }
 
 function viewLabDetail(labId) {
@@ -1689,9 +1776,117 @@ function viewLabDetail(labId) {
   const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
   
   alert(`Lab Results - ${dateStr}\n${lab.provider}\n\n` +
-    `LIPID PANEL\nTotal Cholesterol: ${lab.cholesterol || '--'} mg/dL\nLDL: ${lab.ldl || '--'} mg/dL\nHDL: ${lab.hdl || '--'} mg/dL\nTriglycerides: ${lab.triglycerides || '--'} mg/dL\n\n` +
-    `METABOLIC\nGlucose: ${lab.glucose || '--'} mg/dL\nHemoglobin A1C: ${lab.a1c || '--'}%\n\n` +
-    `BLOOD COUNT\nWBC: ${lab.wbc || '--'} K/uL\nRBC: ${lab.rbc || '--'} M/uL\nHemoglobin: ${lab.hemoglobin || '--'} g/dL`);
+    `CBC\nWBC: ${lab.wbc || '--'} K/uL | RBC: ${lab.rbc || '--'} M/uL\nHemoglobin: ${lab.hemoglobin || '--'} g/dL | Hematocrit: ${lab.hematocrit || '--'}%\nPlatelets: ${lab.platelets || '--'} K/uL\n\n` +
+    `METABOLIC\nGlucose: ${lab.glucose || '--'} mg/dL | HbA1c: ${lab.a1c || '--'}%\nCreatinine: ${lab.creatinine || '--'} | BUN: ${lab.bun || '--'} | eGFR: ${lab.egfr || '--'}\nSodium: ${lab.sodium || '--'} | Potassium: ${lab.potassium || '--'}\n\n` +
+    `LIPID PANEL\nTotal: ${lab.cholesterol || '--'} | LDL: ${lab.ldl || '--'} | HDL: ${lab.hdl || '--'}\nTriglycerides: ${lab.triglycerides || '--'}\n\n` +
+    `LIVER & OTHER\nALT: ${lab.alt || '--'} | AST: ${lab.ast || '--'}\nTSH: ${lab.tsh || '--'} | hs-CRP: ${lab.crp || '--'}`);
+}
+
+// Billing
+let billingData = JSON.parse(localStorage.getItem('fitsync_billing') || '[]');
+
+function initBilling() {
+  if (billingData.length === 0) {
+    billingData = [
+      { id: 1, clientId: 'demo', clientName: 'Sarah Johnson', amount: 200, status: 'paid', date: '2025-12-01', method: 'Stripe' },
+      { id: 2, clientId: 'c2', clientName: 'Mike Chen', amount: 200, status: 'paid', date: '2025-12-01', method: 'Paddle' },
+      { id: 3, clientId: 'c3', clientName: 'Emma Davis', amount: 200, status: 'pending', date: '2025-12-01', method: 'Stripe' },
+      { id: 4, clientId: 'demo', clientName: 'Sarah Johnson', amount: 200, status: 'paid', date: '2025-11-01', method: 'Stripe' },
+      { id: 5, clientId: 'c2', clientName: 'Mike Chen', amount: 200, status: 'paid', date: '2025-11-01', method: 'Paddle' },
+      { id: 6, clientId: 'c4', clientName: 'James Wilson', amount: 150, status: 'overdue', date: '2025-11-15', method: 'Square' }
+    ];
+    localStorage.setItem('fitsync_billing', JSON.stringify(billingData));
+  }
+}
+
+function renderBilling() {
+  initBilling();
+  
+  const collected = billingData.filter(b => b.status === 'paid').reduce((sum, b) => sum + b.amount, 0);
+  const pending = billingData.filter(b => b.status === 'pending').reduce((sum, b) => sum + b.amount, 0);
+  const overdue = billingData.filter(b => b.status === 'overdue').reduce((sum, b) => sum + b.amount, 0);
+  
+  document.getElementById('billing-collected').textContent = '$' + collected.toLocaleString();
+  document.getElementById('billing-pending').textContent = '$' + pending.toLocaleString();
+  document.getElementById('billing-overdue').textContent = '$' + overdue.toLocaleString();
+  
+  // Recent transactions
+  const txContainer = document.getElementById('billing-transactions');
+  const recent = billingData.sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
+  txContainer.innerHTML = recent.map(tx => {
+    const statusColor = tx.status === 'paid' ? '#00ff88' : tx.status === 'pending' ? '#ffaa00' : '#ff6b6b';
+    const dateStr = new Date(tx.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return `
+      <div class="billing-row">
+        <div><div style="font-weight:600;">${tx.clientName}</div><div style="font-size:11px;color:#666;">${dateStr} • ${tx.method}</div></div>
+        <div style="text-align:right;"><div style="font-weight:600;">$${tx.amount}</div><div style="font-size:10px;color:${statusColor};text-transform:uppercase;">${tx.status}</div></div>
+      </div>`;
+  }).join('');
+  
+  // Client billing status
+  const clientContainer = document.getElementById('client-billing-list');
+  const clientStatus = {};
+  billingData.forEach(b => {
+    if (!clientStatus[b.clientId] || b.date > clientStatus[b.clientId].date) {
+      clientStatus[b.clientId] = b;
+    }
+  });
+  clientContainer.innerHTML = Object.values(clientStatus).map(c => {
+    const statusColor = c.status === 'paid' ? '#00ff88' : c.status === 'pending' ? '#ffaa00' : '#ff6b6b';
+    return `
+      <div class="billing-row">
+        <span>${c.clientName}</span>
+        <span style="color:${statusColor};font-weight:600;text-transform:uppercase;">${c.status}</span>
+      </div>`;
+  }).join('');
+}
+
+function connectPaddle() {
+  sources.paddle = !sources.paddle;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('paddle-status');
+  if (sources.paddle) {
+    el.textContent = 'Connected'; el.classList.add('connected');
+    alert('Paddle connected! Subscription payments will sync automatically.');
+  } else {
+    el.textContent = 'Connect'; el.classList.remove('connected');
+  }
+}
+
+function connectStripe() {
+  sources.stripe = !sources.stripe;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('stripe-status');
+  if (sources.stripe) {
+    el.textContent = 'Connected'; el.classList.add('connected');
+    alert('Stripe connected! Payment data will sync automatically.');
+  } else {
+    el.textContent = 'Connect'; el.classList.remove('connected');
+  }
+}
+
+function connectSquare() {
+  sources.square = !sources.square;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('square-status');
+  if (sources.square) {
+    el.textContent = 'Connected'; el.classList.add('connected');
+    alert('Square connected! In-person payments will sync.');
+  } else {
+    el.textContent = 'Connect'; el.classList.remove('connected');
+  }
+}
+
+function connectQuickbooks() {
+  sources.quickbooks = !sources.quickbooks;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('quickbooks-status');
+  if (sources.quickbooks) {
+    el.textContent = 'Connected'; el.classList.add('connected');
+    alert('QuickBooks connected! Invoices and payments will sync.');
+  } else {
+    el.textContent = 'Connect'; el.classList.remove('connected');
+  }
 }
 
 // Messages
