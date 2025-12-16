@@ -704,26 +704,57 @@ function init() {
 function generateDemoData() {
   if (biometrics.length === 0) {
     const now = new Date();
-    let squat = 185, deadlift = 225, bench = 135, weight = 175, bf = 18;
+    // Starting values 6 months ago for a fit 31yo woman, progressing to current PRs
+    // Current: Squat 225, Deadlift 265, Bench 115
+    let squat = 185, deadlift = 215, bench = 95;
+    let weight = 138, bf = 22; // Starting body comp
+    
     for (let i = 180; i >= 0; i--) {
       const date = new Date(now); date.setDate(date.getDate() - i);
-      if (i % 14 === 0) { squat += Math.floor(Math.random() * 10); deadlift += Math.floor(Math.random() * 10); bench += Math.floor(Math.random() * 5); }
-      if (i % 7 === 0) { weight += (Math.random() - 0.5) * 2; bf += (Math.random() - 0.6) * 0.5; }
+      
+      // PR progression every 2-3 weeks (realistic strength gains)
+      if (i % 14 === 0 && i > 0) { 
+        squat += Math.floor(3 + Math.random() * 5); // +3-8 lbs
+        deadlift += Math.floor(4 + Math.random() * 6); // +4-10 lbs
+        bench += Math.floor(1 + Math.random() * 3); // +1-4 lbs (slower upper body gains for women)
+      }
+      // Cap at current PRs
+      squat = Math.min(squat, 225);
+      deadlift = Math.min(deadlift, 265);
+      bench = Math.min(bench, 115);
+      
+      // Body comp changes weekly - slight recomp (lose fat, maintain/gain muscle)
+      if (i % 7 === 0) { 
+        weight += (Math.random() - 0.4) * 0.8; // Slight downward trend
+        bf += (Math.random() - 0.6) * 0.3; // Gradual fat loss
+      }
+      weight = Math.max(132, Math.min(140, weight)); // Keep in realistic range
+      bf = Math.max(18, Math.min(23, bf)); // 18-23% BF range
+      
+      // Daily variation in biometrics
+      const dayOfWeek = date.getDay();
+      const isRestDay = dayOfWeek === 0 || dayOfWeek === 4; // Sun, Thu rest
+      const recoveryBase = isRestDay ? 75 : 60;
+      const strainBase = isRestDay ? 6 : 12;
+      
       biometrics.push({
         date: date.toISOString().split('T')[0],
-        recovery: Math.floor(50 + Math.random() * 45),
-        strain: +(8 + Math.random() * 10).toFixed(1),
-        hrv: Math.floor(30 + Math.random() * 40),
-        sleep: +(5.5 + Math.random() * 3).toFixed(1),
-        restingHR: Math.floor(50 + Math.random() * 15),
-        vo2max: +(42 + Math.random() * 8).toFixed(1),
+        recovery: Math.floor(recoveryBase + Math.random() * 25), // 60-95% typical
+        strain: +(strainBase + Math.random() * 6).toFixed(1), // 6-18 range
+        hrv: Math.floor(45 + Math.random() * 35), // 45-80ms (good for fit woman)
+        sleep: +(6.5 + Math.random() * 2).toFixed(1), // 6.5-8.5 hrs
+        restingHR: Math.floor(52 + Math.random() * 10), // 52-62 bpm (athletic)
+        vo2max: +(38 + Math.random() * 6).toFixed(1), // 38-44 (good for 31yo woman)
         bodyWeight: +weight.toFixed(1),
-        bodyFat: +Math.max(10, bf).toFixed(1),
-        squatPR: squat, deadliftPR: deadlift, benchPR: bench,
-        protein: Math.floor(100 + Math.random() * 100),
-        carbs: Math.floor(150 + Math.random() * 150),
-        fats: Math.floor(50 + Math.random() * 50),
-        calories: Math.floor(1800 + Math.random() * 800)
+        bodyFat: +bf.toFixed(1),
+        squatPR: squat, 
+        deadliftPR: deadlift, 
+        benchPR: bench,
+        // Nutrition - targeting ~135g protein, moderate carbs, tracking compliance
+        protein: Math.floor(120 + Math.random() * 40), // 120-160g (some days better than others)
+        carbs: Math.floor(140 + Math.random() * 80), // 140-220g
+        fats: Math.floor(45 + Math.random() * 30), // 45-75g
+        calories: Math.floor(1700 + Math.random() * 500) // 1700-2200 kcal
       });
     }
     localStorage.setItem('fitsync_biometrics', JSON.stringify(biometrics));
@@ -732,17 +763,46 @@ function generateDemoData() {
 
 function generateDemoSchedule() {
   if (scheduledWorkouts.length === 0) {
+    // Realistic working weights for woman with 225 squat, 265 deadlift, 115 bench
     const templates = [
-      { name: 'Push Day A', exercises: [{ name: 'Bench Press', sets: [{w:135,r:10},{w:155,r:8},{w:175,r:6}] }, { name: 'Shoulder Press', sets: [{w:65,r:10},{w:75,r:8}] }] },
-      { name: 'Pull Day A', exercises: [{ name: 'Deadlift', sets: [{w:185,r:8},{w:225,r:6},{w:245,r:4}] }, { name: 'Barbell Row', sets: [{w:95,r:10},{w:115,r:8}] }] },
-      { name: 'Leg Day', exercises: [{ name: 'Squat', sets: [{w:135,r:10},{w:185,r:8},{w:205,r:6}] }, { name: 'Leg Press', sets: [{w:270,r:12},{w:360,r:10}] }] }
+      { name: 'Upper Push', exercises: [
+        { name: 'Bench Press', sets: [{w:75,r:10},{w:85,r:8},{w:95,r:6},{w:105,r:4}] }, 
+        { name: 'DB Shoulder Press', sets: [{w:25,r:12},{w:30,r:10},{w:35,r:8}] },
+        { name: 'Tricep Pushdown', sets: [{w:40,r:12},{w:50,r:10}] }
+      ]},
+      { name: 'Lower - Deadlift', exercises: [
+        { name: 'Deadlift', sets: [{w:185,r:6},{w:215,r:4},{w:235,r:3},{w:250,r:2}] }, 
+        { name: 'Romanian DL', sets: [{w:135,r:10},{w:155,r:8}] },
+        { name: 'Leg Curl', sets: [{w:70,r:12},{w:80,r:10}] }
+      ]},
+      { name: 'Upper Pull', exercises: [
+        { name: 'Barbell Row', sets: [{w:85,r:10},{w:95,r:8},{w:105,r:6}] },
+        { name: 'Lat Pulldown', sets: [{w:90,r:12},{w:100,r:10}] },
+        { name: 'Face Pulls', sets: [{w:40,r:15},{w:50,r:12}] }
+      ]},
+      { name: 'Lower - Squat', exercises: [
+        { name: 'Back Squat', sets: [{w:155,r:8},{w:175,r:6},{w:195,r:4},{w:210,r:3}] }, 
+        { name: 'Bulgarian Split Squat', sets: [{w:35,r:10},{w:40,r:8}] },
+        { name: 'Leg Extension', sets: [{w:80,r:12},{w:90,r:10}] }
+      ]}
     ];
     const now = new Date();
+    let templateIdx = 0;
     for (let i = -7; i < 28; i++) {
-      if (i % 2 === 0 || i % 3 === 0) continue;
       const date = new Date(now); date.setDate(date.getDate() + i);
-      const t = templates[Math.abs(i) % templates.length];
-      scheduledWorkouts.push({ id: 'sched_' + Date.now() + '_' + i, clientId: 'demo', date: date.toISOString().split('T')[0], name: t.name, exercises: JSON.parse(JSON.stringify(t.exercises)), notes: 'Focus on form.' });
+      const dayOfWeek = date.getDay();
+      // Train Mon, Tue, Thu, Fri (4-day upper/lower split)
+      if (dayOfWeek === 0 || dayOfWeek === 3 || dayOfWeek === 6) continue; // Skip Sun, Wed, Sat
+      const t = templates[templateIdx % templates.length];
+      templateIdx++;
+      scheduledWorkouts.push({ 
+        id: 'sched_' + Date.now() + '_' + i, 
+        clientId: 'demo', 
+        date: date.toISOString().split('T')[0], 
+        name: t.name, 
+        exercises: JSON.parse(JSON.stringify(t.exercises)), 
+        notes: 'RPE 7-8. Focus on controlled tempo.' 
+      });
     }
     localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
   }
