@@ -93,7 +93,19 @@
 
   <!-- TRAINER: Clients -->
   <div id="clients" class="screen">
-    <div style="padding:16px;"><div class="card-header">👥 MY CLIENTS</div><div id="clients-list"></div></div>
+    <div style="padding:16px;">
+      <div class="card-header">👥 MY CLIENTS</div>
+      <div id="clients-list"></div>
+      <div class="card" style="margin-top:20px;">
+        <div class="card-header">📤 BULK UPLOAD PROGRAMMING</div>
+        <p style="font-size:12px;color:#666;margin-bottom:12px;">Upload an Excel file with monthly workouts and nutrition targets for all clients.</p>
+        <button class="btn-small" onclick="downloadTemplate()" style="margin-right:8px;">📥 Download Template</button>
+        <label class="btn-small" style="background:#333;cursor:pointer;">
+          📤 Upload Excel
+          <input type="file" accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event)" style="display:none;">
+        </label>
+      </div>
+    </div>
   </div>
 
   <!-- TRAINER: Builder -->
@@ -130,6 +142,14 @@
         <div class="setting-row" onclick="toggleSource('apple')"><span>⌚ Apple Watch</span><span id="apple-status" class="source-status">Connect</span></div>
         <div class="setting-row" onclick="toggleSource('garmin')"><span>🏃 Garmin</span><span id="garmin-status" class="source-status">Connect</span></div>
         <div class="setting-row" onclick="toggleSource('oura')"><span>💍 Oura Ring</span><span id="oura-status" class="source-status">Connect</span></div>
+      </div>
+      <div class="card-header" style="margin:24px 0 12px;">NUTRITION IMPORT</div>
+      <div class="card">
+        <div class="setting-row" onclick="connectFatSecret()">
+          <span>🥗 FatSecret</span>
+          <span id="fatsecret-status" class="source-status">Connect</span>
+        </div>
+        <p style="font-size:11px;color:#555;padding:8px 0 0;">Sync your daily nutrition data automatically</p>
       </div>
       <button class="btn-outline" onclick="clearData()">Clear All Data</button>
     </div>
@@ -436,7 +456,7 @@ function updateUI() {
   const upcoming = scheduledWorkouts.filter(w => w.date > todayStr && w.clientId === 'demo').sort((a,b) => a.date.localeCompare(b.date)).slice(0, 3);
   document.getElementById('upcoming-workouts').innerHTML = upcoming.length ? upcoming.map(w => `<div class="calendar-workout scheduled" style="margin-top:8px;"><div class="calendar-workout-name">${w.name}</div><div class="calendar-workout-meta">${new Date(w.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div></div>`).join('') : '<div class="calendar-empty">No upcoming workouts</div>';
   
-  ['whoop', 'apple', 'garmin', 'oura'].forEach(s => {
+  ['whoop', 'apple', 'garmin', 'oura', 'fatsecret'].forEach(s => {
     const el = document.getElementById(s + '-status');
     if (el) { el.textContent = sources[s] ? 'Connected' : 'Connect'; el.classList.toggle('connected', sources[s]); }
   });
@@ -651,6 +671,177 @@ function toggleSource(source) {
 }
 
 function clearData() { if (confirm('Clear all data?')) { localStorage.clear(); location.reload(); } }
+
+// Excel Template Download
+function downloadTemplate() {
+  const template = `Client Email,Date,Workout Name,Exercise,Sets,Weight,Reps,Notes,Protein Target,Carbs Target,Fats Target,Calories Target
+ari@fitsync.app,2024-01-15,Push Day A,Bench Press,3,135,10,Focus on form,150,200,60,2200
+ari@fitsync.app,2024-01-15,Push Day A,Shoulder Press,3,65,10,,,,
+ari@fitsync.app,2024-01-15,Push Day A,Tricep Dips,3,BW,12,,,,
+ari@fitsync.app,2024-01-17,Pull Day A,Deadlift,4,185,8,Keep back straight,150,200,60,2200
+ari@fitsync.app,2024-01-17,Pull Day A,Barbell Row,3,95,10,,,,
+ari@fitsync.app,2024-01-19,Leg Day,Squat,4,155,8,Full depth,160,220,55,2300
+ari@fitsync.app,2024-01-19,Leg Day,Leg Press,3,270,12,,,,
+john@email.com,2024-01-15,Upper Body,Bench Press,4,185,6,,180,250,70,2600
+john@email.com,2024-01-17,Lower Body,Squat,4,225,6,,180,250,70,2600`;
+  
+  const blob = new Blob([template], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'FitSync_Programming_Template.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Excel/CSV Upload Handler
+function handleExcelUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    parseAndImportProgram(text);
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function parseAndImportProgram(csvText) {
+  const lines = csvText.trim().split('\n');
+  if (lines.length < 2) { alert('Empty or invalid file'); return; }
+  
+  const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const emailIdx = header.findIndex(h => h.includes('email'));
+  const dateIdx = header.findIndex(h => h.includes('date'));
+  const workoutIdx = header.findIndex(h => h.includes('workout'));
+  const exerciseIdx = header.findIndex(h => h.includes('exercise'));
+  const setsIdx = header.findIndex(h => h.includes('sets'));
+  const weightIdx = header.findIndex(h => h.includes('weight'));
+  const repsIdx = header.findIndex(h => h.includes('reps'));
+  const notesIdx = header.findIndex(h => h.includes('notes'));
+  const proteinIdx = header.findIndex(h => h.includes('protein'));
+  const carbsIdx = header.findIndex(h => h.includes('carbs'));
+  const fatsIdx = header.findIndex(h => h.includes('fats'));
+  const caloriesIdx = header.findIndex(h => h.includes('calories'));
+  
+  if (emailIdx < 0 || dateIdx < 0 || workoutIdx < 0) {
+    alert('Missing required columns: Client Email, Date, Workout Name');
+    return;
+  }
+  
+  const workoutMap = {};
+  const nutritionMap = {};
+  let importedCount = 0;
+  
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',').map(c => c.trim());
+    if (cols.length < 3) continue;
+    
+    const email = cols[emailIdx];
+    const date = cols[dateIdx];
+    const workoutName = cols[workoutIdx];
+    const exercise = cols[exerciseIdx] || '';
+    const numSets = parseInt(cols[setsIdx]) || 3;
+    const weight = cols[weightIdx] || '0';
+    const reps = parseInt(cols[repsIdx]) || 10;
+    const notes = cols[notesIdx] || '';
+    
+    // Find client by email
+    let clientId = clients.find(c => c.email.toLowerCase() === email.toLowerCase())?.id;
+    if (!clientId) {
+      // Create new client
+      clientId = 'client_' + Date.now() + '_' + i;
+      const name = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').trim();
+      clients.push({ id: clientId, name: name.charAt(0).toUpperCase() + name.slice(1), email });
+    }
+    
+    const key = `${clientId}_${date}_${workoutName}`;
+    if (!workoutMap[key]) {
+      workoutMap[key] = {
+        id: 'sched_import_' + Date.now() + '_' + i,
+        clientId,
+        date,
+        name: workoutName,
+        notes,
+        exercises: []
+      };
+    }
+    
+    if (exercise) {
+      const sets = [];
+      const w = weight === 'BW' ? 0 : parseInt(weight) || 0;
+      for (let s = 0; s < numSets; s++) {
+        sets.push({ w, r: reps });
+      }
+      workoutMap[key].exercises.push({ name: exercise, sets });
+    }
+    
+    // Nutrition targets per client
+    if (proteinIdx >= 0 && cols[proteinIdx]) {
+      nutritionMap[clientId] = {
+        protein: parseInt(cols[proteinIdx]) || 150,
+        carbs: parseInt(cols[carbsIdx]) || 200,
+        fats: parseInt(cols[fatsIdx]) || 60,
+        calories: parseInt(cols[caloriesIdx]) || 2200
+      };
+    }
+  }
+  
+  // Import workouts
+  Object.values(workoutMap).forEach(w => {
+    // Remove existing workout for same client/date/name
+    scheduledWorkouts = scheduledWorkouts.filter(sw => 
+      !(sw.clientId === w.clientId && sw.date === w.date && sw.name === w.name)
+    );
+    scheduledWorkouts.push(w);
+    importedCount++;
+  });
+  
+  localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
+  
+  // Update nutrition for demo client if present
+  if (nutritionMap['demo']) {
+    nutritionTargets = nutritionMap['demo'];
+    localStorage.setItem('fitsync_nutrition', JSON.stringify(nutritionTargets));
+  }
+  
+  alert(`Imported ${importedCount} workouts!\n\nClients: ${[...new Set(Object.values(workoutMap).map(w => w.clientId))].length}`);
+  renderClients();
+  updateUI();
+}
+
+// FatSecret Integration
+function connectFatSecret() {
+  sources.fatsecret = !sources.fatsecret;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('fatsecret-status');
+  
+  if (sources.fatsecret) {
+    el.textContent = 'Connected';
+    el.classList.add('connected');
+    
+    // In production: OAuth redirect to FatSecret
+    // FatSecret API: https://platform.fatsecret.com/api/
+    alert('FatSecret connected!\n\nIn production, this uses OAuth to sync your daily nutrition automatically.\n\nFor demo, simulating today\'s data sync...');
+    
+    // Simulate syncing today's nutrition from FatSecret
+    const today = biometrics[biometrics.length - 1];
+    if (today) {
+      today.protein = 148;
+      today.carbs = 192;
+      today.fats = 62;
+      today.calories = 1940;
+      localStorage.setItem('fitsync_biometrics', JSON.stringify(biometrics));
+      updateUI();
+    }
+  } else {
+    el.textContent = 'Connect';
+    el.classList.remove('connected');
+    alert('FatSecret disconnected');
+  }
+}
 
 init();
 </script>
