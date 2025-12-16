@@ -105,13 +105,25 @@
       <div class="card-header">MY CLIENTS</div>
       <div id="clients-list"></div>
       <div class="card" style="margin-top:20px;background:#0a0a0a;">
-        <div class="card-header">BULK UPLOAD - ALL CLIENTS</div>
-        <p style="font-size:11px;color:#666;margin-bottom:10px;">Upload programming for multiple clients at once (include Client Email column)</p>
-        <button class="btn-small" onclick="downloadBulkTemplate()" style="margin-right:8px;font-size:11px;">Download Template</button>
-        <label class="btn-small" style="background:#333;cursor:pointer;font-size:11px;">
-          Upload CSV
-          <input type="file" accept=".xlsx,.xls,.csv" onchange="handleBulkExcelUpload(event)" style="display:none;">
-        </label>
+        <div class="card-header">IMPORT PROGRAMMING - ALL CLIENTS</div>
+        <div class="import-option" onclick="connectTrueCoach()">
+          <img src="https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/v1455512033/pnqpvlkdqyqxlqganb0e.png" class="brand-logo" alt="TrueCoach">
+          <span>TrueCoach</span>
+          <span id="truecoach-status" class="source-status" style="margin-left:auto;">Connect</span>
+        </div>
+        <div class="import-option" onclick="connectTrainerize()">
+          <img src="https://play-lh.googleusercontent.com/Gp0RWjLPxMmGpMx_xyN9hPnriB8JEVM1w-gfPzLFqwQYzPRXingdGracnlXff-wkjw=w240-h480-rw" class="brand-logo" alt="Trainerize">
+          <span>Trainerize</span>
+          <span id="trainerize-status" class="source-status" style="margin-left:auto;">Connect</span>
+        </div>
+        <div style="border-top:1px solid #222;margin:12px 0;padding-top:12px;">
+          <p style="font-size:10px;color:#555;margin-bottom:8px;">OR UPLOAD CSV MANUALLY</p>
+          <button class="btn-small" onclick="downloadBulkTemplate()" style="margin-right:8px;font-size:11px;">Download Template</button>
+          <label class="btn-small" style="background:#333;cursor:pointer;font-size:11px;">
+            Upload CSV
+            <input type="file" accept=".xlsx,.xls,.csv" onchange="handleBulkExcelUpload(event)" style="display:none;">
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -121,13 +133,23 @@
     <div style="padding:16px;">
       <div class="card-header">PROGRAM BUILDER <span id="builder-client-name"></span></div>
       <div class="card" style="margin-bottom:16px;background:#0a0a0a;">
-        <div class="card-header">UPLOAD PROGRAMMING</div>
-        <p style="font-size:11px;color:#666;margin-bottom:10px;">Upload monthly workouts for this client from Excel/CSV</p>
-        <button class="btn-small" onclick="downloadClientTemplate()" style="margin-right:8px;font-size:11px;">Download Template</button>
-        <label class="btn-small" style="background:#333;cursor:pointer;font-size:11px;">
-          Upload CSV
-          <input type="file" accept=".xlsx,.xls,.csv" onchange="handleClientExcelUpload(event)" style="display:none;">
-        </label>
+        <div class="card-header">IMPORT PROGRAMMING</div>
+        <div class="import-option" onclick="importFromTrueCoach()">
+          <img src="https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/v1455512033/pnqpvlkdqyqxlqganb0e.png" class="brand-logo" alt="TrueCoach">
+          <span>Import from TrueCoach</span>
+        </div>
+        <div class="import-option" onclick="importFromTrainerize()">
+          <img src="https://play-lh.googleusercontent.com/Gp0RWjLPxMmGpMx_xyN9hPnriB8JEVM1w-gfPzLFqwQYzPRXingdGracnlXff-wkjw=w240-h480-rw" class="brand-logo" alt="Trainerize">
+          <span>Import from Trainerize</span>
+        </div>
+        <div style="border-top:1px solid #222;margin:12px 0;padding-top:12px;">
+          <p style="font-size:10px;color:#555;margin-bottom:8px;">OR UPLOAD CSV MANUALLY</p>
+          <button class="btn-small" onclick="downloadClientTemplate()" style="margin-right:8px;font-size:11px;">Download Template</button>
+          <label class="btn-small" style="background:#333;cursor:pointer;font-size:11px;">
+            Upload CSV
+            <input type="file" accept=".xlsx,.xls,.csv" onchange="handleClientExcelUpload(event)" style="display:none;">
+          </label>
+        </div>
       </div>
       <div class="week-nav"><span onclick="builderPrevWeek()">←</span><span id="builder-week-label">This Week</span><span onclick="builderNextWeek()">→</span></div>
       <div id="builder-calendar"></div>
@@ -462,6 +484,9 @@
   .source-status { color:#4169E1; font-size:12px; }
   .source-status.connected { color:#00ff88; }
   .btn-outline { width:100%; padding:14px; background:transparent; color:#4169E1; border:1px solid #333; border-radius:10px; font-size:13px; cursor:pointer; margin-top:20px; }
+  .import-option { display:flex; align-items:center; padding:12px 0; border-bottom:1px solid #222; cursor:pointer; }
+  .import-option:hover { background:#1a1a1a; margin:0 -18px; padding:12px 18px; }
+  .import-option:last-of-type { border-bottom:none; }
   .scheduled-date { font-size:10px; color:#4169E1; }
 </style>
 
@@ -1665,6 +1690,66 @@ function renderBusinessDashboard() {
       }
     }
   });
+}
+
+// TrueCoach Integration
+function connectTrueCoach() {
+  sources.truecoach = !sources.truecoach;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('truecoach-status');
+  
+  if (sources.truecoach) {
+    el.textContent = 'Connected';
+    el.classList.add('connected');
+    alert('TrueCoach connected!\n\nIn production, this syncs your client programming automatically via TrueCoach API.\n\nWorkouts will appear in each client\'s program.');
+  } else {
+    el.textContent = 'Connect';
+    el.classList.remove('connected');
+    alert('TrueCoach disconnected');
+  }
+}
+
+function importFromTrueCoach() {
+  if (!sources.truecoach) {
+    alert('Please connect TrueCoach first from the Clients page.');
+    return;
+  }
+  alert('Importing workouts from TrueCoach...\n\nIn production, this pulls the client\'s assigned program from TrueCoach API.');
+  // Simulate import
+  setTimeout(() => {
+    alert('✓ 12 workouts imported for this month!');
+    renderBuilderCalendar();
+  }, 1000);
+}
+
+// Trainerize Integration
+function connectTrainerize() {
+  sources.trainerize = !sources.trainerize;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  const el = document.getElementById('trainerize-status');
+  
+  if (sources.trainerize) {
+    el.textContent = 'Connected';
+    el.classList.add('connected');
+    alert('Trainerize connected!\n\nIn production, this syncs your client programming automatically via Trainerize API.\n\nWorkouts will appear in each client\'s program.');
+  } else {
+    el.textContent = 'Connect';
+    el.classList.remove('connected');
+    alert('Trainerize disconnected');
+  }
+}
+
+function importFromTrainerize() {
+  if (!sources.trainerize) {
+    alert('Please connect Trainerize first from the Clients page.');
+    return;
+  }
+  alert('Importing workouts from Trainerize...\n\nIn production, this pulls the client\'s assigned program from Trainerize API.');
+  // Simulate import
+  setTimeout(() => {
+    alert('✓ 12 workouts imported for this month!');
+    renderBuilderCalendar();
+  }, 1000);
 }
 
 // FatSecret Integration
