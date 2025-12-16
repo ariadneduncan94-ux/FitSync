@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Arsenal Health</title>
+  <title>Ari's FitSync</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,7 +43,7 @@
 <div class="app">
   <div class="header">
     <div class="msg-btn" onclick="openMessages()"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg><span class="msg-badge" id="msg-badge">2</span></div>
-    <div class="logo-text"><span class="logo-bold">ARSENAL</span><span class="logo-light">HEALTH</span></div>
+    <div class="logo-text"><span class="logo-bold">ARI'S</span><span class="logo-light">FITSYNC</span></div>
     <div class="role-badge" id="role-badge" onclick="toggleRole()">CLIENT</div>
   </div>
 
@@ -292,7 +292,7 @@
       <div class="card">
         <div style="display:flex;align-items:center;gap:16px;">
           <div class="avatar">A</div>
-          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@arsenalhealth.com</div></div>
+          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@fitsync.app</div></div>
         </div>
       </div>
       <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
@@ -554,6 +554,20 @@
   .msg-badge { position:absolute; top:2px; right:2px; background:#4169E1; color:#fff; font-size:9px; font-weight:600; padding:2px 5px; border-radius:10px; }
   .client-session-card { background:#111; border:1px solid #222; border-radius:10px; padding:14px; margin-bottom:8px; }
   .client-session-card.pending { border-color:#ffaa00; }
+  .client-week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .client-week-day { background:#111; border:1px solid #222; border-radius:8px; padding:8px 4px; text-align:center; cursor:default; }
+  .client-week-day.today { border-color:#4169E1; background:#4169E110; }
+  .client-week-day.has-session { cursor:pointer; }
+  .client-week-day-name { font-size:10px; color:#666; }
+  .client-week-day-num { font-size:14px; font-weight:600; margin-top:2px; }
+  .client-week-day.today .client-week-day-num { color:#4169E1; }
+  .client-week-dot { width:6px; height:6px; border-radius:3px; background:#4169E1; margin:4px auto 0; }
+  .client-session-mini { display:flex; align-items:center; gap:12px; background:#111; border:1px solid #222; border-radius:8px; padding:10px 12px; margin-bottom:6px; cursor:pointer; }
+  .client-session-mini.pending { border-color:#ffaa00; }
+  .client-session-mini-date { font-size:12px; color:#4169E1; font-weight:600; min-width:80px; }
+  .client-session-mini-time { font-size:13px; font-weight:600; }
+  .client-session-mini-trainer { font-size:12px; color:#888; flex:1; }
+  .client-session-mini-badge { font-size:9px; color:#ffaa00; background:#ffaa0020; padding:3px 6px; border-radius:4px; }
   .session-actions { display:flex; gap:8px; margin-top:10px; }
   .session-action-btn { flex:1; padding:8px; border-radius:6px; font-size:11px; cursor:pointer; text-align:center; }
   .session-action-btn.change { background:#4169E120; border:1px solid #4169E1; color:#4169E1; }
@@ -682,6 +696,7 @@ function init() {
   generateDemoData();
   generateDemoSchedule();
   generateDemoSessions();
+  initLabs(); // Ensure sample bloodwork data exists
   updateRole();
   updateUI();
 }
@@ -1591,35 +1606,57 @@ function showDaySessions(dateStr) {
   alert(msg);
 }
 
-// Client Sessions Calendar (for Program page)
+// Client Sessions Calendar (for Program page) - Condensed week view
 function renderClientSessionsCalendar() {
-  const todayStr = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  
+  // Get start of current week (Sunday)
+  const weekStart = new Date(today);
+  weekStart.setDate(today.getDate() - today.getDay());
+  
+  // Build week grid header
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  let html = '<div class="client-week-grid">';
+  
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(weekStart);
+    d.setDate(weekStart.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0];
+    const isToday = dateStr === todayStr;
+    const daySession = sessions.find(s => s.clientId === 'demo' && s.date === dateStr);
+    
+    html += `
+      <div class="client-week-day ${isToday ? 'today' : ''} ${daySession ? 'has-session' : ''}" ${daySession ? `onclick="openSessionDetail('${daySession.id}')"` : ''}>
+        <div class="client-week-day-name">${days[i]}</div>
+        <div class="client-week-day-num">${d.getDate()}</div>
+        ${daySession ? '<div class="client-week-dot"></div>' : ''}
+      </div>`;
+  }
+  html += '</div>';
+  
+  // Show next 2 upcoming sessions below
   const mySessions = sessions.filter(s => s.clientId === 'demo' && s.date >= todayStr).sort((a, b) => {
     if (a.date !== b.date) return a.date.localeCompare(b.date);
     return a.time.localeCompare(b.time);
-  }).slice(0, 5);
+  }).slice(0, 2);
   
-  let html = '';
-  mySessions.forEach(s => {
-    const dateObj = new Date(s.date + 'T12:00:00');
-    const isToday = s.date === todayStr;
-    const isPending = s.changeRequest;
-    
-    html += `
-      <div class="client-session-card ${isPending ? 'pending' : ''}" onclick="openSessionDetail('${s.id}')">
-        <div style="display:flex;justify-content:space-between;align-items:start;">
-          <div>
-            <div class="session-time">${isToday ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} • ${formatTime(s.time)}</div>
-            <div style="font-size:15px;font-weight:600;margin-top:4px;">${s.trainerName}</div>
-            <div style="font-size:12px;color:#666;margin-top:2px;">${s.location}</div>
-          </div>
-          ${isPending ? '<span style="font-size:10px;color:#ffaa00;background:#ffaa0020;padding:4px 8px;border-radius:4px;">PENDING</span>' : ''}
-        </div>
-      </div>`;
-  });
-  
-  if (mySessions.length === 0) {
-    html = '<div class="calendar-empty" style="padding:20px 0;">No upcoming sessions scheduled</div>';
+  if (mySessions.length > 0) {
+    html += '<div style="margin-top:12px;">';
+    mySessions.forEach(s => {
+      const dateObj = new Date(s.date + 'T12:00:00');
+      const isToday = s.date === todayStr;
+      const isPending = s.changeRequest;
+      
+      html += `
+        <div class="client-session-mini ${isPending ? 'pending' : ''}" onclick="openSessionDetail('${s.id}')">
+          <div class="client-session-mini-date">${isToday ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+          <div class="client-session-mini-time">${formatTime(s.time)}</div>
+          <div class="client-session-mini-trainer">${s.trainerName}</div>
+          ${isPending ? '<span class="client-session-mini-badge">PENDING</span>' : ''}
+        </div>`;
+    });
+    html += '</div>';
   }
   
   const container = document.getElementById('client-sessions-calendar');
@@ -1678,7 +1715,9 @@ function requestSessionCancel(sessionId) {
 let labResults = JSON.parse(localStorage.getItem('fitsync_labs') || '[]');
 
 function initLabs() {
-  if (labResults.length === 0) {
+  // Always ensure demo data exists for the demo client
+  const hasDemoLabs = labResults.some(l => l.clientId === 'demo');
+  if (!hasDemoLabs) {
     labResults = [
       // Q4 2025 - Most recent (showing improvement)
       { id: 1, clientId: 'demo', date: '2025-12-10', provider: 'Quest Diagnostics', 
