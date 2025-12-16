@@ -102,7 +102,9 @@
   <!-- CLIENT: Labs -->
   <div id="labs" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">BLOOD PANEL HISTORY <span style="font-size:9px;color:#00ff88;font-weight:400;">● Auto-synced</span></div>
+      <div class="card-header">KEY TRENDS <span style="font-size:9px;color:#00ff88;font-weight:400;">● Auto-synced</span></div>
+      <div id="labs-trends" class="card" style="background:#0a0a0a;"></div>
+      <div class="card-header" style="margin-top:20px;">BLOOD PANEL HISTORY</div>
       <div id="labs-list"></div>
       <p style="font-size:11px;color:#555;text-align:center;margin-top:16px;">Lab results are uploaded by your trainer from partner labs</p>
     </div>
@@ -607,6 +609,10 @@
   .lab-metric-value.warning { color:#ffaa00; }
   .lab-metric-value.high { color:#ff6b6b; }
   .lab-metric-label { font-size:9px; color:#666; margin-top:2px; }
+  .lab-trends-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .lab-trend-item { display:flex; flex-direction:column; align-items:center; }
+  .lab-trend-label { font-size:10px; color:#888; margin-bottom:4px; }
+  .lab-trend-value { font-size:16px; font-weight:700; }
   .btn-small { padding:12px 20px; background:#4169E1; border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:600; cursor:pointer; }
   .avatar { width:50px; height:50px; border-radius:25px; background:#4169E1; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; }
   .setting-row { padding:14px 0; border-bottom:1px solid #222; display:flex; justify-content:space-between; cursor:pointer; }
@@ -1674,16 +1680,30 @@ let labResults = JSON.parse(localStorage.getItem('fitsync_labs') || '[]');
 function initLabs() {
   if (labResults.length === 0) {
     labResults = [
-      { id: 1, clientId: 'demo', date: '2025-11-15', provider: 'Quest Diagnostics', 
+      // Q4 2025 - Most recent (showing improvement)
+      { id: 1, clientId: 'demo', date: '2025-12-10', provider: 'Quest Diagnostics', 
+        wbc: 6.0, rbc: 4.9, hemoglobin: 14.8, hematocrit: 44, platelets: 255,
+        glucose: 88, a1c: 5.2, creatinine: 0.85, bun: 14, egfr: 98, sodium: 140, potassium: 4.1,
+        cholesterol: 175, ldl: 95, hdl: 62, triglycerides: 85,
+        alt: 20, ast: 22, tsh: 2.0, crp: 0.5 },
+      // Q3 2025
+      { id: 2, clientId: 'demo', date: '2025-09-15', provider: 'Quest Diagnostics',
         wbc: 6.2, rbc: 4.8, hemoglobin: 14.5, hematocrit: 43, platelets: 250,
         glucose: 92, a1c: 5.4, creatinine: 0.9, bun: 15, egfr: 95, sodium: 140, potassium: 4.2,
         cholesterol: 185, ldl: 110, hdl: 55, triglycerides: 100,
         alt: 22, ast: 25, tsh: 2.1, crp: 0.8 },
-      { id: 2, clientId: 'demo', date: '2025-08-20', provider: 'LabCorp',
+      // Q2 2025
+      { id: 3, clientId: 'demo', date: '2025-06-12', provider: 'LabCorp',
         wbc: 5.8, rbc: 4.6, hemoglobin: 14.2, hematocrit: 42, platelets: 245,
         glucose: 98, a1c: 5.6, creatinine: 1.0, bun: 16, egfr: 90, sodium: 141, potassium: 4.0,
         cholesterol: 195, ldl: 125, hdl: 50, triglycerides: 120,
-        alt: 28, ast: 30, tsh: 2.5, crp: 1.2 }
+        alt: 28, ast: 30, tsh: 2.5, crp: 1.2 },
+      // Q1 2025 - Baseline (starting point)
+      { id: 4, clientId: 'demo', date: '2025-03-08', provider: 'Quest Diagnostics',
+        wbc: 5.5, rbc: 4.4, hemoglobin: 13.8, hematocrit: 41, platelets: 240,
+        glucose: 105, a1c: 5.9, creatinine: 1.1, bun: 18, egfr: 85, sodium: 142, potassium: 3.9,
+        cholesterol: 215, ldl: 145, hdl: 42, triglycerides: 155,
+        alt: 35, ast: 38, tsh: 3.2, crp: 2.1 }
     ];
     localStorage.setItem('fitsync_labs', JSON.stringify(labResults));
   }
@@ -1692,24 +1712,66 @@ function initLabs() {
 function renderLabs() {
   initLabs();
   const container = document.getElementById('labs-list');
+  const trendsContainer = document.getElementById('labs-trends');
   if (!container) return;
   
-  const clientLabs = labResults.filter(l => l.clientId === 'demo');
+  const clientLabs = labResults.filter(l => l.clientId === 'demo').sort((a,b) => b.date.localeCompare(a.date));
   if (clientLabs.length === 0) {
     container.innerHTML = '<div class="calendar-empty">No lab results yet</div>';
+    if (trendsContainer) trendsContainer.style.display = 'none';
     return;
   }
   
-  container.innerHTML = clientLabs.sort((a,b) => b.date.localeCompare(a.date)).map(lab => {
+  // Calculate trends (compare most recent to oldest)
+  if (trendsContainer && clientLabs.length >= 2) {
+    const latest = clientLabs[0];
+    const oldest = clientLabs[clientLabs.length - 1];
+    
+    const getTrend = (curr, prev, lowerBetter) => {
+      if (!curr || !prev) return { arrow: '', color: '#666', change: '--' };
+      const diff = curr - prev;
+      const pct = ((diff / prev) * 100).toFixed(0);
+      const improved = lowerBetter ? diff < 0 : diff > 0;
+      return {
+        arrow: diff > 0 ? '↑' : diff < 0 ? '↓' : '→',
+        color: improved ? '#00ff88' : diff === 0 ? '#666' : '#ff6b6b',
+        change: (diff > 0 ? '+' : '') + pct + '%'
+      };
+    };
+    
+    const cholTrend = getTrend(latest.cholesterol, oldest.cholesterol, true);
+    const ldlTrend = getTrend(latest.ldl, oldest.ldl, true);
+    const hdlTrend = getTrend(latest.hdl, oldest.hdl, false);
+    const a1cTrend = getTrend(latest.a1c, oldest.a1c, true);
+    const crpTrend = getTrend(latest.crp, oldest.crp, true);
+    const glucoseTrend = getTrend(latest.glucose, oldest.glucose, true);
+    
+    trendsContainer.innerHTML = `
+      <div style="font-size:10px;color:#666;margin-bottom:12px;">SINCE ${new Date(oldest.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</div>
+      <div class="lab-trends-grid">
+        <div class="lab-trend-item"><span class="lab-trend-label">Cholesterol</span><span class="lab-trend-value" style="color:${cholTrend.color}">${cholTrend.arrow} ${cholTrend.change}</span></div>
+        <div class="lab-trend-item"><span class="lab-trend-label">LDL</span><span class="lab-trend-value" style="color:${ldlTrend.color}">${ldlTrend.arrow} ${ldlTrend.change}</span></div>
+        <div class="lab-trend-item"><span class="lab-trend-label">HDL</span><span class="lab-trend-value" style="color:${hdlTrend.color}">${hdlTrend.arrow} ${hdlTrend.change}</span></div>
+        <div class="lab-trend-item"><span class="lab-trend-label">A1C</span><span class="lab-trend-value" style="color:${a1cTrend.color}">${a1cTrend.arrow} ${a1cTrend.change}</span></div>
+        <div class="lab-trend-item"><span class="lab-trend-label">hs-CRP</span><span class="lab-trend-value" style="color:${crpTrend.color}">${crpTrend.arrow} ${crpTrend.change}</span></div>
+        <div class="lab-trend-item"><span class="lab-trend-label">Glucose</span><span class="lab-trend-value" style="color:${glucoseTrend.color}">${glucoseTrend.arrow} ${glucoseTrend.change}</span></div>
+      </div>`;
+  }
+  
+  // Color coding based on typical ranges
+  const getClass = (val, low, high) => !val ? '' : val < low || val > high ? 'warning' : 'normal';
+  
+  container.innerHTML = clientLabs.map((lab, idx) => {
     const dateObj = new Date(lab.date + 'T12:00:00');
     const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    
-    // Color coding based on typical ranges
-    const getClass = (val, low, high) => !val ? '' : val < low || val > high ? 'warning' : 'normal';
+    const quarter = 'Q' + (Math.floor(dateObj.getMonth() / 3) + 1) + ' ' + dateObj.getFullYear();
     
     return `
       <div class="lab-card" onclick="viewLabDetail('${lab.id}')">
-        <div class="lab-card-date">${dateStr}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="lab-card-date">${dateStr}</div>
+          <span style="font-size:10px;color:#4169E1;background:#4169E120;padding:3px 8px;border-radius:4px;">${quarter}</span>
+        </div>
         <div class="lab-card-provider">${lab.provider}</div>
         <div class="lab-metrics">
           <div class="lab-metric"><div class="lab-metric-value ${getClass(lab.glucose, 70, 100)}">${lab.glucose || '--'}</div><div class="lab-metric-label">GLUCOSE</div></div>
