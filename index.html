@@ -1341,7 +1341,7 @@ function renderAnalytics() {
     'NUTRITION': ['protein', 'carbs', 'fats', 'calories']
   };
   
-  let legendHTML = '<p style="font-size:10px;color:#666;margin-bottom:12px;">Metrics scaled 0-100 to show trends together. Hover for actual values. Select up to 5.</p>';
+  let legendHTML = '<p style="font-size:10px;color:#666;margin-bottom:12px;">Raw data with auto-scaled axes. Select up to 5 metrics.</p>';
   Object.entries(metricGroups).forEach(([groupName, metrics]) => {
     legendHTML += `<div class="legend-section"><div class="legend-section-title">${groupName}</div><div class="legend-grid">`;
     metrics.forEach(key => {
@@ -1360,18 +1360,23 @@ function renderAnalytics() {
   const ctx = document.getElementById('analyticsChart').getContext('2d');
   if (analyticsChart) analyticsChart.destroy();
   
-  // Min-Max normalization: scale each metric to 0-100 based on its own range
-  // This preserves trend shapes while allowing visual comparison
+  // Build datasets with RAW data and individual Y-axes
   const metricStats = {};
-  const datasets = activeMetrics.map(metric => {
+  const scales = {
+    x: { 
+      grid: { color: '#1a1a1a' }, 
+      ticks: { color: '#666', maxTicksLimit: 6, font: { size: 9 } } 
+    }
+  };
+  
+  const datasets = activeMetrics.map((metric, idx) => {
     const cfg = metricConfig[metric];
-    const rawValues = data.map(d => parseFloat(d[metric]) || 0);
-    const validValues = rawValues.filter(v => v > 0);
+    const rawValues = data.map(d => parseFloat(d[metric]) || null);
+    const validValues = rawValues.filter(v => v !== null && v > 0);
     
     // Get min/max for this metric
     const minVal = Math.min(...validValues);
     const maxVal = Math.max(...validValues);
-    const range = maxVal - minVal || 1;
     const avg = validValues.reduce((a,b) => a+b, 0) / validValues.length;
     
     // Store stats for raw data summary
@@ -1381,26 +1386,35 @@ function renderAnalytics() {
       change: validValues.length > 1 ? (validValues[validValues.length - 1] - validValues[0]).toFixed(1) : 0
     };
     
-    // Normalize to 0-100 scale
-    const normalizedValues = rawValues.map(v => {
-      if (v === 0) return null;
-      return ((v - minVal) / range) * 100;
-    });
+    // Create Y-axis for this metric with padding for smoother lines
+    const padding = (maxVal - minVal) * 0.1 || 1;
+    const yAxisId = 'y' + (idx === 0 ? '' : idx);
+    
+    scales[yAxisId] = {
+      type: 'linear',
+      display: idx < 2, // Only show first 2 axes (left and right)
+      position: idx === 0 ? 'left' : 'right',
+      min: Math.floor(minVal - padding),
+      max: Math.ceil(maxVal + padding),
+      grid: { color: idx === 0 ? '#1a1a1a' : 'transparent' },
+      ticks: { 
+        color: cfg.color, 
+        font: { size: 9 },
+        maxTicksLimit: 5
+      }
+    };
     
     return {
       label: cfg.label,
-      data: normalizedValues,
+      data: rawValues,
       borderColor: cfg.color,
       backgroundColor: cfg.color + '15',
-      borderWidth: 2.5,
+      borderWidth: 2,
       pointRadius: 0,
       pointHoverRadius: 4,
-      tension: 0.3,
+      tension: 0.4, // Smoother curves
       fill: false,
-      rawData: rawValues,
-      minVal: minVal,
-      maxVal: maxVal,
-      metricKey: metric,
+      yAxisID: yAxisId,
       unit: cfg.unit
     };
   });
@@ -1426,37 +1440,11 @@ function renderAnalytics() {
           borderWidth: 1,
           callbacks: { 
             title: (items) => items[0]?.label || '',
-            label: (ctx) => {
-              const ds = ctx.dataset;
-              const rawVal = ds.rawData[ctx.dataIndex];
-              return `${ds.label}: ${rawVal}${ds.unit} (range: ${ds.minVal}-${ds.maxVal})`;
-            }
+            label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}${ctx.dataset.unit}`
           } 
         } 
       },
-      scales: {
-        x: { 
-          grid: { color: '#1a1a1a' }, 
-          ticks: { color: '#666', maxTicksLimit: 6, font: { size: 9 } } 
-        },
-        y: {
-          grid: { color: '#1a1a1a' },
-          min: 0,
-          max: 100,
-          ticks: { 
-            color: '#888', 
-            font: { size: 9 },
-            stepSize: 25,
-            callback: val => val === 0 ? 'Low' : val === 50 ? 'Mid' : val === 100 ? 'High' : ''
-          },
-          title: {
-            display: true,
-            text: 'Relative Trend (scaled)',
-            color: '#666',
-            font: { size: 10 }
-          }
-        }
-      }
+      scales: scales
     }
   });
   
@@ -2746,4 +2734,3 @@ init();
 </script>
 </body>
 </html>
-
