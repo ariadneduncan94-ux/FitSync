@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>FitSync</title>
+  <title>Ari's FitSync</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; }
     .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #000; position: relative; padding-bottom: 90px; }
     .header { background: #000; padding: 50px 20px 12px; display: flex; justify-content: space-between; align-items: center; }
-    .header h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
-    .accent { color: #ff2d2d; }
+    .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -1px; }
+    .accent { color: #4169E1; }
     .role-badge { font-size: 10px; padding: 6px 12px; border-radius: 20px; background: #1a1a1a; border: 1px solid #333; cursor: pointer; }
-    .role-badge.trainer { background: #ff2d2d20; border-color: #ff2d2d; color: #ff2d2d; }
+    .role-badge.trainer { background: #4169E120; border-color: #4169E1; color: #4169E1; }
     .card { background: #111; margin: 12px 16px; border-radius: 16px; padding: 18px; border: 1px solid #222; }
     .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; font-size: 11px; font-weight: 600; color: #888; letter-spacing: 1.5px; }
     .stats-row { display: flex; justify-content: space-around; align-items: center; }
@@ -24,20 +24,20 @@
     .stat-divider { width: 1px; height: 40px; background: #333; }
     .recovery-high { color: #00ff88; }
     .recovery-med { color: #ffcc00; }
-    .recovery-low { color: #ff2d2d; }
+    .recovery-low { color: #4169E1; }
     .screen { display: none; }
     .screen.active { display: block; }
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; display: flex; border-top: 1px solid #222; padding: 10px 0 25px; z-index: 50; }
     .tab { flex: 1; text-align: center; cursor: pointer; color: #555; font-size: 10px; font-weight: 500; }
-    .tab.active { color: #ff2d2d; }
+    .tab.active { color: #4169E1; }
     .tab-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-    .fab { position: fixed; bottom: 100px; right: calc(50% - 195px); width: 56px; height: 56px; border-radius: 28px; background: #ff2d2d; color: #fff; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(255,45,45,0.4); z-index: 50; }
+    .fab { position: fixed; bottom: 100px; right: calc(50% - 195px); width: 56px; height: 56px; border-radius: 28px; background: #4169E1; color: #fff; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(65,105,225,0.4); z-index: 50; }
   </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <h1>FIT<span class="accent">SYNC</span></h1>
+    <h1>Ari's <span class="accent">FitSync</span></h1>
     <div class="role-badge" id="role-badge" onclick="toggleRole()">CLIENT</div>
   </div>
 
@@ -67,15 +67,11 @@
     </div>
   </div>
 
-  <!-- CLIENT: Program (Calendar View) -->
+  <!-- CLIENT: Program -->
   <div id="program" class="screen">
     <div style="padding:16px;">
       <div class="card-header">📅 MY PROGRAM</div>
-      <div class="week-nav">
-        <span onclick="prevWeek()">←</span>
-        <span id="week-label">This Week</span>
-        <span onclick="nextWeek()">→</span>
-      </div>
+      <div class="week-nav"><span onclick="prevWeek()">←</span><span id="week-label">This Week</span><span onclick="nextWeek()">→</span></div>
       <div id="program-calendar"></div>
     </div>
   </div>
@@ -95,23 +91,16 @@
     </div>
   </div>
 
-  <!-- TRAINER: Clients List -->
+  <!-- TRAINER: Clients -->
   <div id="clients" class="screen">
-    <div style="padding:16px;">
-      <div class="card-header">👥 MY CLIENTS</div>
-      <div id="clients-list"></div>
-    </div>
+    <div style="padding:16px;"><div class="card-header">👥 MY CLIENTS</div><div id="clients-list"></div></div>
   </div>
 
-  <!-- TRAINER: Program Builder -->
+  <!-- TRAINER: Builder -->
   <div id="builder" class="screen">
     <div style="padding:16px;">
       <div class="card-header">📝 PROGRAM BUILDER <span id="builder-client-name"></span></div>
-      <div class="week-nav">
-        <span onclick="builderPrevWeek()">←</span>
-        <span id="builder-week-label">This Week</span>
-        <span onclick="builderNextWeek()">→</span>
-      </div>
+      <div class="week-nav"><span onclick="builderPrevWeek()">←</span><span id="builder-week-label">This Week</span><span onclick="builderNextWeek()">→</span></div>
       <div id="builder-calendar"></div>
       <div class="card" style="margin-top:16px;">
         <div class="card-header">🎯 NUTRITION TARGETS</div>
@@ -131,8 +120,8 @@
     <div style="padding:16px;">
       <div class="card">
         <div style="display:flex;align-items:center;gap:16px;">
-          <div class="avatar" id="user-avatar">D</div>
-          <div><div style="font-weight:600;font-size:18px;" id="user-name">Demo User</div><div style="color:#666;font-size:13px;" id="user-email">demo@fitsync.app</div></div>
+          <div class="avatar">A</div>
+          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@fitsync.app</div></div>
         </div>
       </div>
       <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
@@ -146,10 +135,8 @@
     </div>
   </div>
 
-  <!-- FAB -->
   <button class="fab" id="fab-btn" onclick="handleFab()">+</button>
 
-  <!-- Tab Bars -->
   <div class="tab-bar" id="client-tabs">
     <div class="tab active" onclick="showScreen('dashboard')"><span class="tab-icon">🏠</span>Home</div>
     <div class="tab" onclick="showScreen('program')"><span class="tab-icon">📋</span>Program</div>
@@ -163,10 +150,10 @@
     <div class="tab" onclick="showScreen('settings')"><span class="tab-icon">⚙️</span>Settings</div>
   </div>
 
-  <!-- Log Workout Modal (Client) -->
+  <!-- Log Workout Modal -->
   <div id="log-modal" class="modal">
     <div class="modal-content modal-full">
-      <div class="modal-header"><span onclick="closeLogModal()">✕</span><span class="modal-title">LOG WORKOUT</span><span onclick="saveWorkoutLog()" style="color:#ff2d2d">Save</span></div>
+      <div class="modal-header"><span onclick="closeLogModal()">✕</span><span class="modal-title">LOG WORKOUT</span><span onclick="saveWorkoutLog()" style="color:#4169E1">Save</span></div>
       <div class="modal-body">
         <h2 id="log-workout-name" style="font-size:20px;margin-bottom:8px;"></h2>
         <div class="bio-row" style="margin-bottom:20px;">
@@ -176,7 +163,7 @@
         <div id="log-exercises"></div>
         <div class="card" style="margin-top:20px;background:#0a0a0a;">
           <div class="card-header">⌚ POST-WORKOUT SYNC</div>
-          <p style="font-size:12px;color:#666;margin-bottom:12px;">Biometrics will auto-sync from your connected device after saving.</p>
+          <p style="font-size:12px;color:#666;margin-bottom:12px;">Biometrics will auto-sync after saving.</p>
           <div class="bio-row">
             <div class="bio-item"><span class="bio-label">Strain</span><span class="bio-value" id="log-strain">--</span></div>
             <div class="bio-item"><span class="bio-label">Avg HR</span><span class="bio-value" id="log-hr">--</span></div>
@@ -187,17 +174,17 @@
     </div>
   </div>
 
-  <!-- Create Workout Modal (Trainer) -->
+  <!-- Create Workout Modal -->
   <div id="create-modal" class="modal">
     <div class="modal-content modal-full">
-      <div class="modal-header"><span onclick="closeCreateModal()">✕</span><span class="modal-title">CREATE WORKOUT</span><span onclick="saveScheduledWorkout()" style="color:#ff2d2d">Save</span></div>
+      <div class="modal-header"><span onclick="closeCreateModal()">✕</span><span class="modal-title">CREATE WORKOUT</span><span onclick="saveScheduledWorkout()" style="color:#4169E1">Save</span></div>
       <div class="modal-body">
         <label class="input-label">WORKOUT NAME</label>
         <input type="text" id="create-name" class="input" placeholder="e.g., Push Day A">
         <label class="input-label">SCHEDULED DATE</label>
         <input type="date" id="create-date" class="input">
         <label class="input-label">NOTES FOR CLIENT</label>
-        <textarea id="create-notes" class="input" rows="2" placeholder="Focus on form, increase weight if possible..."></textarea>
+        <textarea id="create-notes" class="input" rows="2" placeholder="Focus on form..."></textarea>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;">
           <label class="input-label" style="margin:0;">EXERCISES</label>
           <button class="add-exercise-btn" onclick="addCreateExercise()">+ Add</button>
@@ -207,7 +194,7 @@
     </div>
   </div>
 
-  <!-- View Completed Workout Modal -->
+  <!-- View Modal -->
   <div id="view-modal" class="modal">
     <div class="modal-content modal-full">
       <div class="modal-header"><span onclick="closeViewModal()">✕</span><span class="modal-title">WORKOUT DETAILS</span><span></span></div>
@@ -225,98 +212,80 @@
   .modal-header span:last-child { text-align:right; }
   .modal-title { font-size:11px; font-weight:600; color:#888; letter-spacing:2px; }
   .modal-body { padding:20px; }
-  
   .input-label { display:block; font-size:10px; color:#666; letter-spacing:1px; margin-bottom:8px; margin-top:20px; }
   .input { width:100%; padding:14px; background:#111; border:1px solid #333; border-radius:10px; color:#fff; font-size:16px; resize:none; }
-  .input:focus { outline:none; border-color:#ff2d2d; }
-  
+  .input:focus { outline:none; border-color:#4169E1; }
   .bio-row { display:flex; gap:8px; }
   .bio-item { flex:1; background:#111; border:1px solid #222; border-radius:10px; padding:10px; text-align:center; }
-  .bio-label { display:block; font-size:9px; color:#666; letter-spacing:0.5px; }
+  .bio-label { display:block; font-size:9px; color:#666; }
   .bio-value { display:block; font-size:16px; font-weight:600; margin-top:2px; color:#00ff88; }
-  
-  .add-exercise-btn { background:transparent; border:1px solid #ff2d2d; color:#ff2d2d; padding:8px 12px; border-radius:6px; font-size:11px; cursor:pointer; }
-  
+  .add-exercise-btn { background:transparent; border:1px solid #4169E1; color:#4169E1; padding:8px 12px; border-radius:6px; font-size:11px; cursor:pointer; }
   .exercise-card { background:#111; border:1px solid #222; border-radius:12px; padding:14px; margin-top:12px; }
   .exercise-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .exercise-name-input { background:transparent; border:none; color:#fff; font-size:15px; font-weight:600; width:80%; }
   .exercise-name-input:focus { outline:none; }
-  .remove-btn { color:#ff2d2d; cursor:pointer; font-size:16px; }
-  
-  .sets-header { display:flex; font-size:9px; color:#666; letter-spacing:0.5px; padding:6px 0; border-bottom:1px solid #222; }
+  .remove-btn { color:#4169E1; cursor:pointer; font-size:16px; }
+  .sets-header { display:flex; font-size:9px; color:#666; padding:6px 0; border-bottom:1px solid #222; }
   .sets-header span { flex:1; text-align:center; }
   .sets-header span:first-child { flex:0.4; }
-  
   .set-row { display:flex; align-items:center; padding:6px 0; border-bottom:1px solid #1a1a1a; }
   .set-row span:first-child { flex:0.4; color:#666; font-size:11px; text-align:center; }
   .set-input { flex:1; background:#1a1a1a; border:none; border-radius:6px; padding:10px; color:#fff; text-align:center; font-size:14px; margin:0 3px; }
   .set-input:focus { outline:none; background:#222; }
-  .set-input.target { color:#666; }
   .set-input.actual { color:#00ff88; }
-  
   .add-set-btn { width:100%; padding:8px; background:transparent; border:1px dashed #333; border-radius:6px; color:#555; font-size:11px; cursor:pointer; margin-top:8px; }
-</style>
-
-<style>
   .week-nav { display:flex; justify-content:space-between; align-items:center; padding:12px 0; margin-bottom:12px; }
   .week-nav span { cursor:pointer; font-size:18px; color:#666; }
   .week-nav span:nth-child(2) { font-size:14px; font-weight:600; color:#fff; }
-  
   .calendar-day { background:#111; border:1px solid #222; border-radius:12px; padding:14px; margin-bottom:10px; }
-  .calendar-day.today { border-color:#ff2d2d; }
+  .calendar-day.today { border-color:#4169E1; }
   .calendar-day-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .calendar-day-name { font-size:12px; color:#888; }
   .calendar-day-date { font-size:11px; color:#555; }
   .calendar-workout { background:#1a1a1a; border-radius:8px; padding:12px; margin-top:8px; cursor:pointer; }
   .calendar-workout.completed { border-left:3px solid #00ff88; }
-  .calendar-workout.scheduled { border-left:3px solid #ff2d2d; }
+  .calendar-workout.scheduled { border-left:3px solid #4169E1; }
   .calendar-workout-name { font-weight:600; font-size:14px; }
   .calendar-workout-meta { font-size:11px; color:#666; margin-top:4px; }
   .calendar-empty { color:#444; font-size:12px; font-style:italic; }
-  
+</style>
+
+<style>
   .time-toggle { display:flex; gap:8px; margin:12px 0; }
   .time-btn { flex:1; padding:10px; background:#111; border:1px solid #222; border-radius:8px; color:#666; font-size:12px; font-weight:600; cursor:pointer; }
-  .time-btn.active { background:#ff2d2d; border-color:#ff2d2d; color:#fff; }
-  
+  .time-btn.active { background:#4169E1; border-color:#4169E1; color:#fff; }
   .legend-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
   .legend-item { display:flex; align-items:center; gap:8px; padding:12px; background:#111; border:1px solid #222; border-radius:10px; cursor:pointer; }
   .legend-item.active { border-color:#444; }
   .legend-dot { width:10px; height:10px; border-radius:5px; }
   .legend-text { font-size:11px; color:#666; }
   .legend-item.active .legend-text { color:#fff; }
-  
   .client-card { background:#111; border:1px solid #222; border-radius:12px; padding:16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:14px; }
-  .client-card:hover { border-color:#333; }
-  .client-avatar { width:44px; height:44px; border-radius:22px; background:#ff2d2d; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; }
-  .client-info { flex:1; }
+  .client-avatar { width:44px; height:44px; border-radius:22px; background:#4169E1; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; }
   .client-name { font-weight:600; font-size:15px; }
   .client-meta { font-size:11px; color:#666; margin-top:2px; }
-  
   .macro-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
   .macro-item { background:#1a1a1a; border-radius:10px; padding:12px 8px; text-align:center; }
   .macro-value { font-size:18px; font-weight:700; }
-  .macro-label { font-size:9px; color:#666; margin-top:2px; letter-spacing:0.5px; }
+  .macro-label { font-size:9px; color:#666; margin-top:2px; }
   .macro-item.protein .macro-value { color:#ffaa00; }
   .macro-item.carbs .macro-value { color:#00aaff; }
   .macro-item.fats .macro-value { color:#ff66aa; }
   .macro-item.calories .macro-value { color:#fff; }
-  
   .nutrition-inputs { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
   .nut-input label { display:block; font-size:10px; color:#666; margin-bottom:4px; }
   .nut-input input { width:100%; padding:10px; background:#1a1a1a; border:1px solid #333; border-radius:8px; color:#fff; font-size:14px; }
-  .btn-small { padding:12px 20px; background:#ff2d2d; border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:600; cursor:pointer; }
-  
-  .avatar { width:50px; height:50px; border-radius:25px; background:#ff2d2d; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; }
+  .btn-small { padding:12px 20px; background:#4169E1; border:none; border-radius:8px; color:#fff; font-size:12px; font-weight:600; cursor:pointer; }
+  .avatar { width:50px; height:50px; border-radius:25px; background:#4169E1; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; }
   .setting-row { padding:14px 0; border-bottom:1px solid #222; display:flex; justify-content:space-between; cursor:pointer; }
   .setting-row:last-child { border-bottom:none; }
-  .source-status { color:#ff2d2d; font-size:12px; }
+  .source-status { color:#4169E1; font-size:12px; }
   .source-status.connected { color:#00ff88; }
-  .btn-outline { width:100%; padding:14px; background:transparent; color:#ff2d2d; border:1px solid #333; border-radius:10px; font-size:13px; cursor:pointer; margin-top:20px; }
-  .scheduled-date { font-size:10px; color:#ff2d2d; }
+  .btn-outline { width:100%; padding:14px; background:transparent; color:#4169E1; border:1px solid #333; border-radius:10px; font-size:13px; cursor:pointer; margin-top:20px; }
+  .scheduled-date { font-size:10px; color:#4169E1; }
 </style>
 
 <script>
-// Data
 let role = localStorage.getItem('fitsync_role') || 'client';
 let completedWorkouts = JSON.parse(localStorage.getItem('fitsync_completed') || '[]');
 let scheduledWorkouts = JSON.parse(localStorage.getItem('fitsync_scheduled') || '[]');
@@ -333,16 +302,23 @@ let currentLogWorkout = null;
 let analyticsChart = null;
 
 const clients = [
-  { id: 'demo', name: 'Demo User', email: 'demo@fitsync.app' },
+  { id: 'demo', name: 'Ari', email: 'ari@fitsync.app' },
   { id: 'john', name: 'John Smith', email: 'john@email.com' },
   { id: 'sarah', name: 'Sarah Johnson', email: 'sarah@email.com' }
 ];
 
 const metricConfig = {
   recovery: { label: 'Recovery', color: '#00ff88', unit: '%' },
-  strain: { label: 'Strain', color: '#ff2d2d', unit: '' },
+  strain: { label: 'Strain', color: '#4169E1', unit: '' },
   hrv: { label: 'HRV', color: '#00bfff', unit: 'ms' },
   sleep: { label: 'Sleep', color: '#aa66ff', unit: 'hrs' },
+  restingHR: { label: 'Resting HR', color: '#ff6b6b', unit: 'bpm' },
+  vo2max: { label: 'VO2 Max', color: '#ffd93d', unit: '' },
+  bodyWeight: { label: 'Body Weight', color: '#c9c9c9', unit: 'lbs' },
+  bodyFat: { label: 'Body Fat %', color: '#ff9f43', unit: '%' },
+  squatPR: { label: 'Squat PR', color: '#00ff88', unit: 'lbs' },
+  deadliftPR: { label: 'Deadlift PR', color: '#4169E1', unit: 'lbs' },
+  benchPR: { label: 'Bench PR', color: '#ff6b6b', unit: 'lbs' },
   protein: { label: 'Protein', color: '#ffaa00', unit: 'g' },
   carbs: { label: 'Carbs', color: '#00aaff', unit: 'g' },
   fats: { label: 'Fats', color: '#ff66aa', unit: 'g' },
@@ -359,14 +335,22 @@ function init() {
 function generateDemoData() {
   if (biometrics.length === 0) {
     const now = new Date();
+    let squat = 185, deadlift = 225, bench = 135, weight = 175, bf = 18;
     for (let i = 180; i >= 0; i--) {
       const date = new Date(now); date.setDate(date.getDate() - i);
+      if (i % 14 === 0) { squat += Math.floor(Math.random() * 10); deadlift += Math.floor(Math.random() * 10); bench += Math.floor(Math.random() * 5); }
+      if (i % 7 === 0) { weight += (Math.random() - 0.5) * 2; bf += (Math.random() - 0.6) * 0.5; }
       biometrics.push({
         date: date.toISOString().split('T')[0],
         recovery: Math.floor(50 + Math.random() * 45),
         strain: +(8 + Math.random() * 10).toFixed(1),
         hrv: Math.floor(30 + Math.random() * 40),
         sleep: +(5.5 + Math.random() * 3).toFixed(1),
+        restingHR: Math.floor(50 + Math.random() * 15),
+        vo2max: +(42 + Math.random() * 8).toFixed(1),
+        bodyWeight: +weight.toFixed(1),
+        bodyFat: +Math.max(10, bf).toFixed(1),
+        squatPR: squat, deadliftPR: deadlift, benchPR: bench,
         protein: Math.floor(100 + Math.random() * 100),
         carbs: Math.floor(150 + Math.random() * 150),
         fats: Math.floor(50 + Math.random() * 50),
@@ -379,26 +363,17 @@ function generateDemoData() {
 
 function generateDemoSchedule() {
   if (scheduledWorkouts.length === 0) {
-    const workoutTemplates = [
-      { name: 'Push Day A', exercises: [{ name: 'Bench Press', sets: [{w:135,r:10},{w:155,r:8},{w:175,r:6}] }, { name: 'Shoulder Press', sets: [{w:65,r:10},{w:75,r:8}] }, { name: 'Tricep Pushdown', sets: [{w:40,r:12},{w:50,r:10}] }] },
-      { name: 'Pull Day A', exercises: [{ name: 'Deadlift', sets: [{w:185,r:8},{w:225,r:6},{w:245,r:4}] }, { name: 'Barbell Row', sets: [{w:95,r:10},{w:115,r:8}] }, { name: 'Bicep Curl', sets: [{w:25,r:12},{w:30,r:10}] }] },
-      { name: 'Leg Day', exercises: [{ name: 'Squat', sets: [{w:135,r:10},{w:185,r:8},{w:205,r:6}] }, { name: 'Leg Press', sets: [{w:270,r:12},{w:360,r:10}] }, { name: 'Leg Curl', sets: [{w:60,r:12},{w:70,r:10}] }] },
-      { name: 'Push Day B', exercises: [{ name: 'Incline DB Press', sets: [{w:50,r:10},{w:60,r:8}] }, { name: 'Lateral Raise', sets: [{w:15,r:15},{w:20,r:12}] }] },
-      { name: 'Pull Day B', exercises: [{ name: 'Pull-ups', sets: [{w:0,r:8},{w:0,r:6}] }, { name: 'Face Pull', sets: [{w:30,r:15},{w:40,r:12}] }] }
+    const templates = [
+      { name: 'Push Day A', exercises: [{ name: 'Bench Press', sets: [{w:135,r:10},{w:155,r:8},{w:175,r:6}] }, { name: 'Shoulder Press', sets: [{w:65,r:10},{w:75,r:8}] }] },
+      { name: 'Pull Day A', exercises: [{ name: 'Deadlift', sets: [{w:185,r:8},{w:225,r:6},{w:245,r:4}] }, { name: 'Barbell Row', sets: [{w:95,r:10},{w:115,r:8}] }] },
+      { name: 'Leg Day', exercises: [{ name: 'Squat', sets: [{w:135,r:10},{w:185,r:8},{w:205,r:6}] }, { name: 'Leg Press', sets: [{w:270,r:12},{w:360,r:10}] }] }
     ];
     const now = new Date();
     for (let i = -7; i < 28; i++) {
       if (i % 2 === 0 || i % 3 === 0) continue;
       const date = new Date(now); date.setDate(date.getDate() + i);
-      const template = workoutTemplates[Math.abs(i) % workoutTemplates.length];
-      scheduledWorkouts.push({
-        id: 'sched_' + Date.now() + '_' + i,
-        clientId: 'demo',
-        date: date.toISOString().split('T')[0],
-        name: template.name,
-        exercises: JSON.parse(JSON.stringify(template.exercises)),
-        notes: 'Focus on controlled reps. Rest 90s between sets.'
-      });
+      const t = templates[Math.abs(i) % templates.length];
+      scheduledWorkouts.push({ id: 'sched_' + Date.now() + '_' + i, clientId: 'demo', date: date.toISOString().split('T')[0], name: t.name, exercises: JSON.parse(JSON.stringify(t.exercises)), notes: 'Focus on form.' });
     }
     localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
   }
@@ -406,11 +381,7 @@ function generateDemoSchedule() {
 </script>
 
 <script>
-function toggleRole() {
-  role = role === 'client' ? 'trainer' : 'client';
-  localStorage.setItem('fitsync_role', role);
-  updateRole();
-}
+function toggleRole() { role = role === 'client' ? 'trainer' : 'client'; localStorage.setItem('fitsync_role', role); updateRole(); }
 
 function updateRole() {
   const badge = document.getElementById('role-badge');
@@ -426,7 +397,7 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (event && event.target) event.target.closest('.tab')?.classList.add('active');
+  if (event?.target) event.target.closest('.tab')?.classList.add('active');
   if (id === 'analytics') renderAnalytics();
   if (id === 'program') renderProgramCalendar();
   if (id === 'clients') renderClients();
@@ -434,9 +405,7 @@ function showScreen(id) {
   updateUI();
 }
 
-function handleFab() {
-  if (role === 'trainer') openCreateModal();
-}
+function handleFab() { if (role === 'trainer') openCreateModal(); }
 
 function updateUI() {
   const today = biometrics[biometrics.length - 1] || {};
@@ -445,67 +414,38 @@ function updateUI() {
   document.getElementById('hrv-score').textContent = today.hrv || '--';
   document.getElementById('strain-score').textContent = today.strain || '--';
   
-  // Nutrition targets
   document.getElementById('nutrition-targets').innerHTML = `
     <div class="macro-item protein"><div class="macro-value">${nutritionTargets.protein}g</div><div class="macro-label">PROTEIN</div></div>
     <div class="macro-item carbs"><div class="macro-value">${nutritionTargets.carbs}g</div><div class="macro-label">CARBS</div></div>
     <div class="macro-item fats"><div class="macro-value">${nutritionTargets.fats}g</div><div class="macro-label">FATS</div></div>
-    <div class="macro-item calories"><div class="macro-value">${nutritionTargets.calories}</div><div class="macro-label">KCAL</div></div>
-  `;
+    <div class="macro-item calories"><div class="macro-value">${nutritionTargets.calories}</div><div class="macro-label">KCAL</div></div>`;
   
-  // Today's workout
   const todayStr = new Date().toISOString().split('T')[0];
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
   const todayWorkout = scheduledWorkouts.find(w => w.date === todayStr && w.clientId === 'demo');
   const todayCompleted = completedWorkouts.find(w => w.scheduledId && scheduledWorkouts.find(s => s.id === w.scheduledId)?.date === todayStr);
   
   if (todayCompleted) {
-    document.getElementById('todays-workout').innerHTML = `
-      <div class="calendar-workout completed" onclick="viewCompleted('${todayCompleted.id}')">
-        <div class="calendar-workout-name">✓ ${todayCompleted.name}</div>
-        <div class="calendar-workout-meta">Completed • Strain: ${todayCompleted.strain || '--'}</div>
-      </div>`;
+    document.getElementById('todays-workout').innerHTML = `<div class="calendar-workout completed" onclick="viewCompleted('${todayCompleted.id}')"><div class="calendar-workout-name">✓ ${todayCompleted.name}</div><div class="calendar-workout-meta">Completed • Strain: ${todayCompleted.strain || '--'}</div></div>`;
   } else if (todayWorkout) {
-    document.getElementById('todays-workout').innerHTML = `
-      <div class="calendar-workout scheduled" onclick="openLogModal('${todayWorkout.id}')">
-        <div class="calendar-workout-name">${todayWorkout.name}</div>
-        <div class="calendar-workout-meta">${todayWorkout.exercises.length} exercises • Tap to log</div>
-      </div>`;
+    document.getElementById('todays-workout').innerHTML = `<div class="calendar-workout scheduled" onclick="openLogModal('${todayWorkout.id}')"><div class="calendar-workout-name">${todayWorkout.name}</div><div class="calendar-workout-meta">${todayWorkout.exercises.length} exercises • Tap to log</div></div>`;
   } else {
-    document.getElementById('todays-workout').innerHTML = '<div class="calendar-empty">Rest day - no workout scheduled</div>';
+    document.getElementById('todays-workout').innerHTML = '<div class="calendar-empty">Rest day</div>';
   }
   
-  // Upcoming workouts
   const upcoming = scheduledWorkouts.filter(w => w.date > todayStr && w.clientId === 'demo').sort((a,b) => a.date.localeCompare(b.date)).slice(0, 3);
-  document.getElementById('upcoming-workouts').innerHTML = upcoming.length ? upcoming.map(w => `
-    <div class="calendar-workout scheduled" style="margin-top:8px;">
-      <div class="calendar-workout-name">${w.name}</div>
-      <div class="calendar-workout-meta">${new Date(w.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
-    </div>
-  `).join('') : '<div class="calendar-empty">No upcoming workouts</div>';
+  document.getElementById('upcoming-workouts').innerHTML = upcoming.length ? upcoming.map(w => `<div class="calendar-workout scheduled" style="margin-top:8px;"><div class="calendar-workout-name">${w.name}</div><div class="calendar-workout-meta">${new Date(w.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div></div>`).join('') : '<div class="calendar-empty">No upcoming workouts</div>';
   
-  // Sources
   ['whoop', 'apple', 'garmin', 'oura'].forEach(s => {
     const el = document.getElementById(s + '-status');
-    if (el) {
-      el.textContent = sources[s] ? 'Connected' : 'Connect';
-      el.classList.toggle('connected', sources[s]);
-    }
+    if (el) { el.textContent = sources[s] ? 'Connected' : 'Connect'; el.classList.toggle('connected', sources[s]); }
   });
 }
-</script>
 
-<script>
-// Program Calendar (Client View)
 function getWeekDates(offset = 0) {
   const now = new Date();
-  const start = new Date(now);
-  start.setDate(now.getDate() - now.getDay() + (offset * 7));
-  return Array.from({length: 7}, (_, i) => {
-    const d = new Date(start);
-    d.setDate(start.getDate() + i);
-    return d;
-  });
+  const start = new Date(now); start.setDate(now.getDate() - now.getDay() + (offset * 7));
+  return Array.from({length: 7}, (_, i) => { const d = new Date(start); d.setDate(start.getDate() + i); return d; });
 }
 
 function prevWeek() { currentWeekOffset--; renderProgramCalendar(); }
@@ -514,34 +454,21 @@ function nextWeek() { currentWeekOffset++; renderProgramCalendar(); }
 function renderProgramCalendar() {
   const days = getWeekDates(currentWeekOffset);
   const todayStr = new Date().toISOString().split('T')[0];
-  
-  document.getElementById('week-label').textContent = currentWeekOffset === 0 ? 'This Week' : 
-    days[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' - ' + days[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  
+  document.getElementById('week-label').textContent = currentWeekOffset === 0 ? 'This Week' : days[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' - ' + days[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   document.getElementById('program-calendar').innerHTML = days.map(d => {
     const dateStr = d.toISOString().split('T')[0];
     const scheduled = scheduledWorkouts.find(w => w.date === dateStr && w.clientId === 'demo');
     const completed = completedWorkouts.find(w => w.scheduledId && scheduledWorkouts.find(s => s.id === w.scheduledId)?.date === dateStr);
-    const isToday = dateStr === todayStr;
-    
-    return `<div class="calendar-day ${isToday ? 'today' : ''}">
-      <div class="calendar-day-header">
-        <span class="calendar-day-name">${d.toLocaleDateString('en-US', { weekday: 'short' })}</span>
-        <span class="calendar-day-date">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-      </div>
-      ${completed ? `<div class="calendar-workout completed" onclick="viewCompleted('${completed.id}')"><div class="calendar-workout-name">✓ ${completed.name}</div><div class="calendar-workout-meta">Strain: ${completed.strain || '--'} • ${completed.totalVolume?.toLocaleString() || 0} lbs</div></div>` :
-        scheduled ? `<div class="calendar-workout scheduled" onclick="openLogModal('${scheduled.id}')"><div class="calendar-workout-name">${scheduled.name}</div><div class="calendar-workout-meta">${scheduled.exercises.length} exercises</div></div>` :
-        '<div class="calendar-empty">Rest day</div>'}
-    </div>`;
+    return `<div class="calendar-day ${dateStr === todayStr ? 'today' : ''}"><div class="calendar-day-header"><span class="calendar-day-name">${d.toLocaleDateString('en-US', { weekday: 'short' })}</span><span class="calendar-day-date">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span></div>${completed ? `<div class="calendar-workout completed" onclick="viewCompleted('${completed.id}')"><div class="calendar-workout-name">✓ ${completed.name}</div></div>` : scheduled ? `<div class="calendar-workout scheduled" onclick="openLogModal('${scheduled.id}')"><div class="calendar-workout-name">${scheduled.name}</div></div>` : '<div class="calendar-empty">Rest</div>'}</div>`;
   }).join('');
 }
+</script>
 
-// Log Workout Modal (Client)
+<script>
 function openLogModal(scheduledId) {
   const workout = scheduledWorkouts.find(w => w.id === scheduledId);
   if (!workout) return;
   currentLogWorkout = JSON.parse(JSON.stringify(workout));
-  
   const today = biometrics[biometrics.length - 1] || {};
   document.getElementById('log-workout-name').textContent = workout.name;
   document.getElementById('log-recovery').textContent = today.recovery ? today.recovery + '%' : '--';
@@ -549,117 +476,45 @@ function openLogModal(scheduledId) {
   document.getElementById('log-strain').textContent = '--';
   document.getElementById('log-hr').textContent = '--';
   document.getElementById('log-cal').textContent = '--';
-  
   renderLogExercises();
   document.getElementById('log-modal').classList.add('active');
 }
-
 function closeLogModal() { document.getElementById('log-modal').classList.remove('active'); currentLogWorkout = null; }
 
 function renderLogExercises() {
   document.getElementById('log-exercises').innerHTML = currentLogWorkout.exercises.map((ex, exIdx) => `
-    <div class="exercise-card">
-      <div class="exercise-header"><span style="font-weight:600;font-size:15px;">${ex.name}</span></div>
-      <div class="sets-header"><span>SET</span><span>TARGET</span><span>ACTUAL LBS</span><span>ACTUAL REPS</span></div>
-      ${ex.sets.map((set, setIdx) => `
-        <div class="set-row">
-          <span>${setIdx + 1}</span>
-          <span style="flex:1;text-align:center;color:#666;font-size:12px;">${set.w || 0} × ${set.r || 0}</span>
-          <input type="number" class="set-input actual" placeholder="${set.w || 0}" data-ex="${exIdx}" data-set="${setIdx}" data-field="actualW">
-          <input type="number" class="set-input actual" placeholder="${set.r || 0}" data-ex="${exIdx}" data-set="${setIdx}" data-field="actualR">
-        </div>
-      `).join('')}
-    </div>
-  `).join('');
+    <div class="exercise-card"><div class="exercise-header"><span style="font-weight:600;font-size:15px;">${ex.name}</span></div>
+    <div class="sets-header"><span>SET</span><span>TARGET</span><span>ACTUAL LBS</span><span>ACTUAL REPS</span></div>
+    ${ex.sets.map((set, setIdx) => `<div class="set-row"><span>${setIdx + 1}</span><span style="flex:1;text-align:center;color:#666;font-size:12px;">${set.w || 0} × ${set.r || 0}</span><input type="number" class="set-input actual" placeholder="${set.w || 0}" data-ex="${exIdx}" data-set="${setIdx}" data-field="actualW"><input type="number" class="set-input actual" placeholder="${set.r || 0}" data-ex="${exIdx}" data-set="${setIdx}" data-field="actualR"></div>`).join('')}</div>`).join('');
 }
 
 function saveWorkoutLog() {
   if (!currentLogWorkout) return;
-  
-  // Gather actual values
   document.querySelectorAll('#log-exercises .set-input').forEach(input => {
-    const exIdx = parseInt(input.dataset.ex);
-    const setIdx = parseInt(input.dataset.set);
-    const field = input.dataset.field;
+    const exIdx = parseInt(input.dataset.ex), setIdx = parseInt(input.dataset.set), field = input.dataset.field;
     const val = parseFloat(input.value) || parseFloat(input.placeholder) || 0;
     if (field === 'actualW') currentLogWorkout.exercises[exIdx].sets[setIdx].actualW = val;
     if (field === 'actualR') currentLogWorkout.exercises[exIdx].sets[setIdx].actualR = val;
   });
-  
-  // Calculate totals and simulate biometric sync
-  const totalVolume = currentLogWorkout.exercises.reduce((sum, ex) => 
-    sum + ex.sets.reduce((s, set) => s + (set.actualW || set.w || 0) * (set.actualR || set.r || 0), 0), 0);
-  
+  const totalVolume = currentLogWorkout.exercises.reduce((sum, ex) => sum + ex.sets.reduce((s, set) => s + (set.actualW || set.w || 0) * (set.actualR || set.r || 0), 0), 0);
   const today = biometrics[biometrics.length - 1] || {};
-  const strain = +(8 + Math.random() * 10).toFixed(1);
-  const avgHR = Math.floor(120 + Math.random() * 40);
-  const calories = Math.floor(200 + Math.random() * 300);
-  
-  completedWorkouts.unshift({
-    id: 'comp_' + Date.now(),
-    scheduledId: currentLogWorkout.id,
-    name: currentLogWorkout.name,
-    exercises: currentLogWorkout.exercises,
-    date: new Date().toISOString(),
-    recovery: today.recovery,
-    hrv: today.hrv,
-    strain, avgHR, calories, totalVolume
-  });
-  
+  const strain = +(8 + Math.random() * 10).toFixed(1), avgHR = Math.floor(120 + Math.random() * 40), calories = Math.floor(200 + Math.random() * 300);
+  completedWorkouts.unshift({ id: 'comp_' + Date.now(), scheduledId: currentLogWorkout.id, name: currentLogWorkout.name, exercises: currentLogWorkout.exercises, date: new Date().toISOString(), recovery: today.recovery, hrv: today.hrv, strain, avgHR, calories, totalVolume });
   localStorage.setItem('fitsync_completed', JSON.stringify(completedWorkouts));
-  closeLogModal();
-  updateUI();
-  renderProgramCalendar();
-  alert(`Workout logged! Synced from ${Object.keys(sources).find(s => sources[s]) || 'device'}:\nStrain: ${strain}\nAvg HR: ${avgHR} bpm\nCalories: ${calories}`);
+  closeLogModal(); updateUI(); renderProgramCalendar();
+  alert(`Workout logged!\nStrain: ${strain}\nAvg HR: ${avgHR} bpm\nCalories: ${calories}`);
 }
-</script>
 
-<script>
-// View Completed Workout
 function viewCompleted(id) {
   const w = completedWorkouts.find(x => x.id === id);
   if (!w) return;
-  
-  document.getElementById('view-content').innerHTML = `
-    <h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">${w.name}</h2>
-    <p style="color:#666;font-size:12px;margin-bottom:20px;">${new Date(w.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
-    <div class="bio-row" style="margin-bottom:20px;">
-      <div class="bio-item"><span class="bio-label">Recovery</span><span class="bio-value" style="color:#00ff88">${w.recovery || '--'}%</span></div>
-      <div class="bio-item"><span class="bio-label">HRV</span><span class="bio-value" style="color:#00bfff">${w.hrv || '--'}</span></div>
-      <div class="bio-item"><span class="bio-label">Strain</span><span class="bio-value" style="color:#ff2d2d">${w.strain || '--'}</span></div>
-      <div class="bio-item"><span class="bio-label">Avg HR</span><span class="bio-value" style="color:#ff66aa">${w.avgHR || '--'}</span></div>
-    </div>
-    <div class="card-header">EXERCISES</div>
-    ${w.exercises.map(ex => `
-      <div class="exercise-card" style="margin-bottom:10px;">
-        <div style="font-weight:600;font-size:14px;margin-bottom:10px;">${ex.name}</div>
-        ${ex.sets.map((s, i) => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a1a1a;font-size:13px;">
-          <span style="color:#666">Set ${i+1}</span>
-          <span><span style="color:#666">${s.w}×${s.r}</span> → <span style="color:#00ff88">${s.actualW || s.w} × ${s.actualR || s.r}</span></span>
-        </div>`).join('')}
-      </div>
-    `).join('')}
-    <div style="margin-top:20px;padding:16px;background:#111;border-radius:12px;text-align:center;">
-      <div style="font-size:11px;color:#666;letter-spacing:1px;">TOTAL VOLUME</div>
-      <div style="font-size:28px;font-weight:700;color:#ff2d2d;">${w.totalVolume?.toLocaleString() || 0} lbs</div>
-    </div>
-  `;
+  document.getElementById('view-content').innerHTML = `<h2 style="font-size:22px;font-weight:700;margin-bottom:6px;">${w.name}</h2><p style="color:#666;font-size:12px;margin-bottom:20px;">${new Date(w.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p><div class="bio-row" style="margin-bottom:20px;"><div class="bio-item"><span class="bio-label">Recovery</span><span class="bio-value" style="color:#00ff88">${w.recovery || '--'}%</span></div><div class="bio-item"><span class="bio-label">HRV</span><span class="bio-value" style="color:#00bfff">${w.hrv || '--'}</span></div><div class="bio-item"><span class="bio-label">Strain</span><span class="bio-value" style="color:#4169E1">${w.strain || '--'}</span></div><div class="bio-item"><span class="bio-label">Avg HR</span><span class="bio-value" style="color:#ff66aa">${w.avgHR || '--'}</span></div></div><div class="card-header">EXERCISES</div>${w.exercises.map(ex => `<div class="exercise-card" style="margin-bottom:10px;"><div style="font-weight:600;font-size:14px;margin-bottom:10px;">${ex.name}</div>${ex.sets.map((s, i) => `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a1a1a;font-size:13px;"><span style="color:#666">Set ${i+1}</span><span><span style="color:#666">${s.w}×${s.r}</span> → <span style="color:#00ff88">${s.actualW || s.w} × ${s.actualR || s.r}</span></span></div>`).join('')}</div>`).join('')}<div style="margin-top:20px;padding:16px;background:#111;border-radius:12px;text-align:center;"><div style="font-size:11px;color:#666;">TOTAL VOLUME</div><div style="font-size:28px;font-weight:700;color:#4169E1;">${w.totalVolume?.toLocaleString() || 0} lbs</div></div>`;
   document.getElementById('view-modal').classList.add('active');
 }
 function closeViewModal() { document.getElementById('view-modal').classList.remove('active'); }
 
-// Trainer: Clients List
 function renderClients() {
-  document.getElementById('clients-list').innerHTML = clients.map(c => `
-    <div class="client-card" onclick="selectClient('${c.id}')">
-      <div class="client-avatar">${c.name[0]}</div>
-      <div class="client-info">
-        <div class="client-name">${c.name}</div>
-        <div class="client-meta">${c.email}</div>
-      </div>
-      <span style="color:#666">→</span>
-    </div>
-  `).join('');
+  document.getElementById('clients-list').innerHTML = clients.map(c => `<div class="client-card" onclick="selectClient('${c.id}')"><div class="client-avatar">${c.name[0]}</div><div><div class="client-name">${c.name}</div><div class="client-meta">${c.email}</div></div><span style="color:#666">→</span></div>`).join('');
 }
 
 function selectClient(id) {
@@ -673,44 +528,27 @@ function selectClient(id) {
   showScreen('builder');
 }
 
-// Trainer: Program Builder
 function builderPrevWeek() { builderWeekOffset--; renderBuilderCalendar(); }
 function builderNextWeek() { builderWeekOffset++; renderBuilderCalendar(); }
 
 function renderBuilderCalendar() {
   const days = getWeekDates(builderWeekOffset);
-  document.getElementById('builder-week-label').textContent = builderWeekOffset === 0 ? 'This Week' : 
-    days[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' - ' + days[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  
+  document.getElementById('builder-week-label').textContent = builderWeekOffset === 0 ? 'This Week' : days[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' - ' + days[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   document.getElementById('builder-calendar').innerHTML = days.map(d => {
     const dateStr = d.toISOString().split('T')[0];
     const scheduled = scheduledWorkouts.filter(w => w.date === dateStr && w.clientId === selectedClient);
-    
-    return `<div class="calendar-day">
-      <div class="calendar-day-header">
-        <span class="calendar-day-name">${d.toLocaleDateString('en-US', { weekday: 'short' })}</span>
-        <span class="calendar-day-date">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-      </div>
-      ${scheduled.map(w => `<div class="calendar-workout scheduled" onclick="editScheduledWorkout('${w.id}')"><div class="calendar-workout-name">${w.name}</div><div class="calendar-workout-meta">${w.exercises.length} exercises</div></div>`).join('')}
-      <div class="add-set-btn" onclick="openCreateModalForDate('${dateStr}')">+ Add Workout</div>
-    </div>`;
+    return `<div class="calendar-day"><div class="calendar-day-header"><span class="calendar-day-name">${d.toLocaleDateString('en-US', { weekday: 'short' })}</span><span class="calendar-day-date">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span></div>${scheduled.map(w => `<div class="calendar-workout scheduled" onclick="editScheduledWorkout('${w.id}')"><div class="calendar-workout-name">${w.name}</div></div>`).join('')}<div class="add-set-btn" onclick="openCreateModalForDate('${dateStr}')">+ Add Workout</div></div>`;
   }).join('');
 }
 
 function saveNutritionTargets() {
-  nutritionTargets = {
-    protein: parseInt(document.getElementById('nut-protein').value) || 150,
-    carbs: parseInt(document.getElementById('nut-carbs').value) || 200,
-    fats: parseInt(document.getElementById('nut-fats').value) || 60,
-    calories: parseInt(document.getElementById('nut-calories').value) || 2200
-  };
+  nutritionTargets = { protein: parseInt(document.getElementById('nut-protein').value) || 150, carbs: parseInt(document.getElementById('nut-carbs').value) || 200, fats: parseInt(document.getElementById('nut-fats').value) || 60, calories: parseInt(document.getElementById('nut-calories').value) || 2200 };
   localStorage.setItem('fitsync_nutrition', JSON.stringify(nutritionTargets));
   alert('Nutrition targets saved!');
 }
 </script>
 
 <script>
-// Trainer: Create Workout Modal
 function openCreateModal() { openCreateModalForDate(new Date().toISOString().split('T')[0]); }
 
 function openCreateModalForDate(dateStr) {
@@ -721,70 +559,29 @@ function openCreateModalForDate(dateStr) {
   renderCreateExercises();
   document.getElementById('create-modal').classList.add('active');
 }
-
 function closeCreateModal() { document.getElementById('create-modal').classList.remove('active'); }
 
-function addCreateExercise() {
-  createExercises.push({ name: '', sets: [{ w: '', r: '' }] });
-  renderCreateExercises();
-}
-
-function removeCreateExercise(idx) {
-  createExercises.splice(idx, 1);
-  renderCreateExercises();
-}
-
-function addCreateSet(exIdx) {
-  createExercises[exIdx].sets.push({ w: '', r: '' });
-  renderCreateExercises();
-}
+function addCreateExercise() { createExercises.push({ name: '', sets: [{ w: '', r: '' }] }); renderCreateExercises(); }
+function removeCreateExercise(idx) { createExercises.splice(idx, 1); renderCreateExercises(); }
+function addCreateSet(exIdx) { createExercises[exIdx].sets.push({ w: '', r: '' }); renderCreateExercises(); }
 
 function renderCreateExercises() {
   document.getElementById('create-exercises').innerHTML = createExercises.map((ex, exIdx) => `
-    <div class="exercise-card">
-      <div class="exercise-header">
-        <input type="text" class="exercise-name-input" placeholder="Exercise name" value="${ex.name}" onchange="createExercises[${exIdx}].name=this.value">
-        <span class="remove-btn" onclick="removeCreateExercise(${exIdx})">✕</span>
-      </div>
-      <div class="sets-header"><span>SET</span><span>WEIGHT (LBS)</span><span>REPS</span></div>
-      ${ex.sets.map((set, setIdx) => `
-        <div class="set-row">
-          <span>${setIdx + 1}</span>
-          <input type="number" class="set-input target" placeholder="0" value="${set.w}" onchange="createExercises[${exIdx}].sets[${setIdx}].w=this.value">
-          <input type="number" class="set-input target" placeholder="0" value="${set.r}" onchange="createExercises[${exIdx}].sets[${setIdx}].r=this.value">
-        </div>
-      `).join('')}
-      <button class="add-set-btn" onclick="addCreateSet(${exIdx})">+ Add Set</button>
-    </div>
-  `).join('');
+    <div class="exercise-card"><div class="exercise-header"><input type="text" class="exercise-name-input" placeholder="Exercise name" value="${ex.name}" onchange="createExercises[${exIdx}].name=this.value"><span class="remove-btn" onclick="removeCreateExercise(${exIdx})">✕</span></div>
+    <div class="sets-header"><span>SET</span><span>WEIGHT</span><span>REPS</span></div>
+    ${ex.sets.map((set, setIdx) => `<div class="set-row"><span>${setIdx + 1}</span><input type="number" class="set-input" placeholder="0" value="${set.w}" onchange="createExercises[${exIdx}].sets[${setIdx}].w=this.value"><input type="number" class="set-input" placeholder="0" value="${set.r}" onchange="createExercises[${exIdx}].sets[${setIdx}].r=this.value"></div>`).join('')}
+    <button class="add-set-btn" onclick="addCreateSet(${exIdx})">+ Add Set</button></div>`).join('');
 }
 
 function saveScheduledWorkout() {
-  const name = document.getElementById('create-name').value;
-  const date = document.getElementById('create-date').value;
-  const notes = document.getElementById('create-notes').value;
-  
-  if (!name) { alert('Please enter a workout name'); return; }
-  if (!date) { alert('Please select a date'); return; }
-  
-  const validExercises = createExercises.filter(e => e.name).map(e => ({
-    name: e.name,
-    sets: e.sets.filter(s => s.w || s.r).map(s => ({ w: parseInt(s.w) || 0, r: parseInt(s.r) || 0 }))
-  }));
-  
-  if (validExercises.length === 0) { alert('Please add at least one exercise'); return; }
-  
-  scheduledWorkouts.push({
-    id: 'sched_' + Date.now(),
-    clientId: selectedClient,
-    date, name, notes,
-    exercises: validExercises
-  });
-  
+  const name = document.getElementById('create-name').value, date = document.getElementById('create-date').value, notes = document.getElementById('create-notes').value;
+  if (!name || !date) { alert('Please enter name and date'); return; }
+  const validExercises = createExercises.filter(e => e.name).map(e => ({ name: e.name, sets: e.sets.filter(s => s.w || s.r).map(s => ({ w: parseInt(s.w) || 0, r: parseInt(s.r) || 0 })) }));
+  if (validExercises.length === 0) { alert('Add at least one exercise'); return; }
+  scheduledWorkouts.push({ id: 'sched_' + Date.now(), clientId: selectedClient, date, name, notes, exercises: validExercises });
   localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
-  closeCreateModal();
-  renderBuilderCalendar();
-  alert('Workout scheduled for ' + new Date(date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }));
+  closeCreateModal(); renderBuilderCalendar();
+  alert('Workout scheduled!');
 }
 
 function editScheduledWorkout(id) {
@@ -795,13 +592,10 @@ function editScheduledWorkout(id) {
   document.getElementById('create-date').value = w.date;
   document.getElementById('create-notes').value = w.notes || '';
   renderCreateExercises();
-  
-  // Remove old and save new on save
   scheduledWorkouts = scheduledWorkouts.filter(x => x.id !== id);
   document.getElementById('create-modal').classList.add('active');
 }
 
-// Analytics
 function setTimeRange(range) {
   timeRange = range;
   document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
@@ -824,8 +618,7 @@ function renderAnalytics() {
     <div class="legend-item ${activeMetrics.includes(key) ? 'active' : ''}" onclick="toggleMetric('${key}')">
       <div class="legend-dot" style="background:${cfg.color}"></div>
       <span class="legend-text">${cfg.label}</span>
-    </div>
-  `).join('');
+    </div>`).join('');
   
   const ctx = document.getElementById('analyticsChart').getContext('2d');
   if (analyticsChart) analyticsChart.destroy();
@@ -833,8 +626,9 @@ function renderAnalytics() {
   const datasets = activeMetrics.map(metric => {
     const cfg = metricConfig[metric];
     let values = data.map(d => parseFloat(d[metric]) || 0);
-    if (metric === 'calories') values = values.map(v => v / 30);
-    else if (['protein', 'carbs'].includes(metric)) values = values.map(v => v / 2);
+    // Normalize for display
+    const max = Math.max(...values);
+    if (max > 100) values = values.map(v => (v / max) * 100);
     return { label: cfg.label, data: values, borderColor: cfg.color, borderWidth: 2, pointRadius: 0, tension: 0.4, fill: false };
   });
   
@@ -849,20 +643,14 @@ function renderAnalytics() {
   });
 }
 
-// Settings
 function toggleSource(source) {
   sources[source] = !sources[source];
   localStorage.setItem('fitsync_sources', JSON.stringify(sources));
   updateUI();
-  if (sources[source]) alert(source.charAt(0).toUpperCase() + source.slice(1) + ' connected! Biometrics will sync automatically.');
+  if (sources[source]) alert(source.charAt(0).toUpperCase() + source.slice(1) + ' connected!');
 }
 
-function clearData() {
-  if (confirm('Clear all data?')) {
-    localStorage.clear();
-    location.reload();
-  }
-}
+function clearData() { if (confirm('Clear all data?')) { localStorage.clear(); location.reload(); } }
 
 init();
 </script>
