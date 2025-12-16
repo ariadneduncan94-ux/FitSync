@@ -30,8 +30,11 @@
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; display: flex; border-top: 1px solid #222; padding: 10px 0 25px; z-index: 50; }
     .tab { flex: 1; text-align: center; cursor: pointer; color: #555; font-size: 10px; font-weight: 500; }
     .tab.active { color: #4169E1; }
-    .tab-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+    .tab-icon { display: block; margin-bottom: 4px; height: 22px; }
+    .tab-icon svg { width: 22px; height: 22px; fill: currentColor; }
     .fab { position: fixed; bottom: 100px; right: calc(50% - 195px); width: 56px; height: 56px; border-radius: 28px; background: #4169E1; color: #fff; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(65,105,225,0.4); z-index: 50; }
+    .brand-logo { width: 20px; height: 20px; margin-right: 10px; vertical-align: middle; border-radius: 4px; }
+    .source-row { display: flex; align-items: center; }
   </style>
 </head>
 <body>
@@ -44,7 +47,7 @@
   <!-- CLIENT: Dashboard -->
   <div id="dashboard" class="screen active">
     <div class="card">
-      <div class="card-header">❤️ TODAY'S BIOMETRICS</div>
+      <div class="card-header">TODAY'S BIOMETRICS</div>
       <div class="stats-row">
         <div class="stat-item"><div class="stat-value recovery-high" id="recovery-score">78%</div><div class="stat-label">Recovery</div></div>
         <div class="stat-divider"></div>
@@ -54,15 +57,15 @@
       </div>
     </div>
     <div class="card">
-      <div class="card-header">🎯 TODAY'S NUTRITION TARGET</div>
+      <div class="card-header">TODAY'S NUTRITION TARGET</div>
       <div class="macro-grid" id="nutrition-targets"></div>
     </div>
     <div class="card">
-      <div class="card-header">📋 TODAY'S WORKOUT <span class="scheduled-date" id="today-date"></span></div>
+      <div class="card-header">TODAY'S WORKOUT <span class="scheduled-date" id="today-date"></span></div>
       <div id="todays-workout"></div>
     </div>
     <div class="card">
-      <div class="card-header">📅 UPCOMING WORKOUTS</div>
+      <div class="card-header">UPCOMING WORKOUTS</div>
       <div id="upcoming-workouts"></div>
     </div>
   </div>
@@ -70,7 +73,7 @@
   <!-- CLIENT: Program -->
   <div id="program" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">📅 MY PROGRAM</div>
+      <div class="card-header">MY PROGRAM</div>
       <div class="week-nav"><span onclick="prevWeek()">←</span><span id="week-label">This Week</span><span onclick="nextWeek()">→</span></div>
       <div id="program-calendar"></div>
     </div>
@@ -79,7 +82,7 @@
   <!-- CLIENT: Analytics -->
   <div id="analytics" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">📈 ANALYTICS</div>
+      <div class="card-header">ANALYTICS</div>
       <div class="time-toggle">
         <button class="time-btn active" onclick="setTimeRange('1M')">1M</button>
         <button class="time-btn" onclick="setTimeRange('3M')">3M</button>
@@ -94,28 +97,28 @@
   <!-- TRAINER: Clients -->
   <div id="clients" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">👥 MY CLIENTS</div>
+      <div class="card-header">MY CLIENTS</div>
       <div id="clients-list"></div>
-      <div class="card" style="margin-top:20px;">
-        <div class="card-header">📤 BULK UPLOAD PROGRAMMING</div>
-        <p style="font-size:12px;color:#666;margin-bottom:12px;">Upload an Excel file with monthly workouts and nutrition targets for all clients.</p>
-        <button class="btn-small" onclick="downloadTemplate()" style="margin-right:8px;">📥 Download Template</button>
-        <label class="btn-small" style="background:#333;cursor:pointer;">
-          📤 Upload Excel
-          <input type="file" accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event)" style="display:none;">
-        </label>
-      </div>
     </div>
   </div>
 
   <!-- TRAINER: Builder -->
   <div id="builder" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">📝 PROGRAM BUILDER <span id="builder-client-name"></span></div>
+      <div class="card-header">PROGRAM BUILDER <span id="builder-client-name"></span></div>
+      <div class="card" style="margin-bottom:16px;background:#0a0a0a;">
+        <div class="card-header">UPLOAD PROGRAMMING</div>
+        <p style="font-size:11px;color:#666;margin-bottom:10px;">Upload monthly workouts for this client from Excel/CSV</p>
+        <button class="btn-small" onclick="downloadClientTemplate()" style="margin-right:8px;font-size:11px;">Download Template</button>
+        <label class="btn-small" style="background:#333;cursor:pointer;font-size:11px;">
+          Upload CSV
+          <input type="file" accept=".xlsx,.xls,.csv" onchange="handleClientExcelUpload(event)" style="display:none;">
+        </label>
+      </div>
       <div class="week-nav"><span onclick="builderPrevWeek()">←</span><span id="builder-week-label">This Week</span><span onclick="builderNextWeek()">→</span></div>
       <div id="builder-calendar"></div>
       <div class="card" style="margin-top:16px;">
-        <div class="card-header">🎯 NUTRITION TARGETS</div>
+        <div class="card-header">NUTRITION TARGETS</div>
         <div class="nutrition-inputs">
           <div class="nut-input"><label>Protein</label><input type="number" id="nut-protein" placeholder="g"></div>
           <div class="nut-input"><label>Carbs</label><input type="number" id="nut-carbs" placeholder="g"></div>
@@ -138,15 +141,27 @@
       </div>
       <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
       <div class="card">
-        <div class="setting-row" onclick="toggleSource('whoop')"><span>❤️ Whoop</span><span id="whoop-status" class="source-status">Connect</span></div>
-        <div class="setting-row" onclick="toggleSource('apple')"><span>⌚ Apple Watch</span><span id="apple-status" class="source-status">Connect</span></div>
-        <div class="setting-row" onclick="toggleSource('garmin')"><span>🏃 Garmin</span><span id="garmin-status" class="source-status">Connect</span></div>
-        <div class="setting-row" onclick="toggleSource('oura')"><span>💍 Oura Ring</span><span id="oura-status" class="source-status">Connect</span></div>
+        <div class="setting-row" onclick="toggleSource('whoop')">
+          <span class="source-row"><img src="https://cdn.brandfetch.io/idVfYwcuQz/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Whoop">Whoop</span>
+          <span id="whoop-status" class="source-status">Connect</span>
+        </div>
+        <div class="setting-row" onclick="toggleSource('apple')">
+          <span class="source-row"><img src="https://cdn.brandfetch.io/idnrCPuv87/w/400/h/400/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Apple">Apple Health</span>
+          <span id="apple-status" class="source-status">Connect</span>
+        </div>
+        <div class="setting-row" onclick="toggleSource('garmin')">
+          <span class="source-row"><img src="https://cdn.brandfetch.io/idFdXEmeEd/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Garmin">Garmin</span>
+          <span id="garmin-status" class="source-status">Connect</span>
+        </div>
+        <div class="setting-row" onclick="toggleSource('oura')">
+          <span class="source-row"><img src="https://cdn.brandfetch.io/idkfqVXOu-/w/400/h/400/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Oura">Oura Ring</span>
+          <span id="oura-status" class="source-status">Connect</span>
+        </div>
       </div>
       <div class="card-header" style="margin:24px 0 12px;">NUTRITION IMPORT</div>
       <div class="card">
         <div class="setting-row" onclick="connectFatSecret()">
-          <span>🥗 FatSecret</span>
+          <span class="source-row"><img src="https://cdn.brandfetch.io/idGOxJTVNe/w/400/h/400/theme/dark/icon.png?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="FatSecret">FatSecret</span>
           <span id="fatsecret-status" class="source-status">Connect</span>
         </div>
         <p style="font-size:11px;color:#555;padding:8px 0 0;">Sync your daily nutrition data automatically</p>
@@ -158,16 +173,16 @@
   <button class="fab" id="fab-btn" onclick="handleFab()">+</button>
 
   <div class="tab-bar" id="client-tabs">
-    <div class="tab active" onclick="showScreen('dashboard')"><span class="tab-icon">🏠</span>Home</div>
-    <div class="tab" onclick="showScreen('program')"><span class="tab-icon">📋</span>Program</div>
-    <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon">📈</span>Analytics</div>
-    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon">⚙️</span>Settings</div>
+    <div class="tab active" onclick="showScreen('dashboard')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>Home</div>
+    <div class="tab" onclick="showScreen('program')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>Program</div>
+    <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>Analytics</div>
+    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>Settings</div>
   </div>
   <div class="tab-bar" id="trainer-tabs" style="display:none;">
-    <div class="tab active" onclick="showScreen('clients')"><span class="tab-icon">👥</span>Clients</div>
-    <div class="tab" onclick="showScreen('builder')"><span class="tab-icon">📝</span>Program</div>
-    <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon">📈</span>Analytics</div>
-    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon">⚙️</span>Settings</div>
+    <div class="tab active" onclick="showScreen('clients')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></span>Clients</div>
+    <div class="tab" onclick="showScreen('builder')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>Program</div>
+    <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>Analytics</div>
+    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>Settings</div>
   </div>
 
   <!-- Log Workout Modal -->
@@ -182,7 +197,7 @@
         </div>
         <div id="log-exercises"></div>
         <div class="card" style="margin-top:20px;background:#0a0a0a;">
-          <div class="card-header">⌚ POST-WORKOUT SYNC</div>
+          <div class="card-header">POST-WORKOUT SYNC</div>
           <p style="font-size:12px;color:#666;margin-bottom:12px;">Biometrics will auto-sync after saving.</p>
           <div class="bio-row">
             <div class="bio-item"><span class="bio-label">Strain</span><span class="bio-value" id="log-strain">--</span></div>
@@ -672,48 +687,46 @@ function toggleSource(source) {
 
 function clearData() { if (confirm('Clear all data?')) { localStorage.clear(); location.reload(); } }
 
-// Excel Template Download
-function downloadTemplate() {
-  const template = `Client Email,Date,Workout Name,Exercise,Sets,Weight,Reps,Notes,Protein Target,Carbs Target,Fats Target,Calories Target
-ari@fitsync.app,2024-01-15,Push Day A,Bench Press,3,135,10,Focus on form,150,200,60,2200
-ari@fitsync.app,2024-01-15,Push Day A,Shoulder Press,3,65,10,,,,
-ari@fitsync.app,2024-01-15,Push Day A,Tricep Dips,3,BW,12,,,,
-ari@fitsync.app,2024-01-17,Pull Day A,Deadlift,4,185,8,Keep back straight,150,200,60,2200
-ari@fitsync.app,2024-01-17,Pull Day A,Barbell Row,3,95,10,,,,
-ari@fitsync.app,2024-01-19,Leg Day,Squat,4,155,8,Full depth,160,220,55,2300
-ari@fitsync.app,2024-01-19,Leg Day,Leg Press,3,270,12,,,,
-john@email.com,2024-01-15,Upper Body,Bench Press,4,185,6,,180,250,70,2600
-john@email.com,2024-01-17,Lower Body,Squat,4,225,6,,180,250,70,2600`;
+// Per-Client Excel Template Download
+function downloadClientTemplate() {
+  const client = clients.find(c => c.id === selectedClient) || { name: 'Client', email: 'client@email.com' };
+  const template = `Date,Workout Name,Exercise,Sets,Weight,Reps,Notes,Protein Target,Carbs Target,Fats Target,Calories Target
+2024-12-18,Push Day A,Bench Press,3,135,10,Focus on form,150,200,60,2200
+2024-12-18,Push Day A,Shoulder Press,3,65,10,,,,
+2024-12-18,Push Day A,Tricep Dips,3,BW,12,,,,
+2024-12-20,Pull Day A,Deadlift,4,185,8,Keep back straight,150,200,60,2200
+2024-12-20,Pull Day A,Barbell Row,3,95,10,,,,
+2024-12-22,Leg Day,Squat,4,155,8,Full depth,160,220,55,2300
+2024-12-22,Leg Day,Leg Press,3,270,12,,,,`;
   
   const blob = new Blob([template], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'FitSync_Programming_Template.csv';
+  a.download = `FitSync_${client.name.replace(/\s+/g, '_')}_Program.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
-// Excel/CSV Upload Handler
-function handleExcelUpload(event) {
+// Per-Client Excel/CSV Upload Handler
+function handleClientExcelUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
   
   const reader = new FileReader();
   reader.onload = function(e) {
     const text = e.target.result;
-    parseAndImportProgram(text);
+    parseAndImportClientProgram(text, selectedClient);
   };
   reader.readAsText(file);
   event.target.value = '';
 }
 
-function parseAndImportProgram(csvText) {
+function parseAndImportClientProgram(csvText, clientId) {
   const lines = csvText.trim().split('\n');
   if (lines.length < 2) { alert('Empty or invalid file'); return; }
   
   const header = lines[0].split(',').map(h => h.trim().toLowerCase());
-  const emailIdx = header.findIndex(h => h.includes('email'));
   const dateIdx = header.findIndex(h => h.includes('date'));
   const workoutIdx = header.findIndex(h => h.includes('workout'));
   const exerciseIdx = header.findIndex(h => h.includes('exercise'));
@@ -726,38 +739,29 @@ function parseAndImportProgram(csvText) {
   const fatsIdx = header.findIndex(h => h.includes('fats'));
   const caloriesIdx = header.findIndex(h => h.includes('calories'));
   
-  if (emailIdx < 0 || dateIdx < 0 || workoutIdx < 0) {
-    alert('Missing required columns: Client Email, Date, Workout Name');
+  if (dateIdx < 0 || workoutIdx < 0) {
+    alert('Missing required columns: Date, Workout Name');
     return;
   }
   
   const workoutMap = {};
-  const nutritionMap = {};
-  let importedCount = 0;
+  let latestNutrition = null;
   
   for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(',').map(c => c.trim());
-    if (cols.length < 3) continue;
+    if (cols.length < 2) continue;
     
-    const email = cols[emailIdx];
     const date = cols[dateIdx];
     const workoutName = cols[workoutIdx];
-    const exercise = cols[exerciseIdx] || '';
+    const exercise = exerciseIdx >= 0 ? cols[exerciseIdx] : '';
     const numSets = parseInt(cols[setsIdx]) || 3;
-    const weight = cols[weightIdx] || '0';
+    const weight = weightIdx >= 0 ? cols[weightIdx] : '0';
     const reps = parseInt(cols[repsIdx]) || 10;
-    const notes = cols[notesIdx] || '';
+    const notes = notesIdx >= 0 ? cols[notesIdx] : '';
     
-    // Find client by email
-    let clientId = clients.find(c => c.email.toLowerCase() === email.toLowerCase())?.id;
-    if (!clientId) {
-      // Create new client
-      clientId = 'client_' + Date.now() + '_' + i;
-      const name = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').trim();
-      clients.push({ id: clientId, name: name.charAt(0).toUpperCase() + name.slice(1), email });
-    }
+    if (!date || !workoutName) continue;
     
-    const key = `${clientId}_${date}_${workoutName}`;
+    const key = `${date}_${workoutName}`;
     if (!workoutMap[key]) {
       workoutMap[key] = {
         id: 'sched_import_' + Date.now() + '_' + i,
@@ -778,9 +782,9 @@ function parseAndImportProgram(csvText) {
       workoutMap[key].exercises.push({ name: exercise, sets });
     }
     
-    // Nutrition targets per client
+    // Capture nutrition targets
     if (proteinIdx >= 0 && cols[proteinIdx]) {
-      nutritionMap[clientId] = {
+      latestNutrition = {
         protein: parseInt(cols[proteinIdx]) || 150,
         carbs: parseInt(cols[carbsIdx]) || 200,
         fats: parseInt(cols[fatsIdx]) || 60,
@@ -789,11 +793,11 @@ function parseAndImportProgram(csvText) {
     }
   }
   
-  // Import workouts
+  // Import workouts for this client
+  let importedCount = 0;
   Object.values(workoutMap).forEach(w => {
-    // Remove existing workout for same client/date/name
     scheduledWorkouts = scheduledWorkouts.filter(sw => 
-      !(sw.clientId === w.clientId && sw.date === w.date && sw.name === w.name)
+      !(sw.clientId === clientId && sw.date === w.date && sw.name === w.name)
     );
     scheduledWorkouts.push(w);
     importedCount++;
@@ -801,14 +805,19 @@ function parseAndImportProgram(csvText) {
   
   localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
   
-  // Update nutrition for demo client if present
-  if (nutritionMap['demo']) {
-    nutritionTargets = nutritionMap['demo'];
+  // Update nutrition for this client if provided
+  if (latestNutrition && clientId === 'demo') {
+    nutritionTargets = latestNutrition;
     localStorage.setItem('fitsync_nutrition', JSON.stringify(nutritionTargets));
+    document.getElementById('nut-protein').value = latestNutrition.protein;
+    document.getElementById('nut-carbs').value = latestNutrition.carbs;
+    document.getElementById('nut-fats').value = latestNutrition.fats;
+    document.getElementById('nut-calories').value = latestNutrition.calories;
   }
   
-  alert(`Imported ${importedCount} workouts!\n\nClients: ${[...new Set(Object.values(workoutMap).map(w => w.clientId))].length}`);
-  renderClients();
+  const client = clients.find(c => c.id === clientId);
+  alert(`Imported ${importedCount} workouts for ${client?.name || 'client'}!`);
+  renderBuilderCalendar();
   updateUI();
 }
 
