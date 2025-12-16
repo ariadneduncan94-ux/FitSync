@@ -139,6 +139,72 @@
     </div>
   </div>
 
+  <!-- TRAINER: Sessions Calendar -->
+  <div id="sessions" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">SESSIONS CALENDAR</div>
+      <div class="card" style="background:#0a0a0a;">
+        <div class="revenue-summary">
+          <div class="revenue-item"><div class="revenue-value" id="revenue-today">$0</div><div class="revenue-label">Today</div></div>
+          <div class="revenue-item"><div class="revenue-value" id="revenue-week">$0</div><div class="revenue-label">This Week</div></div>
+          <div class="revenue-item"><div class="revenue-value" id="revenue-month">$0</div><div class="revenue-label">This Month</div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:11px;color:#666;letter-spacing:1px;">CALENDLY SYNC</span>
+          <span id="calendly-status" class="source-status" onclick="connectCalendly()" style="cursor:pointer;">Connect</span>
+        </div>
+      </div>
+      <div class="card-header" style="margin-top:16px;">UPCOMING SESSIONS</div>
+      <div id="trainer-sessions-list"></div>
+    </div>
+  </div>
+
+  <!-- CLIENT: My Sessions -->
+  <div id="my-sessions" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">MY SESSIONS</div>
+      <div id="client-sessions-list"></div>
+    </div>
+  </div>
+
+  <!-- TRAINER: Business Dashboard -->
+  <div id="business" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">BUSINESS OVERVIEW</div>
+      <div class="card" style="background:#0a0a0a;">
+        <div class="revenue-summary">
+          <div class="revenue-item"><div class="revenue-value" id="biz-revenue-month">$0</div><div class="revenue-label">This Month</div></div>
+          <div class="revenue-item"><div class="revenue-value" id="biz-revenue-projected">$0</div><div class="revenue-label">Projected</div></div>
+          <div class="revenue-item"><div class="revenue-value" id="biz-sessions-count">0</div><div class="revenue-label">Sessions</div></div>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin-top:20px;">REVENUE BY TRAINER</div>
+      <div id="trainer-revenue-list"></div>
+      
+      <div class="card-header" style="margin-top:20px;">MONTHLY BREAKDOWN</div>
+      <div class="card" style="padding:12px;height:180px;"><canvas id="revenueChart"></canvas></div>
+      
+      <div class="card-header" style="margin-top:20px;">CLIENT RETENTION</div>
+      <div class="card">
+        <div class="biz-stat-row">
+          <span>Active Clients</span>
+          <span id="biz-active-clients" style="color:#00ff88;font-weight:600;">0</span>
+        </div>
+        <div class="biz-stat-row">
+          <span>Avg Sessions/Client/Week</span>
+          <span id="biz-avg-sessions" style="color:#4169E1;font-weight:600;">0</span>
+        </div>
+        <div class="biz-stat-row">
+          <span>Client Lifetime Value</span>
+          <span id="biz-ltv" style="color:#ffaa00;font-weight:600;">$0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Settings -->
   <div id="settings" class="screen">
     <div style="padding:16px;">
@@ -183,15 +249,15 @@
 
   <div class="tab-bar" id="client-tabs">
     <div class="tab active" onclick="showScreen('dashboard')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>Home</div>
+    <div class="tab" onclick="showScreen('my-sessions')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></span>Sessions</div>
     <div class="tab" onclick="showScreen('program')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>Program</div>
     <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>Analytics</div>
-    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>Settings</div>
   </div>
   <div class="tab-bar" id="trainer-tabs" style="display:none;">
     <div class="tab active" onclick="showScreen('clients')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></span>Clients</div>
-    <div class="tab" onclick="showScreen('builder')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>Program</div>
+    <div class="tab" onclick="showScreen('sessions')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></span>Sessions</div>
+    <div class="tab" onclick="showScreen('business')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>Business</div>
     <div class="tab" onclick="showScreen('analytics')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>Analytics</div>
-    <div class="tab" onclick="showScreen('settings')"><span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>Settings</div>
   </div>
 
   <!-- Log Workout Modal -->
@@ -292,6 +358,26 @@
   .calendar-workout-name { font-weight:600; font-size:14px; }
   .calendar-workout-meta { font-size:11px; color:#666; margin-top:4px; }
   .calendar-empty { color:#444; font-size:12px; font-style:italic; }
+  .revenue-summary { display:flex; justify-content:space-around; padding:8px 0; }
+  .revenue-item { text-align:center; }
+  .revenue-value { font-size:24px; font-weight:700; color:#00ff88; }
+  .revenue-label { font-size:10px; color:#666; margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+  .session-card { background:#111; border:1px solid #222; border-radius:12px; padding:16px; margin-bottom:10px; }
+  .session-card.upcoming { border-left:3px solid #4169E1; }
+  .session-card.today { border-left:3px solid #00ff88; background:#00ff8808; }
+  .session-time { font-size:13px; font-weight:600; color:#4169E1; }
+  .session-client { font-size:16px; font-weight:600; margin:6px 0 4px; }
+  .session-details { display:flex; gap:16px; font-size:11px; color:#666; }
+  .session-trainer { color:#888; }
+  .session-location { color:#888; }
+  .session-revenue { color:#00ff88; font-weight:600; }
+  .session-reminder { background:#4169E120; border:1px solid #4169E140; border-radius:8px; padding:10px 14px; margin-bottom:12px; font-size:12px; color:#4169E1; display:flex; align-items:center; gap:10px; }
+  .biz-stat-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #222; font-size:13px; }
+  .biz-stat-row:last-child { border-bottom:none; }
+  .trainer-revenue-card { background:#111; border:1px solid #222; border-radius:10px; padding:14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
+  .trainer-revenue-name { font-weight:600; font-size:14px; }
+  .trainer-revenue-sessions { font-size:11px; color:#666; margin-top:2px; }
+  .trainer-revenue-amount { font-size:18px; font-weight:700; color:#00ff88; }
 </style>
 
 <style>
@@ -353,6 +439,16 @@ const clients = [
   { id: 'sarah', name: 'Sarah Johnson', email: 'sarah@email.com' }
 ];
 
+const trainers = [
+  { id: 'trainer1', name: 'Coach Mike', rate: 85 },
+  { id: 'trainer2', name: 'Coach Lisa', rate: 75 },
+  { id: 'trainer3', name: 'Coach Dan', rate: 80 }
+];
+
+const locations = ['Main Gym', 'Downtown Studio', 'Virtual/Zoom', 'Client Home'];
+
+let sessions = JSON.parse(localStorage.getItem('fitsync_sessions') || '[]');
+
 const metricConfig = {
   recovery: { label: 'Recovery', color: '#00ff88', unit: '%' },
   strain: { label: 'Strain', color: '#4169E1', unit: '' },
@@ -374,6 +470,7 @@ const metricConfig = {
 function init() {
   generateDemoData();
   generateDemoSchedule();
+  generateDemoSessions();
   updateRole();
   updateUI();
 }
@@ -424,6 +521,47 @@ function generateDemoSchedule() {
     localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
   }
 }
+
+function generateDemoSessions() {
+  if (sessions.length === 0) {
+    const now = new Date();
+    const times = ['09:00', '10:30', '12:00', '14:00', '16:00', '17:30'];
+    
+    // Generate sessions for next 14 days
+    for (let i = 0; i < 14; i++) {
+      const date = new Date(now); date.setDate(date.getDate() + i);
+      const dateStr = date.toISOString().split('T')[0];
+      
+      // 2-4 sessions per day
+      const numSessions = 2 + Math.floor(Math.random() * 3);
+      const usedTimes = [];
+      
+      for (let j = 0; j < numSessions; j++) {
+        let time;
+        do { time = times[Math.floor(Math.random() * times.length)]; } while (usedTimes.includes(time));
+        usedTimes.push(time);
+        
+        const client = clients[Math.floor(Math.random() * clients.length)];
+        const trainer = trainers[Math.floor(Math.random() * trainers.length)];
+        const location = locations[Math.floor(Math.random() * locations.length)];
+        
+        sessions.push({
+          id: 'sess_' + Date.now() + '_' + i + '_' + j,
+          clientId: client.id,
+          clientName: client.name,
+          trainerId: trainer.id,
+          trainerName: trainer.name,
+          date: dateStr,
+          time,
+          location,
+          rate: trainer.rate,
+          status: 'scheduled'
+        });
+      }
+    }
+    localStorage.setItem('fitsync_sessions', JSON.stringify(sessions));
+  }
+}
 </script>
 
 <script>
@@ -448,6 +586,9 @@ function showScreen(id) {
   if (id === 'program') renderProgramCalendar();
   if (id === 'clients') renderClients();
   if (id === 'builder') renderBuilderCalendar();
+  if (id === 'sessions') renderTrainerSessions();
+  if (id === 'my-sessions') renderClientSessions();
+  if (id === 'business') renderBusinessDashboard();
   updateUI();
 }
 
@@ -687,22 +828,73 @@ function renderAnalytics() {
   const ctx = document.getElementById('analyticsChart').getContext('2d');
   if (analyticsChart) analyticsChart.destroy();
   
-  const datasets = activeMetrics.map(metric => {
+  // Create datasets with individual Y-axes for proper scaling
+  const yAxes = {};
+  const datasets = activeMetrics.map((metric, idx) => {
     const cfg = metricConfig[metric];
-    let values = data.map(d => parseFloat(d[metric]) || 0);
-    // Normalize for display
-    const max = Math.max(...values);
-    if (max > 100) values = values.map(v => (v / max) * 100);
-    return { label: cfg.label, data: values, borderColor: cfg.color, borderWidth: 2, pointRadius: 0, tension: 0.4, fill: false };
+    const values = data.map(d => parseFloat(d[metric]) || 0);
+    const yAxisId = 'y' + idx;
+    
+    // Configure Y-axis for this metric
+    const minVal = Math.min(...values.filter(v => v > 0));
+    const maxVal = Math.max(...values);
+    const padding = (maxVal - minVal) * 0.1 || 10;
+    
+    yAxes[yAxisId] = {
+      type: 'linear',
+      display: idx < 2, // Only show first 2 axes to avoid clutter
+      position: idx % 2 === 0 ? 'left' : 'right',
+      grid: { display: idx === 0, color: '#222' },
+      ticks: { 
+        color: cfg.color, 
+        font: { size: 9 },
+        callback: (val) => val + (cfg.unit ? cfg.unit.charAt(0) : '')
+      },
+      min: Math.max(0, minVal - padding),
+      max: maxVal + padding
+    };
+    
+    return { 
+      label: cfg.label, 
+      data: values, 
+      borderColor: cfg.color, 
+      backgroundColor: cfg.color + '20',
+      borderWidth: 2, 
+      pointRadius: 0, 
+      tension: 0.4, 
+      fill: false,
+      yAxisID: yAxisId
+    };
   });
   
   analyticsChart = new Chart(ctx, {
     type: 'line',
     data: { labels: data.map(d => new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })), datasets },
     options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1a1a1a', callbacks: { label: ctx => { const m = activeMetrics[ctx.datasetIndex]; return `${metricConfig[m].label}: ${biometrics.slice(-days)[ctx.dataIndex][m]}${metricConfig[m].unit}`; } } } },
-      scales: { x: { grid: { color: '#222' }, ticks: { color: '#666', maxTicksLimit: 6 } }, y: { grid: { color: '#222' }, ticks: { color: '#666' }, min: 0, max: 100 } }
+      responsive: true, 
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { 
+        legend: { display: false }, 
+        tooltip: { 
+          backgroundColor: '#1a1a1a', 
+          titleColor: '#fff',
+          bodySpacing: 4,
+          padding: 12,
+          callbacks: { 
+            label: ctx => {
+              const m = activeMetrics[ctx.datasetIndex];
+              const cfg = metricConfig[m];
+              const val = data[ctx.dataIndex][m];
+              return `${cfg.label}: ${val}${cfg.unit}`;
+            }
+          } 
+        } 
+      },
+      scales: { 
+        x: { grid: { color: '#222' }, ticks: { color: '#666', maxTicksLimit: 6, font: { size: 9 } } },
+        ...yAxes
+      }
     }
   });
 }
@@ -987,6 +1179,212 @@ function parseAndImportClientProgram(csvText, clientId) {
   alert(`Imported ${importedCount} workouts for ${client?.name || 'client'}!`);
   renderBuilderCalendar();
   updateUI();
+}
+
+// Sessions Functions
+function renderTrainerSessions() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const weekStart = new Date(now); weekStart.setDate(now.getDate() - now.getDay());
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  
+  // Calculate revenue
+  const todayRevenue = sessions.filter(s => s.date === todayStr).reduce((sum, s) => sum + s.rate, 0);
+  const weekRevenue = sessions.filter(s => new Date(s.date) >= weekStart).reduce((sum, s) => sum + s.rate, 0);
+  const monthRevenue = sessions.filter(s => new Date(s.date) >= monthStart).reduce((sum, s) => sum + s.rate, 0);
+  
+  document.getElementById('revenue-today').textContent = '$' + todayRevenue;
+  document.getElementById('revenue-week').textContent = '$' + weekRevenue;
+  document.getElementById('revenue-month').textContent = '$' + monthRevenue;
+  
+  // Render upcoming sessions
+  const upcoming = sessions.filter(s => s.date >= todayStr).sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    return a.time.localeCompare(b.time);
+  });
+  
+  let html = '';
+  let currentDate = '';
+  
+  upcoming.forEach(s => {
+    if (s.date !== currentDate) {
+      currentDate = s.date;
+      const dateObj = new Date(s.date + 'T12:00:00');
+      const isToday = s.date === todayStr;
+      html += `<div style="font-size:11px;color:#666;margin:16px 0 8px;letter-spacing:1px;">${isToday ? 'TODAY' : dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }).toUpperCase()}</div>`;
+    }
+    
+    const isToday = s.date === todayStr;
+    html += `
+      <div class="session-card ${isToday ? 'today' : 'upcoming'}">
+        <div class="session-time">${formatTime(s.time)}</div>
+        <div class="session-client">${s.clientName}</div>
+        <div class="session-details">
+          <span class="session-trainer">${s.trainerName}</span>
+          <span class="session-location">${s.location}</span>
+          <span class="session-revenue">$${s.rate}</span>
+        </div>
+      </div>`;
+  });
+  
+  document.getElementById('trainer-sessions-list').innerHTML = html || '<div class="calendar-empty">No upcoming sessions</div>';
+  
+  // Update Calendly status
+  const calendlyEl = document.getElementById('calendly-status');
+  if (calendlyEl) {
+    calendlyEl.textContent = sources.calendly ? 'Connected' : 'Connect';
+    calendlyEl.classList.toggle('connected', sources.calendly);
+  }
+}
+
+function renderClientSessions() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  const mySessions = sessions.filter(s => s.clientId === 'demo' && s.date >= todayStr).sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    return a.time.localeCompare(b.time);
+  });
+  
+  let html = '';
+  
+  // Show reminder for next session
+  if (mySessions.length > 0) {
+    const next = mySessions[0];
+    const nextDate = new Date(next.date + 'T' + next.time);
+    const hoursUntil = Math.round((nextDate - new Date()) / (1000 * 60 * 60));
+    
+    if (hoursUntil <= 24 && hoursUntil > 0) {
+      html += `<div class="session-reminder">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+        Next session in ${hoursUntil} hour${hoursUntil !== 1 ? 's' : ''} with ${next.trainerName}
+      </div>`;
+    }
+  }
+  
+  mySessions.forEach(s => {
+    const dateObj = new Date(s.date + 'T12:00:00');
+    const isToday = s.date === todayStr;
+    
+    html += `
+      <div class="session-card ${isToday ? 'today' : 'upcoming'}">
+        <div class="session-time">${isToday ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} • ${formatTime(s.time)}</div>
+        <div class="session-client">${s.trainerName}</div>
+        <div class="session-details">
+          <span class="session-location">${s.location}</span>
+        </div>
+      </div>`;
+  });
+  
+  document.getElementById('client-sessions-list').innerHTML = html || '<div class="calendar-empty">No upcoming sessions</div>';
+}
+
+function formatTime(time) {
+  const [h, m] = time.split(':');
+  const hour = parseInt(h);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 || 12;
+  return `${hour12}:${m} ${ampm}`;
+}
+
+function connectCalendly() {
+  sources.calendly = !sources.calendly;
+  localStorage.setItem('fitsync_sources', JSON.stringify(sources));
+  
+  if (sources.calendly) {
+    alert('Calendly connected!\n\nIn production, this uses OAuth to sync your scheduled sessions automatically from Calendly.\n\nSessions will include client info, time, and can be linked to trainers for revenue tracking.');
+  } else {
+    alert('Calendly disconnected');
+  }
+  renderTrainerSessions();
+}
+
+// Business Dashboard
+let revenueChart = null;
+
+function renderBusinessDashboard() {
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  
+  // Calculate metrics
+  const monthSessions = sessions.filter(s => {
+    const d = new Date(s.date);
+    return d >= monthStart && d <= monthEnd;
+  });
+  
+  const completedRevenue = monthSessions.filter(s => new Date(s.date) <= now).reduce((sum, s) => sum + s.rate, 0);
+  const projectedRevenue = monthSessions.reduce((sum, s) => sum + s.rate, 0);
+  const sessionCount = monthSessions.length;
+  
+  document.getElementById('biz-revenue-month').textContent = '$' + completedRevenue.toLocaleString();
+  document.getElementById('biz-revenue-projected').textContent = '$' + projectedRevenue.toLocaleString();
+  document.getElementById('biz-sessions-count').textContent = sessionCount;
+  
+  // Revenue by trainer
+  const trainerRevenue = {};
+  const trainerSessions = {};
+  monthSessions.forEach(s => {
+    trainerRevenue[s.trainerName] = (trainerRevenue[s.trainerName] || 0) + s.rate;
+    trainerSessions[s.trainerName] = (trainerSessions[s.trainerName] || 0) + 1;
+  });
+  
+  document.getElementById('trainer-revenue-list').innerHTML = Object.entries(trainerRevenue)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, revenue]) => `
+      <div class="trainer-revenue-card">
+        <div>
+          <div class="trainer-revenue-name">${name}</div>
+          <div class="trainer-revenue-sessions">${trainerSessions[name]} sessions</div>
+        </div>
+        <div class="trainer-revenue-amount">$${revenue.toLocaleString()}</div>
+      </div>
+    `).join('');
+  
+  // Client retention stats
+  const uniqueClients = new Set(monthSessions.map(s => s.clientId)).size;
+  const avgSessionsPerClient = uniqueClients > 0 ? (sessionCount / uniqueClients / 4).toFixed(1) : 0;
+  const avgLTV = uniqueClients > 0 ? Math.round(projectedRevenue / uniqueClients * 12) : 0;
+  
+  document.getElementById('biz-active-clients').textContent = uniqueClients;
+  document.getElementById('biz-avg-sessions').textContent = avgSessionsPerClient;
+  document.getElementById('biz-ltv').textContent = '$' + avgLTV.toLocaleString();
+  
+  // Monthly revenue chart (last 6 months)
+  const monthlyData = [];
+  for (let i = 5; i >= 0; i--) {
+    const m = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const mEnd = new Date(now.getFullYear(), now.getMonth() - i + 1, 0);
+    const mLabel = m.toLocaleDateString('en-US', { month: 'short' });
+    const mRevenue = sessions.filter(s => {
+      const d = new Date(s.date);
+      return d >= m && d <= mEnd;
+    }).reduce((sum, s) => sum + s.rate, 0);
+    monthlyData.push({ label: mLabel, value: mRevenue || Math.floor(2000 + Math.random() * 3000) });
+  }
+  
+  const ctx = document.getElementById('revenueChart')?.getContext('2d');
+  if (!ctx) return;
+  if (revenueChart) revenueChart.destroy();
+  
+  revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: monthlyData.map(d => d.label),
+      datasets: [{
+        data: monthlyData.map(d => d.value),
+        backgroundColor: '#4169E1',
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#666' } },
+        y: { grid: { color: '#222' }, ticks: { color: '#666', callback: v => '$' + v } }
+      }
+    }
+  });
 }
 
 // FatSecret Integration
