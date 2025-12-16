@@ -99,6 +99,15 @@
     <div style="padding:16px;">
       <div class="card-header">MY CLIENTS</div>
       <div id="clients-list"></div>
+      <div class="card" style="margin-top:20px;background:#0a0a0a;">
+        <div class="card-header">BULK UPLOAD - ALL CLIENTS</div>
+        <p style="font-size:11px;color:#666;margin-bottom:10px;">Upload programming for multiple clients at once (include Client Email column)</p>
+        <button class="btn-small" onclick="downloadBulkTemplate()" style="margin-right:8px;font-size:11px;">Download Template</button>
+        <label class="btn-small" style="background:#333;cursor:pointer;font-size:11px;">
+          Upload CSV
+          <input type="file" accept=".xlsx,.xls,.csv" onchange="handleBulkExcelUpload(event)" style="display:none;">
+        </label>
+      </div>
     </div>
   </div>
 
@@ -142,7 +151,7 @@
       <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
       <div class="card">
         <div class="setting-row" onclick="toggleSource('whoop')">
-          <span class="source-row"><img src="https://cdn.brandfetch.io/idVfYwcuQz/w/400/h/400/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B" class="brand-logo" alt="Whoop">Whoop</span>
+          <span class="source-row"><img src="https://play-lh.googleusercontent.com/Hl5KOEMoqJhMjqjGwlhGcFJjqGGnBs_rDV8JY1LmFDMVmRV7jNnXj5GpXQvPKj5Sxw=w240-h480-rw" class="brand-logo" alt="Whoop">Whoop</span>
           <span id="whoop-status" class="source-status">Connect</span>
         </div>
         <div class="setting-row" onclick="toggleSource('apple')">
@@ -686,6 +695,145 @@ function toggleSource(source) {
 }
 
 function clearData() { if (confirm('Clear all data?')) { localStorage.clear(); location.reload(); } }
+
+// Bulk Upload Template (All Clients)
+function downloadBulkTemplate() {
+  const template = `Client Email,Date,Workout Name,Exercise,Sets,Weight,Reps,Notes,Protein Target,Carbs Target,Fats Target,Calories Target
+ari@fitsync.app,2024-12-18,Push Day A,Bench Press,3,135,10,Focus on form,150,200,60,2200
+ari@fitsync.app,2024-12-18,Push Day A,Shoulder Press,3,65,10,,,,
+ari@fitsync.app,2024-12-20,Pull Day A,Deadlift,4,185,8,Keep back straight,150,200,60,2200
+john@email.com,2024-12-18,Upper Body,Bench Press,4,185,6,,180,250,70,2600
+john@email.com,2024-12-20,Lower Body,Squat,4,225,6,,180,250,70,2600
+sarah@email.com,2024-12-18,Full Body,Squat,3,95,10,,140,180,50,1900`;
+  
+  const blob = new Blob([template], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'FitSync_All_Clients_Program.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Bulk Upload Handler (All Clients)
+function handleBulkExcelUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    parseAndImportBulkProgram(text);
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function parseAndImportBulkProgram(csvText) {
+  const lines = csvText.trim().split('\n');
+  if (lines.length < 2) { alert('Empty or invalid file'); return; }
+  
+  const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const emailIdx = header.findIndex(h => h.includes('email'));
+  const dateIdx = header.findIndex(h => h.includes('date'));
+  const workoutIdx = header.findIndex(h => h.includes('workout'));
+  const exerciseIdx = header.findIndex(h => h.includes('exercise'));
+  const setsIdx = header.findIndex(h => h.includes('sets'));
+  const weightIdx = header.findIndex(h => h.includes('weight'));
+  const repsIdx = header.findIndex(h => h.includes('reps'));
+  const notesIdx = header.findIndex(h => h.includes('notes'));
+  const proteinIdx = header.findIndex(h => h.includes('protein'));
+  const carbsIdx = header.findIndex(h => h.includes('carbs'));
+  const fatsIdx = header.findIndex(h => h.includes('fats'));
+  const caloriesIdx = header.findIndex(h => h.includes('calories'));
+  
+  if (emailIdx < 0 || dateIdx < 0 || workoutIdx < 0) {
+    alert('Missing required columns: Client Email, Date, Workout Name');
+    return;
+  }
+  
+  const workoutMap = {};
+  const nutritionMap = {};
+  const clientsAdded = new Set();
+  
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',').map(c => c.trim());
+    if (cols.length < 3) continue;
+    
+    const email = cols[emailIdx];
+    const date = cols[dateIdx];
+    const workoutName = cols[workoutIdx];
+    const exercise = exerciseIdx >= 0 ? cols[exerciseIdx] : '';
+    const numSets = parseInt(cols[setsIdx]) || 3;
+    const weight = weightIdx >= 0 ? cols[weightIdx] : '0';
+    const reps = parseInt(cols[repsIdx]) || 10;
+    const notes = notesIdx >= 0 ? cols[notesIdx] : '';
+    
+    if (!email || !date || !workoutName) continue;
+    
+    // Find or create client
+    let client = clients.find(c => c.email.toLowerCase() === email.toLowerCase());
+    if (!client) {
+      const name = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').trim();
+      client = { id: 'client_' + Date.now() + '_' + i, name: name.charAt(0).toUpperCase() + name.slice(1), email };
+      clients.push(client);
+    }
+    clientsAdded.add(client.name);
+    
+    const key = `${client.id}_${date}_${workoutName}`;
+    if (!workoutMap[key]) {
+      workoutMap[key] = {
+        id: 'sched_bulk_' + Date.now() + '_' + i,
+        clientId: client.id,
+        date,
+        name: workoutName,
+        notes,
+        exercises: []
+      };
+    }
+    
+    if (exercise) {
+      const sets = [];
+      const w = weight === 'BW' ? 0 : parseInt(weight) || 0;
+      for (let s = 0; s < numSets; s++) {
+        sets.push({ w, r: reps });
+      }
+      workoutMap[key].exercises.push({ name: exercise, sets });
+    }
+    
+    // Nutrition targets per client
+    if (proteinIdx >= 0 && cols[proteinIdx]) {
+      nutritionMap[client.id] = {
+        protein: parseInt(cols[proteinIdx]) || 150,
+        carbs: parseInt(cols[carbsIdx]) || 200,
+        fats: parseInt(cols[fatsIdx]) || 60,
+        calories: parseInt(cols[caloriesIdx]) || 2200
+      };
+    }
+  }
+  
+  // Import workouts
+  let importedCount = 0;
+  Object.values(workoutMap).forEach(w => {
+    scheduledWorkouts = scheduledWorkouts.filter(sw => 
+      !(sw.clientId === w.clientId && sw.date === w.date && sw.name === w.name)
+    );
+    scheduledWorkouts.push(w);
+    importedCount++;
+  });
+  
+  localStorage.setItem('fitsync_scheduled', JSON.stringify(scheduledWorkouts));
+  
+  // Update nutrition for demo client if present
+  if (nutritionMap['demo']) {
+    nutritionTargets = nutritionMap['demo'];
+    localStorage.setItem('fitsync_nutrition', JSON.stringify(nutritionTargets));
+  }
+  
+  alert(`Imported ${importedCount} workouts for ${clientsAdded.size} clients:\n${[...clientsAdded].join(', ')}`);
+  renderClients();
+  updateUI();
+}
 
 // Per-Client Excel Template Download
 function downloadClientTemplate() {
