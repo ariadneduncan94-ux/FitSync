@@ -89,8 +89,8 @@
         <button class="time-btn" onclick="setTimeRange('6M')">6M</button>
       </div>
       <div class="card" style="padding:12px;height:220px;"><canvas id="analyticsChart"></canvas></div>
-      <div class="card-header" style="margin-top:16px;">METRICS</div>
-      <div class="legend-grid" id="legend-grid"></div>
+      <div class="card-header" style="margin-top:16px;">SELECT METRICS</div>
+      <div id="legend-grid"></div>
     </div>
   </div>
 
@@ -298,10 +298,12 @@
   .time-toggle { display:flex; gap:8px; margin:12px 0; }
   .time-btn { flex:1; padding:10px; background:#111; border:1px solid #222; border-radius:8px; color:#666; font-size:12px; font-weight:600; cursor:pointer; }
   .time-btn.active { background:#4169E1; border-color:#4169E1; color:#fff; }
-  .legend-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .legend-item { display:flex; align-items:center; gap:8px; padding:12px; background:#111; border:1px solid #222; border-radius:10px; cursor:pointer; }
-  .legend-item.active { border-color:#444; }
-  .legend-dot { width:10px; height:10px; border-radius:5px; }
+  .legend-section { margin-bottom:16px; }
+  .legend-section-title { font-size:10px; font-weight:600; color:#555; letter-spacing:1px; margin-bottom:8px; padding-left:4px; }
+  .legend-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .legend-item { display:flex; align-items:center; gap:8px; padding:10px 12px; background:#111; border:1px solid #222; border-radius:8px; cursor:pointer; }
+  .legend-item.active { border-color:#4169E1; background:#4169E115; }
+  .legend-dot { width:8px; height:8px; border-radius:4px; flex-shrink:0; }
   .legend-text { font-size:11px; color:#666; }
   .legend-item.active .legend-text { color:#fff; }
   .client-card { background:#111; border:1px solid #222; border-radius:12px; padding:16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:14px; }
@@ -658,11 +660,29 @@ function renderAnalytics() {
   const days = timeRange === '1M' ? 30 : timeRange === '3M' ? 90 : 180;
   const data = biometrics.slice(-days);
   
-  document.getElementById('legend-grid').innerHTML = Object.entries(metricConfig).map(([key, cfg]) => `
-    <div class="legend-item ${activeMetrics.includes(key) ? 'active' : ''}" onclick="toggleMetric('${key}')">
-      <div class="legend-dot" style="background:${cfg.color}"></div>
-      <span class="legend-text">${cfg.label}</span>
-    </div>`).join('');
+  // Group metrics by category
+  const metricGroups = {
+    'BIOMETRICS': ['recovery', 'strain', 'hrv', 'sleep', 'restingHR', 'vo2max'],
+    'BODY COMPOSITION': ['bodyWeight', 'bodyFat'],
+    'STRENGTH PRs': ['squatPR', 'deadliftPR', 'benchPR'],
+    'NUTRITION': ['protein', 'carbs', 'fats', 'calories']
+  };
+  
+  let legendHTML = '';
+  Object.entries(metricGroups).forEach(([groupName, metrics]) => {
+    legendHTML += `<div class="legend-section"><div class="legend-section-title">${groupName}</div><div class="legend-grid">`;
+    metrics.forEach(key => {
+      const cfg = metricConfig[key];
+      if (cfg) {
+        legendHTML += `<div class="legend-item ${activeMetrics.includes(key) ? 'active' : ''}" onclick="toggleMetric('${key}')">
+          <div class="legend-dot" style="background:${cfg.color}"></div>
+          <span class="legend-text">${cfg.label}</span>
+        </div>`;
+      }
+    });
+    legendHTML += '</div></div>';
+  });
+  document.getElementById('legend-grid').innerHTML = legendHTML;
   
   const ctx = document.getElementById('analyticsChart').getContext('2d');
   if (analyticsChart) analyticsChart.destroy();
