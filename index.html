@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Ari's FitSync</title>
+  <title>Arsenal Health</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,7 +43,7 @@
 <div class="app">
   <div class="header">
     <div class="msg-btn" onclick="openMessages()"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg><span class="msg-badge" id="msg-badge">2</span></div>
-    <div class="logo-text"><span class="logo-bold">ARI'S</span><span class="logo-light">FITSYNC</span></div>
+    <div class="logo-text"><span class="logo-bold">ARSENAL</span><span class="logo-light">HEALTH</span></div>
     <div class="role-badge" id="role-badge" onclick="toggleRole()">CLIENT</div>
   </div>
 
@@ -292,7 +292,7 @@
       <div class="card">
         <div style="display:flex;align-items:center;gap:16px;">
           <div class="avatar">A</div>
-          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@fitsync.app</div></div>
+          <div><div style="font-weight:600;font-size:18px;">Ari</div><div style="color:#666;font-size:13px;">ari@arsenalhealth.com</div></div>
         </div>
       </div>
       <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
@@ -1021,7 +1021,8 @@ function setTimeRange(range) {
 function toggleMetric(metric) {
   const idx = activeMetrics.indexOf(metric);
   if (idx >= 0) activeMetrics.splice(idx, 1);
-  else if (activeMetrics.length < 4) activeMetrics.push(metric);
+  else if (activeMetrics.length < 5) activeMetrics.push(metric);
+  else { alert('Maximum 5 metrics. Deselect one first.'); return; }
   renderAnalytics();
 }
 
@@ -1029,7 +1030,7 @@ function renderAnalytics() {
   const days = timeRange === '1M' ? 30 : timeRange === '3M' ? 90 : 180;
   const data = biometrics.slice(-days);
   
-  // Group metrics by category
+  // Group metrics by category for legend
   const metricGroups = {
     'BIOMETRICS': ['recovery', 'strain', 'hrv', 'sleep', 'restingHR', 'vo2max'],
     'BODY COMPOSITION': ['bodyWeight', 'bodyFat'],
@@ -1037,7 +1038,7 @@ function renderAnalytics() {
     'NUTRITION': ['protein', 'carbs', 'fats', 'calories']
   };
   
-  let legendHTML = '';
+  let legendHTML = '<p style="font-size:10px;color:#666;margin-bottom:12px;">All metrics normalized to % change from baseline for comparison. Select up to 5.</p>';
   Object.entries(metricGroups).forEach(([groupName, metrics]) => {
     legendHTML += `<div class="legend-section"><div class="legend-section-title">${groupName}</div><div class="legend-grid">`;
     metrics.forEach(key => {
@@ -1056,72 +1057,98 @@ function renderAnalytics() {
   const ctx = document.getElementById('analyticsChart').getContext('2d');
   if (analyticsChart) analyticsChart.destroy();
   
-  // Create datasets with individual Y-axes for proper scaling
-  const yAxes = {};
-  const datasets = activeMetrics.map((metric, idx) => {
+  // Normalize ALL metrics to % change from baseline
+  // This allows comparing protein intake trends with PR trends on the same chart
+  const datasets = activeMetrics.map(metric => {
     const cfg = metricConfig[metric];
-    const values = data.map(d => parseFloat(d[metric]) || 0);
-    const yAxisId = 'y' + idx;
+    const rawValues = data.map(d => parseFloat(d[metric]) || 0);
     
-    // Configure Y-axis for this metric
-    const minVal = Math.min(...values.filter(v => v > 0));
-    const maxVal = Math.max(...values);
-    const padding = (maxVal - minVal) * 0.1 || 10;
+    // Find first non-zero value as baseline
+    const baseline = rawValues.find(v => v > 0) || 1;
     
-    yAxes[yAxisId] = {
-      type: 'linear',
-      display: idx < 2, // Only show first 2 axes to avoid clutter
-      position: idx % 2 === 0 ? 'left' : 'right',
-      grid: { display: idx === 0, color: '#222' },
-      ticks: { 
-        color: cfg.color, 
-        font: { size: 9 },
-        callback: (val) => val + (cfg.unit ? cfg.unit.charAt(0) : '')
-      },
-      min: Math.max(0, minVal - padding),
-      max: maxVal + padding
-    };
+    // Convert to % change from baseline
+    const pctValues = rawValues.map(v => {
+      if (v === 0) return null; // Skip zero values
+      return ((v - baseline) / baseline) * 100;
+    });
     
-    return { 
-      label: cfg.label, 
-      data: values, 
-      borderColor: cfg.color, 
-      backgroundColor: cfg.color + '20',
-      borderWidth: 2, 
-      pointRadius: 0, 
-      tension: 0.4, 
+    return {
+      label: cfg.label,
+      data: pctValues,
+      borderColor: cfg.color,
+      backgroundColor: cfg.color + '15',
+      borderWidth: 2.5,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      tension: 0.3,
       fill: false,
-      yAxisID: yAxisId
+      // Store raw data for tooltip
+      rawData: rawValues,
+      baseline: baseline,
+      metricKey: metric,
+      unit: cfg.unit
     };
   });
   
+  // Calculate Y-axis range based on all % values
+  const allPctValues = datasets.flatMap(ds => ds.data.filter(v => v !== null));
+  const minPct = Math.min(...allPctValues, 0);
+  const maxPct = Math.max(...allPctValues, 0);
+  const padding = Math.max(Math.abs(minPct), Math.abs(maxPct)) * 0.15;
+  
   analyticsChart = new Chart(ctx, {
     type: 'line',
-    data: { labels: data.map(d => new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })), datasets },
+    data: { 
+      labels: data.map(d => new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })), 
+      datasets 
+    },
     options: {
       responsive: true, 
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: { 
-        legend: { display: false }, 
+        legend: { display: false },
         tooltip: { 
-          backgroundColor: '#1a1a1a', 
+          backgroundColor: '#111', 
           titleColor: '#fff',
-          bodySpacing: 4,
-          padding: 12,
+          bodySpacing: 6,
+          padding: 14,
+          borderColor: '#333',
+          borderWidth: 1,
           callbacks: { 
-            label: ctx => {
-              const m = activeMetrics[ctx.datasetIndex];
-              const cfg = metricConfig[m];
-              const val = data[ctx.dataIndex][m];
-              return `${cfg.label}: ${val}${cfg.unit}`;
+            title: (items) => items[0]?.label || '',
+            label: (ctx) => {
+              const ds = ctx.dataset;
+              const pctChange = ctx.raw;
+              const rawVal = ds.rawData[ctx.dataIndex];
+              const arrow = pctChange > 0 ? '↑' : pctChange < 0 ? '↓' : '→';
+              const sign = pctChange > 0 ? '+' : '';
+              return `${ds.label}: ${rawVal}${ds.unit} (${arrow}${sign}${pctChange?.toFixed(1)}%)`;
             }
           } 
         } 
       },
-      scales: { 
-        x: { grid: { color: '#222' }, ticks: { color: '#666', maxTicksLimit: 6, font: { size: 9 } } },
-        ...yAxes
+      scales: {
+        x: { 
+          grid: { color: '#1a1a1a' }, 
+          ticks: { color: '#666', maxTicksLimit: 6, font: { size: 9 } } 
+        },
+        y: {
+          grid: { color: '#1a1a1a' },
+          ticks: { 
+            color: '#888', 
+            font: { size: 9 },
+            callback: val => (val > 0 ? '+' : '') + val.toFixed(0) + '%'
+          },
+          min: Math.floor(minPct - padding),
+          max: Math.ceil(maxPct + padding),
+          title: {
+            display: true,
+            text: '% Change from Baseline',
+            color: '#666',
+            font: { size: 10 }
+          }
+        }
       }
     }
   });
