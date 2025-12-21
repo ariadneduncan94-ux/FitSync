@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Arsenal Health</title>
+  <title>Ariadne Health</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,7 +50,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
       <span class="msg-badge">2</span>
     </div>
-    <div class="logo-text"><span class="logo-bold">ARSENAL</span><span class="logo-light">HEALTH</span></div>
+    <div class="logo-text"><span class="logo-bold">ARIADNE</span><span class="logo-light">HEALTH</span></div>
     <div class="role-badge" id="role-badge" onclick="toggleRole()">CLIENT</div>
   </div>
 
@@ -724,7 +724,7 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
               </div>
               <div class="ai-message-content">
-                <div class="ai-message-name">Arsenal AI</div>
+                <div class="ai-message-name">Ariadne AI</div>
                 <div class="ai-message-text">Hey! I'm your AI programming assistant. I can help you:
 
 • <strong>Build custom programs</strong> - Tell me about your client's goals, timeline, and any constraints
@@ -1095,7 +1095,7 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
           <div class="session-card">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
-                <div style="font-weight:600;">Arsenal Health Subscription</div>
+                <div style="font-weight:600;">Ariadne Health Subscription</div>
                 <div class="session-meta">Dec 1, 2024 • Recurring</div>
               </div>
               <div class="expense-amount">$50</div>
@@ -1116,6 +1116,117 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     </div>
   </div>
 
+  <!-- CLIENT: Settings (Wearables & Biometrics) -->
+  <div id="client-settings" class="screen">
+    <div style="padding:16px;">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="client-avatar" style="width:60px;height:60px;font-size:24px;">S</div>
+          <div>
+            <div style="font-weight:600;font-size:18px;">Sarah Johnson</div>
+            <div style="color:#666;font-size:13px;">sarah@email.com</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">WEARABLES & BIOMETRICS</div>
+      <div class="card">
+        <div class="expense-row" onclick="toggleConnection('whoop-client')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#00ff88"><circle cx="12" cy="12" r="10"/></svg>
+            <div>
+              <div style="font-weight:500;">Whoop</div>
+              <div style="font-size:11px;color:#666;">Recovery, HRV, Sleep</div>
+            </div>
+          </div>
+          <span id="whoop-client-status" style="color:#00ff88;font-size:12px;">Connected</span>
+        </div>
+        <div class="expense-row" onclick="toggleConnection('apple-health')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff6b6b"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <div>
+              <div style="font-weight:500;">Apple Health</div>
+              <div style="font-size:11px;color:#666;">Steps, Workouts, Heart Rate</div>
+            </div>
+          </div>
+          <span id="apple-health-status" style="color:#00ff88;font-size:12px;">Connected</span>
+        </div>
+        <div class="expense-row" onclick="toggleConnection('garmin')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#4169E1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <div>
+              <div style="font-weight:500;">Garmin</div>
+              <div style="font-size:11px;color:#666;">GPS, Training Load</div>
+            </div>
+          </div>
+          <span id="garmin-status" style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="toggleConnection('oura')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#888"><circle cx="12" cy="12" r="8" fill="none" stroke="#888" stroke-width="3"/></svg>
+            <div>
+              <div style="font-weight:500;">Oura Ring</div>
+              <div style="font-size:11px;color:#666;">Sleep, Readiness, Activity</div>
+            </div>
+          </div>
+          <span id="oura-status" style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="toggleConnection('strava')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#fc4c02"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+            <div>
+              <div style="font-weight:500;">Strava</div>
+              <div style="font-size:11px;color:#666;">Running, Cycling Activities</div>
+            </div>
+          </div>
+          <span id="strava-status" style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">NUTRITION TRACKING</div>
+      <div class="card">
+        <div class="expense-row" onclick="toggleConnection('myfitnesspal')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#0073cf"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            <div>
+              <div style="font-weight:500;">MyFitnessPal</div>
+              <div style="font-size:11px;color:#666;">Food logging, Macros</div>
+            </div>
+          </div>
+          <span id="myfitnesspal-status" style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="toggleConnection('cronometer')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            <div>
+              <div style="font-weight:500;">Cronometer</div>
+              <div style="font-size:11px;color:#666;">Detailed nutrition tracking</div>
+            </div>
+          </div>
+          <span id="cronometer-status" style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">ACCOUNT</div>
+      <div class="card">
+        <div class="expense-row" onclick="alert('Edit profile...')">
+          <span>Edit Profile</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+        <div class="expense-row" onclick="alert('Change password...')">
+          <span>Change Password</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+        <div class="expense-row" onclick="alert('Notification settings...')">
+          <span>Notifications</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+      </div>
+      
+      <button class="btn btn-outline" style="margin:16px;" onclick="alert('Logging out...')">Log Out</button>
+    </div>
+  </div>
+
   <!-- TRAINER: Settings -->
   <div id="settings" class="screen">
     <div style="padding:16px;">
@@ -1124,28 +1235,71 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
           <div class="client-avatar" style="width:60px;height:60px;font-size:24px;">A</div>
           <div>
             <div style="font-weight:600;font-size:18px;">Alex Trainer</div>
-            <div style="color:#666;font-size:13px;">alex@arsenalhealth.com</div>
+            <div style="color:#666;font-size:13px;">alex@ariadnehealth.com</div>
           </div>
         </div>
       </div>
       
-      <div class="card-header" style="margin:24px 16px 12px;">INTEGRATIONS</div>
+      <div class="card-header" style="margin:24px 16px 12px;">ACCOUNT</div>
       <div class="card">
-        <div class="expense-row" onclick="alert('Connect Whoop...')">
-          <span>Whoop</span>
-          <span style="color:#4169E1;font-size:12px;">Connect</span>
+        <div class="expense-row" onclick="alert('Edit profile...')">
+          <span>Edit Profile</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
         </div>
-        <div class="expense-row" onclick="alert('Connect Apple Health...')">
-          <span>Apple Health</span>
-          <span style="color:#4169E1;font-size:12px;">Connect</span>
+        <div class="expense-row" onclick="alert('Change password...')">
+          <span>Change Password</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
         </div>
+        <div class="expense-row" onclick="alert('Two-factor authentication...')">
+          <span>Two-Factor Authentication</span>
+          <span style="color:#00ff88;font-size:12px;">Enabled</span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">CALENDAR & SCHEDULING</div>
+      <div class="card">
         <div class="expense-row" onclick="alert('Connect Calendly...')">
-          <span>Calendly</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#006bff"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg>
+            <span>Calendly</span>
+          </div>
           <span style="color:#00ff88;font-size:12px;">Connected</span>
         </div>
+        <div class="expense-row" onclick="alert('Connect Google Calendar...')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#4285f4"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg>
+            <span>Google Calendar</span>
+          </div>
+          <span style="color:#00ff88;font-size:12px;">Connected</span>
+        </div>
+        <div class="expense-row" onclick="alert('Connect Zoom...')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#2d8cff"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            <span>Zoom</span>
+          </div>
+          <span style="color:#00ff88;font-size:12px;">Connected</span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">PAYMENTS & BILLING</div>
+      <div class="card">
         <div class="expense-row" onclick="alert('Connect Stripe...')">
-          <span>Stripe Payments</span>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#635bff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            <span>Stripe</span>
+          </div>
           <span style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="alert('Connect PayPal...')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#003087"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            <span>PayPal</span>
+          </div>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="alert('Invoice settings...')">
+          <span>Invoice Settings</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
         </div>
       </div>
       
@@ -1153,14 +1307,43 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div>
-            <div style="font-weight:600;">Trainer Plan</div>
-            <div style="font-size:12px;color:#666;">$29/month • Renews Jan 15</div>
+            <div style="font-weight:600;">Trainer Pro Plan</div>
+            <div style="font-size:12px;color:#666;">$49/month • Renews Jan 15</div>
           </div>
           <span class="status-badge status-confirmed">Active</span>
         </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #222;">
+          <div style="font-size:12px;color:#888;margin-bottom:8px;">Plan includes:</div>
+          <div style="font-size:12px;color:#666;">• Unlimited clients</div>
+          <div style="font-size:12px;color:#666;">• AI Program Builder</div>
+          <div style="font-size:12px;color:#666;">• ExerciseDB access</div>
+          <div style="font-size:12px;color:#666;">• Priority support</div>
+        </div>
+        <button class="btn-small btn-outline" style="width:100%;margin-top:12px;" onclick="alert('Manage subscription...')">Manage Subscription</button>
       </div>
       
-      <button class="btn btn-outline" style="margin:16px;" onclick="localStorage.clear();location.reload();">Clear All Data</button>
+      <div class="card-header" style="margin:24px 16px 12px;">NOTIFICATIONS</div>
+      <div class="card">
+        <div class="expense-row">
+          <span>Client check-in reminders</span>
+          <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="expense-row">
+          <span>New message alerts</span>
+          <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="expense-row">
+          <span>Session reminders</span>
+          <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="expense-row">
+          <span>Payment notifications</span>
+          <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+        </div>
+      </div>
+      
+      <button class="btn btn-outline" style="margin:16px;" onclick="alert('Logging out...')">Log Out</button>
+      <button class="btn btn-outline" style="margin:0 16px 16px;border-color:#ff6b6b;color:#ff6b6b;" onclick="localStorage.clear();location.reload();">Clear All Data</button>
     </div>
   </div>
 
@@ -1183,6 +1366,10 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     <div class="tab" onclick="showScreen('messages')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
       Chat
+    </div>
+    <div class="tab" onclick="showScreen('client-settings')">
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
+      Settings
     </div>
   </div>
   
@@ -1399,6 +1586,12 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     .ai-program-phase-name { font-size: 13px; font-weight: 600; color: #00ff88; }
     .ai-program-phase-desc { font-size: 12px; color: #888; margin-top: 2px; }
     .ai-program-actions { display: flex; gap: 8px; margin-top: 12px; }
+    
+    /* Toggle Switch */
+    .toggle-switch { width: 44px; height: 24px; background: #333; border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; }
+    .toggle-switch::after { content: ''; position: absolute; width: 20px; height: 20px; background: #666; border-radius: 10px; top: 2px; left: 2px; transition: all 0.2s; }
+    .toggle-switch.active { background: #4169E1; }
+    .toggle-switch.active::after { left: 22px; background: #fff; }
 </style>
 
 <script>
@@ -1411,7 +1604,7 @@ const FATSECRET_CLIENT_ID = '0e673b5b6d65496d901635c2d5f73a20';
 const FATSECRET_CLIENT_SECRET = 'b450736631d94538a37809dd6738c6fe';
 
 // ==================== STATE ====================
-let role = localStorage.getItem('arsenal_role') || 'client';
+let role = localStorage.getItem('ariadne_role') || 'client';
 let exerciseLibrary = JSON.parse(localStorage.getItem('exercisedb_cache') || '[]');
 let exerciseDbLoaded = exerciseLibrary.length > 0;
 let isLoadingExercises = false;
@@ -1471,7 +1664,7 @@ function updateRole() {
 
 function toggleRole() {
   role = role === 'client' ? 'trainer' : 'client';
-  localStorage.setItem('arsenal_role', role);
+  localStorage.setItem('ariadne_role', role);
   updateRole();
 }
 
@@ -1603,6 +1796,29 @@ function showClientProgress() {
   showScreen('client-progress');
 }
 
+// ==================== WEARABLE CONNECTIONS ====================
+function toggleConnection(service) {
+  const statusEl = document.getElementById(service + '-status');
+  if (!statusEl) {
+    alert(`Connecting to ${service}...`);
+    return;
+  }
+  
+  const isConnected = statusEl.style.color === 'rgb(0, 255, 136)' || statusEl.textContent === 'Connected';
+  
+  if (isConnected) {
+    if (confirm(`Disconnect from ${service}?`)) {
+      statusEl.textContent = 'Connect';
+      statusEl.style.color = '#4169E1';
+    }
+  } else {
+    // Simulate OAuth flow
+    alert(`Connecting to ${service}...\n\nIn the full app, this would open the ${service} authorization page.`);
+    statusEl.textContent = 'Connected';
+    statusEl.style.color = '#00ff88';
+  }
+}
+
 function saveProgram() {
   alert('Program saved!');
   showScreen('templates');
@@ -1614,7 +1830,7 @@ const OPENAI_API_KEY = ''; // User will need to add their key
 let aiChatHistory = [];
 let isAITyping = false;
 
-const systemPrompt = `You are Arsenal AI, an expert fitness programming assistant for personal trainers. You help create periodized training programs based on client goals, timelines, and constraints.
+const systemPrompt = `You are Ariadne AI, an expert fitness programming assistant for personal trainers. You help create periodized training programs based on client goals, timelines, and constraints.
 
 When asked to create a program, you should:
 1. Understand the client's goal (HYROX, strength, fat loss, muscle building, etc.)
@@ -1941,7 +2157,7 @@ function addMessageToChat(role, content) {
         }
       </div>
       <div class="ai-message-content">
-        <div class="ai-message-name">${isUser ? 'You' : 'Arsenal AI'}</div>
+        <div class="ai-message-name">${isUser ? 'You' : 'Ariadne AI'}</div>
         <div class="ai-message-text">${formattedContent}</div>
       </div>
     </div>
@@ -1959,7 +2175,7 @@ function showTypingIndicator() {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       </div>
       <div class="ai-message-content">
-        <div class="ai-message-name">Arsenal AI</div>
+        <div class="ai-message-name">Ariadne AI</div>
         <div class="ai-typing">
           <div class="ai-typing-dot"></div>
           <div class="ai-typing-dot"></div>
