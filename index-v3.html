@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Arsenal Health</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; }
+    .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #000; position: relative; padding-bottom: 90px; }
+    
+    /* Header */
+    .header { background: #000; padding: 50px 20px 12px; display: flex; justify-content: space-between; align-items: center; }
+    .logo-text { font-size: 18px; font-style: italic; letter-spacing: 1px; }
+    .logo-bold { font-weight: 800; color: #f5f5dc; }
+    .logo-light { font-weight: 300; color: #f5f5dc; }
+    .role-badge { font-size: 10px; padding: 6px 12px; border-radius: 20px; background: #1a1a1a; border: 1px solid #333; cursor: pointer; }
+    .role-badge.trainer { background: #4169E120; border-color: #4169E1; color: #4169E1; }
+    
+    /* Cards */
+    .card { background: #111; margin: 12px 16px; border-radius: 16px; padding: 18px; border: 1px solid #222; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; font-size: 11px; font-weight: 600; color: #888; letter-spacing: 1.5px; }
+    
+    /* Stats */
+    .stats-row { display: flex; justify-content: space-around; align-items: center; }
+    .stat-item { text-align: center; flex: 1; }
+    .stat-value { font-size: 28px; font-weight: 700; }
+    .stat-label { font-size: 10px; color: #666; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .stat-divider { width: 1px; height: 40px; background: #333; }
+    .recovery-high { color: #00ff88; }
+    .recovery-med { color: #ffcc00; }
+    .recovery-low { color: #ff6b6b; }
+    
+    /* Screens & Tabs */
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; display: flex; border-top: 1px solid #222; padding: 10px 0 25px; z-index: 50; }
+    .tab { flex: 1; text-align: center; cursor: pointer; color: #555; font-size: 10px; font-weight: 500; }
+    .tab.active { color: #4169E1; }
+    .tab-icon { display: block; margin-bottom: 4px; font-size: 20px; }
+    
+    /* Buttons */
+    .btn { padding: 14px 24px; background: #4169E1; border: none; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; }
+    .btn:disabled { opacity: 0.5; }
+    .btn-secondary { background: #222; border: 1px solid #333; }
+    .btn-small { padding: 10px 16px; font-size: 12px; border-radius: 8px; }
+    .btn-outline { background: transparent; border: 1px solid #333; color: #fff; }
+    .btn-success { background: #00ff88; color: #000; }
+    .btn-danger { background: #ff6b6b; color: #fff; }
+    
+    /* Inputs */
+    .input { width: 100%; padding: 14px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 12px; color: #fff; font-size: 15px; margin-bottom: 12px; }
+    .input:focus { outline: none; border-color: #4169E1; }
+    .input-label { font-size: 11px; color: #888; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+    textarea.input { resize: none; min-height: 80px; }
+    
+    /* Week Calendar */
+    .week-calendar { display: flex; gap: 4px; margin: 12px 0; }
+    .week-day { flex: 1; text-align: center; padding: 12px 4px; background: #111; border: 1px solid #222; border-radius: 12px; cursor: pointer; }
+    .week-day.today { border-color: #4169E1; background: #4169E120; }
+    .week-day.has-session { background: #00ff8820; }
+    .week-day-name { font-size: 10px; color: #666; }
+    .week-day-num { font-size: 18px; font-weight: 600; margin-top: 4px; }
+    .week-day-dot { width: 6px; height: 6px; border-radius: 3px; background: #4169E1; margin: 4px auto 0; }
+    
+    /* Session Card */
+    .session-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .session-time { font-size: 13px; color: #4169E1; font-weight: 600; }
+    .session-client { font-size: 15px; font-weight: 600; margin-top: 4px; }
+    .session-meta { font-size: 11px; color: #666; margin-top: 4px; }
+    .session-rate { font-size: 16px; font-weight: 700; color: #00ff88; }
+    
+    /* Client Card */
+    .client-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .client-card:hover { border-color: #333; }
+    .client-avatar { width: 44px; height: 44px; border-radius: 22px; background: #4169E1; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+    .client-info { flex: 1; }
+    .client-name { font-weight: 600; font-size: 15px; }
+    .client-meta { font-size: 11px; color: #666; margin-top: 2px; }
+    
+    /* Quick Actions */
+    .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .quick-action { background: #111; border: 1px solid #222; border-radius: 12px; padding: 16px 8px; text-align: center; cursor: pointer; }
+    .quick-action:hover { border-color: #4169E1; }
+    .quick-action-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+    .quick-action-label { font-size: 10px; color: #888; }
+    
+    /* Compliance Grid */
+    .compliance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .compliance-item { text-align: center; padding: 12px 0; }
+    .compliance-value { font-size: 20px; font-weight: 700; color: #00ff88; }
+    .compliance-label { font-size: 10px; color: #666; margin-top: 4px; }
+    
+    /* Labs */
+    .lab-result { background: #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .lab-name { font-size: 14px; font-weight: 500; }
+    .lab-range { font-size: 11px; color: #666; }
+    .lab-value { font-size: 18px; font-weight: 700; }
+    .lab-value.normal { color: #00ff88; }
+    .lab-value.high { color: #ff6b6b; }
+    .lab-value.low { color: #ffcc00; }
+    
+    /* Template Card */
+    .template-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
+    .template-card:hover { border-color: #4169E1; }
+    .template-name { font-size: 15px; font-weight: 600; }
+    .template-desc { font-size: 12px; color: #888; margin-top: 4px; }
+    .template-meta { font-size: 11px; color: #4169E1; margin-top: 8px; }
+    
+    /* Expense Row */
+    .expense-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+    .expense-row:last-child { border-bottom: none; }
+    .expense-category { font-size: 14px; }
+    .expense-amount { font-size: 16px; font-weight: 600; color: #ff6b6b; }
+    
+    /* Tabs */
+    .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
+    .tab-btn { padding: 10px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; font-size: 12px; color: #888; cursor: pointer; white-space: nowrap; }
+    .tab-btn.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    
+    /* Message */
+    .msg-btn { position: relative; cursor: pointer; }
+    .msg-badge { position: absolute; top: -5px; right: -5px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="msg-btn" onclick="showScreen('messages')">
+      <span style="font-size:20px;">💬</span>
+      <span class="msg-badge">2</span>
+    </div>
+    <div class="logo-text"><span class="logo-bold">ARSENAL</span><span class="logo-light">HEALTH</span></div>
+    <div class="role-badge" id="role-badge" onclick="toggleRole()">CLIENT</div>
+  </div>
+
+  <!-- ==================== CLIENT SCREENS ==================== -->
+  
+  <!-- CLIENT: Dashboard -->
+  <div id="client-dashboard" class="screen active">
+    <div class="card">
+      <div class="card-header">TODAY'S READINESS</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value recovery-high">78%</div><div class="stat-label">Recovery</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value">62</div><div class="stat-label">HRV</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value">7.2</div><div class="stat-label">Sleep</div></div>
+      </div>
+    </div>
+    
+    <!-- Upcoming Session -->
+    <div class="card">
+      <div class="card-header">NEXT SESSION</div>
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Tomorrow • 9:00 AM</div>
+            <div class="session-client">In-Person Training</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+          </div>
+          <button class="btn-small btn-outline">Reschedule</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Today's Workout -->
+    <div class="card">
+      <div class="card-header">TODAY'S WORKOUT</div>
+      <div class="template-card" onclick="alert('Opening workout...')">
+        <div class="template-name">💪 Upper Push</div>
+        <div class="template-desc">Bench Press, Shoulder Press, Flyes, Triceps</div>
+        <div class="template-meta">4 exercises • ~45 min</div>
+      </div>
+    </div>
+    
+    <!-- Nutrition -->
+    <div class="card">
+      <div class="card-header">NUTRITION</div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;">1,850</div><div class="stat-label">Calories</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#4169E1;">165g</div><div class="stat-label">Protein</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#ffcc00;">180g</div><div class="stat-label">Carbs</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#ff6b6b;">62g</div><div class="stat-label">Fats</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT: Sessions/Calendar -->
+  <div id="client-sessions" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">MY SESSIONS</div>
+      
+      <!-- Week Calendar -->
+      <div class="week-calendar" id="client-week-cal"></div>
+      
+      <div class="card-header" style="margin-top:20px;">UPCOMING</div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Dec 21 • 9:00 AM</div>
+            <div class="session-client">In-Person Training</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+        </div>
+      </div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Dec 24 • 10:00 AM</div>
+            <div class="session-client">Virtual Check-in</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">💻 Zoom</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+        </div>
+      </div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Dec 28 • 9:00 AM</div>
+            <div class="session-client">In-Person Training</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#ffcc0020;color:#ffcc00;border-radius:12px;">Pending</span>
+        </div>
+      </div>
+      
+      <button class="btn" style="margin-top:16px;" onclick="alert('Opening booking calendar...')">Book New Session</button>
+    </div>
+  </div>
+
+  <!-- CLIENT: Progress with Labs -->
+  <div id="client-progress" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">PROGRESS</div>
+      
+      <div class="tab-buttons" id="progress-tabs">
+        <button class="tab-btn active" onclick="showProgressTab('prs')">PRs</button>
+        <button class="tab-btn" onclick="showProgressTab('body')">Body Comp</button>
+        <button class="tab-btn" onclick="showProgressTab('labs')">Labs</button>
+        <button class="tab-btn" onclick="showProgressTab('photos')">Photos</button>
+      </div>
+      
+      <!-- PRs Tab -->
+      <div id="progress-prs" class="progress-tab">
+        <div class="card">
+          <div class="card-header">PERSONAL RECORDS 🏆</div>
+          <div class="lab-result">
+            <div><div class="lab-name">Deadlift</div><div class="lab-range">Dec 15, 2024</div></div>
+            <div class="lab-value normal">265 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Back Squat</div><div class="lab-range">Dec 10, 2024</div></div>
+            <div class="lab-value normal">225 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Bench Press</div><div class="lab-range">Dec 1, 2024</div></div>
+            <div class="lab-value normal">185 lbs</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Body Comp Tab -->
+      <div id="progress-body" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">BODY COMPOSITION</div>
+          <div class="stats-row" style="margin-bottom:16px;">
+            <div class="stat-item"><div class="stat-value" style="font-size:24px;">145</div><div class="stat-label">Weight (lbs)</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-value" style="font-size:24px;">22%</div><div class="stat-label">Body Fat</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-value" style="font-size:24px;">108</div><div class="stat-label">Muscle (lbs)</div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Dec 15</div><div class="lab-range">145 lbs • 22% BF</div></div>
+            <div class="lab-value normal">-3 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Nov 15</div><div class="lab-range">148 lbs • 24% BF</div></div>
+            <div class="lab-value normal">-4 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Oct 15</div><div class="lab-range">152 lbs • 26% BF</div></div>
+            <div class="lab-value" style="color:#888;">Start</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Labs Tab -->
+      <div id="progress-labs" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">BLOOD PANEL <span style="color:#4169E1;">Dec 1, 2024</span></div>
+          <div class="lab-result">
+            <div><div class="lab-name">Testosterone</div><div class="lab-range">Range: 300-1000 ng/dL</div></div>
+            <div class="lab-value normal">650 ng/dL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Vitamin D</div><div class="lab-range">Range: 30-100 ng/mL</div></div>
+            <div class="lab-value normal">45 ng/mL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Iron</div><div class="lab-range">Range: 60-170 mcg/dL</div></div>
+            <div class="lab-value normal">85 mcg/dL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">B12</div><div class="lab-range">Range: 200-900 pg/mL</div></div>
+            <div class="lab-value normal">520 pg/mL</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">METABOLIC PANEL <span style="color:#4169E1;">Sep 15, 2024</span></div>
+          <div class="lab-result">
+            <div><div class="lab-name">Fasting Glucose</div><div class="lab-range">Range: 70-100 mg/dL</div></div>
+            <div class="lab-value normal">92 mg/dL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">HbA1c</div><div class="lab-range">Range: 4.0-5.6%</div></div>
+            <div class="lab-value normal">5.2%</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Cholesterol</div><div class="lab-range">Range: &lt;200 mg/dL</div></div>
+            <div class="lab-value normal">185 mg/dL</div>
+          </div>
+        </div>
+        
+        <button class="btn btn-secondary" style="margin-top:8px;">+ Upload Lab Results</button>
+      </div>
+      
+      <!-- Photos Tab -->
+      <div id="progress-photos" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">PROGRESS PHOTOS</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Front</div>
+            <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Side</div>
+            <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Back</div>
+          </div>
+          <button class="btn btn-secondary" style="margin-top:12px;">+ Upload Photos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT: Messages -->
+  <div id="messages" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">MESSAGES</div>
+      <div style="max-height:400px;overflow-y:auto;margin-bottom:16px;">
+        <div style="margin-bottom:12px;max-width:80%;">
+          <div style="padding:12px 16px;background:#1a1a1a;border-radius:16px;border-bottom-left-radius:4px;font-size:14px;">Great work on your deadlifts yesterday! Form looked solid 💪</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Alex • 2h ago</div>
+        </div>
+        <div style="margin-bottom:12px;max-width:80%;margin-left:auto;">
+          <div style="padding:12px 16px;background:#4169E1;border-radius:16px;border-bottom-right-radius:4px;font-size:14px;">Thanks! Felt really good. Should I go heavier next week?</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;text-align:right;">1h ago</div>
+        </div>
+        <div style="margin-bottom:12px;max-width:80%;">
+          <div style="padding:12px 16px;background:#1a1a1a;border-radius:16px;border-bottom-left-radius:4px;font-size:14px;">Let's add 10lbs to your working sets. You're ready!</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Alex • 30m ago</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" class="input" placeholder="Type a message..." style="margin:0;flex:1;">
+        <button class="btn-small" onclick="alert('Message sent!')">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TRAINER SCREENS ==================== -->
+  
+  <!-- TRAINER: Clients List -->
+  <div id="trainer-clients" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">MY CLIENTS</div>
+      
+      <div class="client-card" onclick="showClientDetail('sarah')">
+        <div class="client-avatar">SJ</div>
+        <div class="client-info">
+          <div class="client-name">Sarah Johnson</div>
+          <div class="client-meta">Premium • 4 sessions/mo • Active 2h ago</div>
+        </div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#00ff88;">92%</div><div style="font-size:10px;color:#666;">Compliance</div></div>
+      </div>
+      
+      <div class="client-card" onclick="showClientDetail('mike')">
+        <div class="client-avatar" style="background:#ff6b6b;">MC</div>
+        <div class="client-info">
+          <div class="client-name">Mike Chen</div>
+          <div class="client-meta">Basic • 2 sessions/mo • Active 1d ago</div>
+        </div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#ffcc00;">78%</div><div style="font-size:10px;color:#666;">Compliance</div></div>
+      </div>
+      
+      <div class="client-card" onclick="showClientDetail('emma')">
+        <div class="client-avatar" style="background:#00ff88;color:#000;">EW</div>
+        <div class="client-info">
+          <div class="client-name">Emma Wilson</div>
+          <div class="client-meta">Premium • 4 sessions/mo • Active 3h ago</div>
+        </div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#00ff88;">95%</div><div style="font-size:10px;color:#666;">Compliance</div></div>
+      </div>
+      
+      <button class="btn" style="margin-top:16px;" onclick="alert('Add client form...')">+ Add Client</button>
+    </div>
+  </div>
+
+  <!-- TRAINER: Client Detail -->
+  <div id="client-detail" class="screen">
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span onclick="showScreen('trainer-clients')" style="cursor:pointer;font-size:20px;color:#666;">←</span>
+        <div class="client-avatar">SJ</div>
+        <div>
+          <div class="client-name" id="detail-client-name">Sarah Johnson</div>
+          <div class="client-meta">Premium • 4 sessions/mo</div>
+        </div>
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="quick-action" onclick="showScreen('templates')">
+          <span class="quick-action-icon">📋</span>
+          <span class="quick-action-label">Program</span>
+        </div>
+        <div class="quick-action" onclick="alert('Nutrition builder...')">
+          <span class="quick-action-icon">🥗</span>
+          <span class="quick-action-label">Nutrition</span>
+        </div>
+        <div class="quick-action" onclick="alert('Habits builder...')">
+          <span class="quick-action-icon">✅</span>
+          <span class="quick-action-label">Habits</span>
+        </div>
+        <div class="quick-action" onclick="showClientProgress()">
+          <span class="quick-action-icon">📈</span>
+          <span class="quick-action-label">Progress</span>
+        </div>
+      </div>
+      
+      <!-- Compliance -->
+      <div class="card">
+        <div class="card-header">THIS WEEK</div>
+        <div class="compliance-grid">
+          <div class="compliance-item"><div class="compliance-value">4/4</div><div class="compliance-label">Workouts</div></div>
+          <div class="compliance-item"><div class="compliance-value">85%</div><div class="compliance-label">Nutrition</div></div>
+          <div class="compliance-item"><div class="compliance-value">90%</div><div class="compliance-label">Habits</div></div>
+          <div class="compliance-item"><div class="compliance-value">✓</div><div class="compliance-label">Check-in</div></div>
+        </div>
+      </div>
+      
+      <!-- Upcoming Sessions -->
+      <div class="card">
+        <div class="card-header">UPCOMING SESSIONS</div>
+        <div class="session-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div>
+              <div class="session-time">Dec 21 • 9:00 AM</div>
+              <div class="session-meta">In-Person • Downtown Gym</div>
+            </div>
+            <div class="session-rate">$100</div>
+          </div>
+        </div>
+        <div class="session-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div>
+              <div class="session-time">Dec 28 • 9:00 AM</div>
+              <div class="session-meta">In-Person • Downtown Gym</div>
+            </div>
+            <div class="session-rate">$100</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Activity -->
+      <div class="card">
+        <div class="card-header">RECENT ACTIVITY</div>
+        <div style="font-size:13px;color:#888;">
+          <div style="padding:8px 0;border-bottom:1px solid #222;">✅ Completed Push Day • 2h ago</div>
+          <div style="padding:8px 0;border-bottom:1px solid #222;">📋 Submitted check-in • 1d ago</div>
+          <div style="padding:8px 0;">🏆 New PR: Deadlift 265lbs • 3d ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINER: Sessions with Revenue -->
+  <div id="trainer-sessions" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">SESSIONS</div>
+      
+      <!-- Revenue Summary -->
+      <div class="card" style="background:#0a0a0a;">
+        <div class="stats-row">
+          <div class="stat-item"><div class="stat-value" style="color:#00ff88;">$275</div><div class="stat-label">Today</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value">$1,100</div><div class="stat-label">This Week</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value">$4,200</div><div class="stat-label">This Month</div></div>
+        </div>
+      </div>
+      
+      <!-- Week Calendar -->
+      <div class="week-calendar" id="trainer-week-cal"></div>
+      
+      <div class="card-header" style="margin-top:16px;">TODAY - DEC 20</div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="session-time">9:00 AM • 60min</div>
+            <div class="session-client">Sarah Johnson</div>
+            <div class="session-meta">🏋️ In-Person • Downtown Gym</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="session-rate">$100</div>
+            <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="session-time">11:00 AM • 60min</div>
+            <div class="session-client">Mike Chen</div>
+            <div class="session-meta">💻 Virtual • Zoom</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="session-rate">$75</div>
+            <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="session-time">2:00 PM • 45min</div>
+            <div class="session-client">Emma Wilson</div>
+            <div class="session-meta">🏋️ In-Person • Downtown Gym</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="session-rate">$100</div>
+            <span style="font-size:11px;padding:4px 10px;background:#ffcc0020;color:#ffcc00;border-radius:12px;">Pending</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="btn" style="margin-top:16px;" onclick="alert('New session form...')">+ Schedule Session</button>
+    </div>
+  </div>
+
+  <!-- TRAINER: Templates -->
+  <div id="templates" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">PROGRAM TEMPLATES</div>
+      
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="showTemplateTab('my')">My Templates</button>
+        <button class="tab-btn" onclick="showTemplateTab('builtin')">Built-in</button>
+      </div>
+      
+      <!-- My Templates -->
+      <div id="templates-my">
+        <div class="template-card" onclick="alert('Edit template...')">
+          <div class="template-name">Sarah - Glute Focus</div>
+          <div class="template-desc">Custom program for Sarah's goals</div>
+          <div class="template-meta">4 days/week • 6 weeks • 18 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Edit template...')">
+          <div class="template-name">Mike - Strength Base</div>
+          <div class="template-desc">Building strength foundation</div>
+          <div class="template-meta">3 days/week • 8 weeks • 12 exercises</div>
+        </div>
+        
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="alert('Create template...')">+ Create New Template</button>
+      </div>
+      
+      <!-- Built-in Templates -->
+      <div id="templates-builtin" style="display:none;">
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Push/Pull/Legs</div>
+          <div class="template-desc">Classic 6-day split focusing on compound movements</div>
+          <div class="template-meta">6 days/week • 4 weeks • 24 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Upper/Lower Split</div>
+          <div class="template-desc">4-day split for balanced development</div>
+          <div class="template-meta">4 days/week • 8 weeks • 20 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Full Body 3x</div>
+          <div class="template-desc">3-day full body for beginners</div>
+          <div class="template-meta">3 days/week • 12 weeks • 15 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Strength Focus (5x5)</div>
+          <div class="template-desc">Classic strength building program</div>
+          <div class="template-meta">3 days/week • 8 weeks • 12 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Hypertrophy Block</div>
+          <div class="template-desc">High volume muscle building</div>
+          <div class="template-meta">5 days/week • 6 weeks • 30 exercises</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINER: Business/Billing -->
+  <div id="business" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">BUSINESS</div>
+      
+      <!-- Financial Overview -->
+      <div class="card" style="background:#0a0a0a;">
+        <div class="stats-row">
+          <div class="stat-item"><div class="stat-value" style="color:#00ff88;">$4,200</div><div class="stat-label">Revenue</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="color:#ff6b6b;">$1,000</div><div class="stat-label">Expenses</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="color:#00ff88;">$3,200</div><div class="stat-label">Profit</div></div>
+        </div>
+      </div>
+      
+      <div class="tab-buttons" style="margin-top:16px;">
+        <button class="tab-btn active" onclick="showBizTab('overview')">Overview</button>
+        <button class="tab-btn" onclick="showBizTab('invoices')">Invoices</button>
+        <button class="tab-btn" onclick="showBizTab('expenses')">Expenses</button>
+      </div>
+      
+      <!-- Overview Tab -->
+      <div id="biz-overview">
+        <div class="card">
+          <div class="card-header">REVENUE BREAKDOWN</div>
+          <div class="expense-row">
+            <div class="expense-category">Premium Plans (3)</div>
+            <div style="font-size:16px;font-weight:600;color:#00ff88;">$1,200</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Basic Plans (2)</div>
+            <div style="font-size:16px;font-weight:600;color:#00ff88;">$400</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Drop-in Sessions</div>
+            <div style="font-size:16px;font-weight:600;color:#00ff88;">$600</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">EXPENSE BREAKDOWN</div>
+          <div class="expense-row">
+            <div class="expense-category">Gym Rent</div>
+            <div class="expense-amount">$500</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Software</div>
+            <div class="expense-amount">$50</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Insurance</div>
+            <div class="expense-amount">$150</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Equipment</div>
+            <div class="expense-amount">$200</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Marketing</div>
+            <div class="expense-amount">$100</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoices Tab -->
+      <div id="biz-invoices" style="display:none;">
+        <div class="card">
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">INV-001 • Sarah Johnson</div>
+                <div class="session-meta">Dec 15, 2024 • Due Dec 30</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:16px;font-weight:600;">$400</div>
+                <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Paid</span>
+              </div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">INV-002 • Mike Chen</div>
+                <div class="session-meta">Dec 10, 2024 • Due Dec 25</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:16px;font-weight:600;">$200</div>
+                <span style="font-size:11px;padding:4px 10px;background:#4169E120;color:#4169E1;border-radius:12px;">Sent</span>
+              </div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">INV-003 • Emma Wilson</div>
+                <div class="session-meta">Dec 1, 2024 • Due Dec 15</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:16px;font-weight:600;">$400</div>
+                <span style="font-size:11px;padding:4px 10px;background:#ff6b6b20;color:#ff6b6b;border-radius:12px;">Overdue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn" style="margin-top:12px;" onclick="alert('Create invoice...')">+ Create Invoice</button>
+      </div>
+      
+      <!-- Expenses Tab -->
+      <div id="biz-expenses" style="display:none;">
+        <div class="card">
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Gym Rent</div>
+                <div class="session-meta">Dec 1, 2024 • Recurring</div>
+              </div>
+              <div class="expense-amount">$500</div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Arsenal Health Subscription</div>
+                <div class="session-meta">Dec 1, 2024 • Recurring</div>
+              </div>
+              <div class="expense-amount">$50</div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Resistance Bands</div>
+                <div class="session-meta">Dec 10, 2024 • One-time</div>
+              </div>
+              <div class="expense-amount">$200</div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Liability Insurance</div>
+                <div class="session-meta">Dec 1, 2024 • Recurring</div>
+              </div>
+              <div class="expense-amount">$150</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="alert('Add expense...')">+ Add Expense</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINER: Settings -->
+  <div id="settings" class="screen">
+    <div style="padding:16px;">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="client-avatar" style="width:60px;height:60px;font-size:24px;">A</div>
+          <div>
+            <div style="font-weight:600;font-size:18px;">Alex Trainer</div>
+            <div style="color:#666;font-size:13px;">alex@arsenalhealth.com</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">INTEGRATIONS</div>
+      <div class="card">
+        <div class="expense-row" onclick="alert('Connect Whoop...')">
+          <span>Whoop</span>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="alert('Connect Apple Health...')">
+          <span>Apple Health</span>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+        <div class="expense-row" onclick="alert('Connect Stripe...')">
+          <span>Stripe Payments</span>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
+        </div>
+      </div>
+      
+      <div class="card-header" style="margin:24px 16px 12px;">SUBSCRIPTION</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:600;">Trainer Plan</div>
+            <div style="font-size:12px;color:#666;">$29/month • Renews Jan 15</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Active</span>
+        </div>
+      </div>
+      
+      <button class="btn btn-outline" style="margin:16px;" onclick="localStorage.clear();location.reload();">Clear All Data</button>
+    </div>
+  </div>
+
+  <!-- ==================== TAB BARS ==================== -->
+  
+  <!-- Client Tab Bar -->
+  <div class="tab-bar" id="client-tabs">
+    <div class="tab active" onclick="showScreen('client-dashboard')">
+      <span class="tab-icon">🏠</span>Today
+    </div>
+    <div class="tab" onclick="showScreen('client-sessions')">
+      <span class="tab-icon">📅</span>Sessions
+    </div>
+    <div class="tab" onclick="showScreen('client-progress')">
+      <span class="tab-icon">📈</span>Progress
+    </div>
+    <div class="tab" onclick="showScreen('messages')">
+      <span class="tab-icon">💬</span>Chat
+    </div>
+  </div>
+  
+  <!-- Trainer Tab Bar -->
+  <div class="tab-bar" id="trainer-tabs" style="display:none;">
+    <div class="tab active" onclick="showScreen('trainer-clients')">
+      <span class="tab-icon">👥</span>Clients
+    </div>
+    <div class="tab" onclick="showScreen('trainer-sessions')">
+      <span class="tab-icon">📅</span>Sessions
+    </div>
+    <div class="tab" onclick="showScreen('templates')">
+      <span class="tab-icon">📋</span>Templates
+    </div>
+    <div class="tab" onclick="showScreen('business')">
+      <span class="tab-icon">💰</span>Business
+    </div>
+    <div class="tab" onclick="showScreen('settings')">
+      <span class="tab-icon">⚙️</span>Settings
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== STATE ====================
+let role = localStorage.getItem('arsenal_role') || 'client';
+
+// ==================== INIT ====================
+function init() {
+  updateRole();
+  renderWeekCalendars();
+}
+
+function updateRole() {
+  const badge = document.getElementById('role-badge');
+  badge.textContent = role.toUpperCase();
+  badge.className = 'role-badge' + (role === 'trainer' ? ' trainer' : '');
+  
+  document.getElementById('client-tabs').style.display = role === 'client' ? 'flex' : 'none';
+  document.getElementById('trainer-tabs').style.display = role === 'trainer' ? 'flex' : 'none';
+  
+  showScreen(role === 'client' ? 'client-dashboard' : 'trainer-clients');
+}
+
+function toggleRole() {
+  role = role === 'client' ? 'trainer' : 'client';
+  localStorage.setItem('arsenal_role', role);
+  updateRole();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  
+  // Update tab active state
+  const tabBar = role === 'client' ? 'client-tabs' : 'trainer-tabs';
+  document.querySelectorAll(`#${tabBar} .tab`).forEach(t => t.classList.remove('active'));
+  event?.target?.closest('.tab')?.classList.add('active');
+}
+
+// ==================== WEEK CALENDAR ====================
+function renderWeekCalendars() {
+  const today = new Date();
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+  
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+    const isToday = d.toDateString() === today.toDateString();
+    const hasSession = [0, 2, 4].includes(i); // Demo: sessions on Sun, Tue, Thu
+    
+    html += `
+      <div class="week-day ${isToday ? 'today' : ''} ${hasSession ? 'has-session' : ''}">
+        <div class="week-day-name">${['S','M','T','W','T','F','S'][i]}</div>
+        <div class="week-day-num">${d.getDate()}</div>
+        ${hasSession ? '<div class="week-day-dot"></div>' : ''}
+      </div>
+    `;
+  }
+  
+  const clientCal = document.getElementById('client-week-cal');
+  const trainerCal = document.getElementById('trainer-week-cal');
+  if (clientCal) clientCal.innerHTML = html;
+  if (trainerCal) trainerCal.innerHTML = html;
+}
+
+// ==================== PROGRESS TABS ====================
+function showProgressTab(tab) {
+  document.querySelectorAll('.progress-tab').forEach(t => t.style.display = 'none');
+  document.getElementById('progress-' + tab).style.display = 'block';
+  
+  document.querySelectorAll('#progress-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ==================== TEMPLATE TABS ====================
+function showTemplateTab(tab) {
+  document.getElementById('templates-my').style.display = tab === 'my' ? 'block' : 'none';
+  document.getElementById('templates-builtin').style.display = tab === 'builtin' ? 'block' : 'none';
+  
+  document.querySelectorAll('#templates .tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ==================== BUSINESS TABS ====================
+function showBizTab(tab) {
+  document.getElementById('biz-overview').style.display = tab === 'overview' ? 'block' : 'none';
+  document.getElementById('biz-invoices').style.display = tab === 'invoices' ? 'block' : 'none';
+  document.getElementById('biz-expenses').style.display = tab === 'expenses' ? 'block' : 'none';
+  
+  document.querySelectorAll('#business .tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ==================== CLIENT DETAIL ====================
+function showClientDetail(clientId) {
+  showScreen('client-detail');
+}
+
+function showClientProgress() {
+  // Switch to client view to show progress
+  role = 'client';
+  updateRole();
+  showScreen('client-progress');
+}
+
+// Initialize
+init();
+</script>
+</body>
+</html>
