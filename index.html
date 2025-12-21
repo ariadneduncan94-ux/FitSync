@@ -39,97 +39,15 @@
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; display: flex; border-top: 1px solid #222; padding: 10px 0 25px; z-index: 50; }
     .tab { flex: 1; text-align: center; cursor: pointer; color: #555; font-size: 10px; font-weight: 500; }
     .tab.active { color: #4169E1; }
-    .tab-icon { display: block; margin-bottom: 4px; font-size: 20px; }
-    
-    /* Buttons */
-    .btn { padding: 14px 24px; background: #4169E1; border: none; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; }
-    .btn:disabled { opacity: 0.5; }
-    .btn-secondary { background: #222; border: 1px solid #333; }
-    .btn-small { padding: 10px 16px; font-size: 12px; border-radius: 8px; }
-    .btn-outline { background: transparent; border: 1px solid #333; color: #fff; }
-    .btn-success { background: #00ff88; color: #000; }
-    .btn-danger { background: #ff6b6b; color: #fff; }
-    
-    /* Inputs */
-    .input { width: 100%; padding: 14px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 12px; color: #fff; font-size: 15px; margin-bottom: 12px; }
-    .input:focus { outline: none; border-color: #4169E1; }
-    .input-label { font-size: 11px; color: #888; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
-    textarea.input { resize: none; min-height: 80px; }
-    
-    /* Week Calendar */
-    .week-calendar { display: flex; gap: 4px; margin: 12px 0; }
-    .week-day { flex: 1; text-align: center; padding: 12px 4px; background: #111; border: 1px solid #222; border-radius: 12px; cursor: pointer; }
-    .week-day.today { border-color: #4169E1; background: #4169E120; }
-    .week-day.has-session { background: #00ff8820; }
-    .week-day-name { font-size: 10px; color: #666; }
-    .week-day-num { font-size: 18px; font-weight: 600; margin-top: 4px; }
-    .week-day-dot { width: 6px; height: 6px; border-radius: 3px; background: #4169E1; margin: 4px auto 0; }
-    
-    /* Session Card */
-    .session-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-    .session-time { font-size: 13px; color: #4169E1; font-weight: 600; }
-    .session-client { font-size: 15px; font-weight: 600; margin-top: 4px; }
-    .session-meta { font-size: 11px; color: #666; margin-top: 4px; }
-    .session-rate { font-size: 16px; font-weight: 700; color: #00ff88; }
-    
-    /* Client Card */
-    .client-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-    .client-card:hover { border-color: #333; }
-    .client-avatar { width: 44px; height: 44px; border-radius: 22px; background: #4169E1; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-    .client-info { flex: 1; }
-    .client-name { font-weight: 600; font-size: 15px; }
-    .client-meta { font-size: 11px; color: #666; margin-top: 2px; }
-    
-    /* Quick Actions */
-    .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
-    .quick-action { background: #111; border: 1px solid #222; border-radius: 12px; padding: 16px 8px; text-align: center; cursor: pointer; }
-    .quick-action:hover { border-color: #4169E1; }
-    .quick-action-icon { font-size: 24px; display: block; margin-bottom: 4px; }
-    .quick-action-label { font-size: 10px; color: #888; }
-    
-    /* Compliance Grid */
-    .compliance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .compliance-item { text-align: center; padding: 12px 0; }
-    .compliance-value { font-size: 20px; font-weight: 700; color: #00ff88; }
-    .compliance-label { font-size: 10px; color: #666; margin-top: 4px; }
-    
-    /* Labs */
-    .lab-result { background: #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .lab-name { font-size: 14px; font-weight: 500; }
-    .lab-range { font-size: 11px; color: #666; }
-    .lab-value { font-size: 18px; font-weight: 700; }
-    .lab-value.normal { color: #00ff88; }
-    .lab-value.high { color: #ff6b6b; }
-    .lab-value.low { color: #ffcc00; }
-    
-    /* Template Card */
-    .template-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
-    .template-card:hover { border-color: #4169E1; }
-    .template-name { font-size: 15px; font-weight: 600; }
-    .template-desc { font-size: 12px; color: #888; margin-top: 4px; }
-    .template-meta { font-size: 11px; color: #4169E1; margin-top: 8px; }
-    
-    /* Expense Row */
-    .expense-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
-    .expense-row:last-child { border-bottom: none; }
-    .expense-category { font-size: 14px; }
-    .expense-amount { font-size: 16px; font-weight: 600; color: #ff6b6b; }
-    
-    /* Tabs */
-    .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
-    .tab-btn { padding: 10px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; font-size: 12px; color: #888; cursor: pointer; white-space: nowrap; }
-    .tab-btn.active { background: #4169E1; border-color: #4169E1; color: #fff; }
-    
-    /* Message */
-    .msg-btn { position: relative; cursor: pointer; }
-    .msg-badge { position: absolute; top: -5px; right: -5px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
-  </style>
+    .tab-icon { display: block; margin-bottom: 4px; height: 22px; }
+    .tab-icon svg { width: 22px; height: 22px; fill: currentColor; }
+</style>
 </head>
 <body>
 <div class="app">
   <div class="header">
     <div class="msg-btn" onclick="showScreen('messages')">
-      <span style="font-size:20px;">💬</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
       <span class="msg-badge">2</span>
     </div>
     <div class="logo-text"><span class="logo-bold">ARSENAL</span><span class="logo-light">HEALTH</span></div>
@@ -159,8 +77,8 @@
           <div>
             <div class="session-time">Tomorrow • 9:00 AM</div>
             <div class="session-client">In-Person Training</div>
-            <div class="session-meta">👤 Alex Trainer</div>
-            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Alex Trainer</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Downtown Gym - Studio B</div>
           </div>
           <button class="btn-small btn-outline">Reschedule</button>
         </div>
@@ -170,18 +88,18 @@
     <!-- Today's Workout -->
     <div class="card">
       <div class="card-header">TODAY'S WORKOUT</div>
-      <div class="template-card" onclick="alert('Opening workout...')">
-        <div class="template-name">💪 Upper Push</div>
+      <div class="template-card" onclick="showScreen('client-program')">
+        <div class="template-name"><svg width="16" height="16" viewBox="0 0 24 24" fill="#4169E1" style="vertical-align:middle;margin-right:6px;"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>Upper Push</div>
         <div class="template-desc">Bench Press, Shoulder Press, Flyes, Triceps</div>
         <div class="template-meta">4 exercises • ~45 min</div>
       </div>
     </div>
     
     <!-- Nutrition -->
-    <div class="card">
-      <div class="card-header">NUTRITION</div>
+    <div class="card" onclick="showScreen('nutrition-log')" style="cursor:pointer;">
+      <div class="card-header">NUTRITION <span style="color:#4169E1;font-size:10px;">Tap to log food</span></div>
       <div class="stats-row">
-        <div class="stat-item"><div class="stat-value" style="font-size:20px;">1,850</div><div class="stat-label">Calories</div></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;">1,850</div><div class="stat-label">of 2,200</div></div>
         <div class="stat-divider"></div>
         <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#4169E1;">165g</div><div class="stat-label">Protein</div></div>
         <div class="stat-divider"></div>
@@ -189,28 +107,37 @@
         <div class="stat-divider"></div>
         <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#ff6b6b;">62g</div><div class="stat-label">Fats</div></div>
       </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="btn-small btn-secondary" style="flex:1;" onclick="event.stopPropagation();openFoodSearch();">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add Food
+        </button>
+        <button class="btn-small btn-secondary" style="flex:1;" onclick="event.stopPropagation();openBarcodeScanner();">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:4px;"><path d="M2 4h2v16H2V4zm4 0h1v16H6V4zm2 0h2v16H8V4zm3 0h2v16h-2V4zm3 0h2v16h-2V4zm3 0h1v16h-1V4zm2 0h2v16h-2V4z"/></svg>Scan
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- CLIENT: Sessions/Calendar -->
-  <div id="client-sessions" class="screen">
+  <!-- CLIENT: Program (renamed from Sessions) -->
+  <div id="client-program" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">MY SESSIONS</div>
+      <div class="card-header">MY PROGRAM</div>
       
       <!-- Week Calendar -->
       <div class="week-calendar" id="client-week-cal"></div>
       
-      <div class="card-header" style="margin-top:20px;">UPCOMING</div>
+      <!-- PT Sessions at Top -->
+      <div class="card-header" style="margin-top:20px;">UPCOMING PT SESSIONS</div>
       
       <div class="session-card">
         <div style="display:flex;justify-content:space-between;align-items:start;">
           <div>
             <div class="session-time">Dec 21 • 9:00 AM</div>
             <div class="session-client">In-Person Training</div>
-            <div class="session-meta">👤 Alex Trainer</div>
-            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Alex Trainer</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Downtown Gym - Studio B</div>
           </div>
-          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+          <span class="status-badge status-confirmed">Confirmed</span>
         </div>
       </div>
       
@@ -219,56 +146,159 @@
           <div>
             <div class="session-time">Dec 24 • 10:00 AM</div>
             <div class="session-client">Virtual Check-in</div>
-            <div class="session-meta">👤 Alex Trainer</div>
-            <div class="session-meta">💻 Zoom</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Alex Trainer</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>Zoom</div>
           </div>
-          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+          <span class="status-badge status-confirmed">Confirmed</span>
         </div>
       </div>
       
-      <div class="session-card">
-        <div style="display:flex;justify-content:space-between;align-items:start;">
-          <div>
-            <div class="session-time">Dec 28 • 9:00 AM</div>
-            <div class="session-client">In-Person Training</div>
-            <div class="session-meta">👤 Alex Trainer</div>
-            <div class="session-meta">📍 Downtown Gym - Studio B</div>
-          </div>
-          <span style="font-size:11px;padding:4px 10px;background:#ffcc0020;color:#ffcc00;border-radius:12px;">Pending</span>
-        </div>
-      </div>
+      <!-- Daily Workout Programming -->
+      <div class="card-header" style="margin-top:24px;">THIS WEEK'S WORKOUTS</div>
+      <div id="daily-workouts"></div>
       
       <button class="btn" style="margin-top:16px;" onclick="alert('Opening booking calendar...')">Book New Session</button>
     </div>
   </div>
 
-  <!-- CLIENT: Progress with Labs -->
+  <!-- CLIENT: Progress with Labs Dashboard -->
   <div id="client-progress" class="screen">
     <div style="padding:16px;">
       <div class="card-header">PROGRESS</div>
       
       <div class="tab-buttons" id="progress-tabs">
-        <button class="tab-btn active" onclick="showProgressTab('prs')">PRs</button>
+        <button class="tab-btn active" onclick="showProgressTab('labs')">Labs</button>
+        <button class="tab-btn" onclick="showProgressTab('prs')">PRs</button>
         <button class="tab-btn" onclick="showProgressTab('body')">Body Comp</button>
-        <button class="tab-btn" onclick="showProgressTab('labs')">Labs</button>
         <button class="tab-btn" onclick="showProgressTab('photos')">Photos</button>
       </div>
       
-      <!-- PRs Tab -->
-      <div id="progress-prs" class="progress-tab">
+      <!-- Labs Dashboard Tab -->
+      <div id="progress-labs" class="progress-tab">
         <div class="card">
-          <div class="card-header">PERSONAL RECORDS 🏆</div>
+          <div class="card-header">BLOOD PANEL <span style="color:#4169E1;">Dec 1, 2024</span></div>
+          
+          <!-- Hormones -->
+          <div class="lab-section-header">HORMONES</div>
+          <div class="lab-result">
+            <div><div class="lab-name">Testosterone</div><div class="lab-range">Range: 300-1000 ng/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">650</div><div class="lab-change up">+45 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Free Testosterone</div><div class="lab-range">Range: 9-30 pg/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">18.5</div><div class="lab-change up">+2.1 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Estradiol</div><div class="lab-range">Range: 10-40 pg/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">28</div><div class="lab-change neutral">--</div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Cortisol</div><div class="lab-range">Range: 6-23 mcg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">14</div><div class="lab-change down">-3 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          
+          <!-- Vitamins & Minerals -->
+          <div class="lab-section-header">VITAMINS & MINERALS</div>
+          <div class="lab-result">
+            <div><div class="lab-name">Vitamin D</div><div class="lab-range">Range: 30-100 ng/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">45</div><div class="lab-change up">+12 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Vitamin B12</div><div class="lab-range">Range: 200-900 pg/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">520</div><div class="lab-change up">+85 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Iron</div><div class="lab-range">Range: 60-170 mcg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">85</div><div class="lab-change neutral">--</div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Ferritin</div><div class="lab-range">Range: 20-200 ng/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">95</div><div class="lab-change up">+15 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Magnesium</div><div class="lab-range">Range: 1.7-2.2 mg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">2.0</div><div class="lab-change neutral">--</div></div>
+          </div>
+          
+          <!-- Metabolic -->
+          <div class="lab-section-header">METABOLIC</div>
+          <div class="lab-result">
+            <div><div class="lab-name">Fasting Glucose</div><div class="lab-range">Range: 70-100 mg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">92</div><div class="lab-change down">-6 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">HbA1c</div><div class="lab-range">Range: 4.0-5.6%</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">5.2%</div><div class="lab-change down">-0.2 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Insulin</div><div class="lab-range">Range: 2.6-24.9 uIU/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">8.5</div><div class="lab-change down">-2.1 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          
+          <!-- Lipids -->
+          <div class="lab-section-header">LIPID PANEL</div>
+          <div class="lab-result">
+            <div><div class="lab-name">Total Cholesterol</div><div class="lab-range">Range: &lt;200 mg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">185</div><div class="lab-change down">-12 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">HDL</div><div class="lab-range">Range: &gt;40 mg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">58</div><div class="lab-change up">+6 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">LDL</div><div class="lab-range">Range: &lt;100 mg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">98</div><div class="lab-change down">-15 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Triglycerides</div><div class="lab-range">Range: &lt;150 mg/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">110</div><div class="lab-change down">-22 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+          </div>
+          
+          <!-- Thyroid -->
+          <div class="lab-section-header">THYROID</div>
+          <div class="lab-result">
+            <div><div class="lab-name">TSH</div><div class="lab-range">Range: 0.4-4.0 mIU/L</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">2.1</div><div class="lab-change neutral">--</div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Free T4</div><div class="lab-range">Range: 0.8-1.8 ng/dL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">1.2</div><div class="lab-change neutral">--</div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Free T3</div><div class="lab-range">Range: 2.3-4.2 pg/mL</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">3.1</div><div class="lab-change neutral">--</div></div>
+          </div>
+        </div>
+        
+        <button class="btn btn-secondary" style="margin-top:8px;" onclick="alert('Upload lab results...')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+          Upload Lab Results
+        </button>
+      </div>
+
+      <!-- PRs Tab -->
+      <div id="progress-prs" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">PERSONAL RECORDS <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffcc00" style="vertical-align:middle;margin-left:4px;"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61z"/></svg></div>
           <div class="lab-result">
             <div><div class="lab-name">Deadlift</div><div class="lab-range">Dec 15, 2024</div></div>
-            <div class="lab-value normal">265 lbs</div>
+            <div style="text-align:right;"><div class="lab-value normal">265 lbs</div><div class="lab-change up">+20 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
           </div>
           <div class="lab-result">
             <div><div class="lab-name">Back Squat</div><div class="lab-range">Dec 10, 2024</div></div>
-            <div class="lab-value normal">225 lbs</div>
+            <div style="text-align:right;"><div class="lab-value normal">225 lbs</div><div class="lab-change up">+15 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
           </div>
           <div class="lab-result">
             <div><div class="lab-name">Bench Press</div><div class="lab-range">Dec 1, 2024</div></div>
-            <div class="lab-value normal">185 lbs</div>
+            <div style="text-align:right;"><div class="lab-value normal">185 lbs</div><div class="lab-change up">+10 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Overhead Press</div><div class="lab-range">Nov 28, 2024</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">135 lbs</div><div class="lab-change up">+5 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Barbell Row</div><div class="lab-range">Nov 25, 2024</div></div>
+            <div style="text-align:right;"><div class="lab-value normal">175 lbs</div><div class="lab-change up">+10 <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
           </div>
         </div>
       </div>
@@ -284,6 +314,10 @@
             <div class="stat-divider"></div>
             <div class="stat-item"><div class="stat-value" style="font-size:24px;">108</div><div class="stat-label">Muscle (lbs)</div></div>
           </div>
+          <p style="font-size:11px;color:#00ff88;text-align:center;margin-bottom:16px;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="#00ff88" style="vertical-align:middle;"><path d="M7 10l5 5 5-5z"/></svg>
+            -7 lbs • -4% body fat in 3 months
+          </p>
           <div class="lab-result">
             <div><div class="lab-name">Dec 15</div><div class="lab-range">145 lbs • 22% BF</div></div>
             <div class="lab-value normal">-3 lbs</div>
@@ -297,47 +331,18 @@
             <div class="lab-value" style="color:#888;">Start</div>
           </div>
         </div>
-      </div>
-
-      <!-- Labs Tab -->
-      <div id="progress-labs" class="progress-tab" style="display:none;">
-        <div class="card">
-          <div class="card-header">BLOOD PANEL <span style="color:#4169E1;">Dec 1, 2024</span></div>
-          <div class="lab-result">
-            <div><div class="lab-name">Testosterone</div><div class="lab-range">Range: 300-1000 ng/dL</div></div>
-            <div class="lab-value normal">650 ng/dL</div>
-          </div>
-          <div class="lab-result">
-            <div><div class="lab-name">Vitamin D</div><div class="lab-range">Range: 30-100 ng/mL</div></div>
-            <div class="lab-value normal">45 ng/mL</div>
-          </div>
-          <div class="lab-result">
-            <div><div class="lab-name">Iron</div><div class="lab-range">Range: 60-170 mcg/dL</div></div>
-            <div class="lab-value normal">85 mcg/dL</div>
-          </div>
-          <div class="lab-result">
-            <div><div class="lab-name">B12</div><div class="lab-range">Range: 200-900 pg/mL</div></div>
-            <div class="lab-value normal">520 pg/mL</div>
-          </div>
-        </div>
         
         <div class="card">
-          <div class="card-header">METABOLIC PANEL <span style="color:#4169E1;">Sep 15, 2024</span></div>
-          <div class="lab-result">
-            <div><div class="lab-name">Fasting Glucose</div><div class="lab-range">Range: 70-100 mg/dL</div></div>
-            <div class="lab-value normal">92 mg/dL</div>
-          </div>
-          <div class="lab-result">
-            <div><div class="lab-name">HbA1c</div><div class="lab-range">Range: 4.0-5.6%</div></div>
-            <div class="lab-value normal">5.2%</div>
-          </div>
-          <div class="lab-result">
-            <div><div class="lab-name">Cholesterol</div><div class="lab-range">Range: &lt;200 mg/dL</div></div>
-            <div class="lab-value normal">185 mg/dL</div>
+          <div class="card-header">MEASUREMENTS</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;">
+            <div><div style="font-size:18px;font-weight:600;">32"</div><div style="font-size:10px;color:#666;">Waist</div><div class="lab-change down" style="font-size:10px;">-2" <svg width="8" height="8" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            <div><div style="font-size:18px;font-weight:600;">38"</div><div style="font-size:10px;color:#666;">Hips</div><div class="lab-change down" style="font-size:10px;">-1" <svg width="8" height="8" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 10l5 5 5-5z"/></svg></div></div>
+            <div><div style="font-size:18px;font-weight:600;">14"</div><div style="font-size:10px;color:#666;">Arms</div><div class="lab-change up" style="font-size:10px;">+0.5" <svg width="8" height="8" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+            <div><div style="font-size:18px;font-weight:600;">24"</div><div style="font-size:10px;color:#666;">Thighs</div><div class="lab-change up" style="font-size:10px;">+0.5" <svg width="8" height="8" viewBox="0 0 24 24" fill="#00ff88"><path d="M7 14l5-5 5 5z"/></svg></div></div>
+            <div><div style="font-size:18px;font-weight:600;">40"</div><div style="font-size:10px;color:#666;">Chest</div><div class="lab-change neutral" style="font-size:10px;">--</div></div>
+            <div><div style="font-size:18px;font-weight:600;">15"</div><div style="font-size:10px;color:#666;">Calves</div><div class="lab-change neutral" style="font-size:10px;">--</div></div>
           </div>
         </div>
-        
-        <button class="btn btn-secondary" style="margin-top:8px;">+ Upload Lab Results</button>
       </div>
       
       <!-- Photos Tab -->
@@ -349,7 +354,10 @@
             <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Side</div>
             <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Back</div>
           </div>
-          <button class="btn btn-secondary" style="margin-top:12px;">+ Upload Photos</button>
+          <button class="btn btn-secondary" style="margin-top:12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+            Upload Photos
+          </button>
         </div>
       </div>
     </div>
@@ -361,7 +369,7 @@
       <div class="card-header">MESSAGES</div>
       <div style="max-height:400px;overflow-y:auto;margin-bottom:16px;">
         <div style="margin-bottom:12px;max-width:80%;">
-          <div style="padding:12px 16px;background:#1a1a1a;border-radius:16px;border-bottom-left-radius:4px;font-size:14px;">Great work on your deadlifts yesterday! Form looked solid 💪</div>
+          <div style="padding:12px 16px;background:#1a1a1a;border-radius:16px;border-bottom-left-radius:4px;font-size:14px;">Great work on your deadlifts yesterday! Form looked solid</div>
           <div style="font-size:10px;color:#666;margin-top:4px;">Alex • 2h ago</div>
         </div>
         <div style="margin-bottom:12px;max-width:80%;margin-left:auto;">
@@ -377,6 +385,137 @@
         <input type="text" class="input" placeholder="Type a message..." style="margin:0;flex:1;">
         <button class="btn-small" onclick="alert('Message sent!')">Send</button>
       </div>
+    </div>
+  </div>
+
+  <!-- CLIENT: Nutrition (Food Logging with FatSecret) -->
+  <div id="nutrition-log" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">NUTRITION LOG</div>
+      
+      <!-- Daily Summary -->
+      <div class="card" style="background:#0a0a0a;">
+        <div class="stats-row">
+          <div class="stat-item"><div class="stat-value" style="font-size:22px;" id="total-calories">1,850</div><div class="stat-label">of 2,200</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="font-size:22px;color:#4169E1;" id="total-protein">165g</div><div class="stat-label">of 180g</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="font-size:22px;color:#ffcc00;" id="total-carbs">180g</div><div class="stat-label">of 220g</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="font-size:22px;color:#ff6b6b;" id="total-fats">62g</div><div class="stat-label">of 75g</div></div>
+        </div>
+      </div>
+      
+      <!-- Add Food Buttons -->
+      <div style="display:flex;gap:8px;margin:16px 0;">
+        <button class="btn btn-secondary" style="flex:1;" onclick="openFoodSearch()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          Search Food
+        </button>
+        <button class="btn btn-secondary" style="flex:1;" onclick="openBarcodeScanner()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M2 4h2v16H2V4zm4 0h1v16H6V4zm2 0h2v16H8V4zm3 0h2v16h-2V4zm3 0h2v16h-2V4zm3 0h1v16h-1V4zm2 0h2v16h-2V4z"/></svg>
+          Scan Barcode
+        </button>
+      </div>
+      
+      <!-- Meals -->
+      <div class="card">
+        <div class="card-header">BREAKFAST <span style="color:#00ff88;">520 cal</span></div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Scrambled Eggs (3)</div>
+            <div class="food-macros">220 cal • 18g P • 2g C • 15g F</div>
+          </div>
+          <span class="food-serving">3 large</span>
+        </div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Whole Wheat Toast</div>
+            <div class="food-macros">160 cal • 6g P • 28g C • 2g F</div>
+          </div>
+          <span class="food-serving">2 slices</span>
+        </div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Greek Yogurt</div>
+            <div class="food-macros">140 cal • 20g P • 8g C • 0g F</div>
+          </div>
+          <span class="food-serving">1 cup</span>
+        </div>
+        <button class="btn-small btn-outline" style="width:100%;margin-top:8px;" onclick="addToMeal('breakfast')">+ Add Food</button>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">LUNCH <span style="color:#00ff88;">680 cal</span></div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Grilled Chicken Breast</div>
+            <div class="food-macros">280 cal • 52g P • 0g C • 6g F</div>
+          </div>
+          <span class="food-serving">8 oz</span>
+        </div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Brown Rice</div>
+            <div class="food-macros">220 cal • 5g P • 45g C • 2g F</div>
+          </div>
+          <span class="food-serving">1 cup</span>
+        </div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Steamed Broccoli</div>
+            <div class="food-macros">55 cal • 4g P • 10g C • 0g F</div>
+          </div>
+          <span class="food-serving">1.5 cups</span>
+        </div>
+        <button class="btn-small btn-outline" style="width:100%;margin-top:8px;" onclick="addToMeal('lunch')">+ Add Food</button>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">DINNER <span style="color:#888;">Not logged</span></div>
+        <button class="btn-small btn-outline" style="width:100%;" onclick="addToMeal('dinner')">+ Add Food</button>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">SNACKS <span style="color:#00ff88;">450 cal</span></div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Protein Shake</div>
+            <div class="food-macros">250 cal • 30g P • 8g C • 3g F</div>
+          </div>
+          <span class="food-serving">1 scoop</span>
+        </div>
+        <div class="food-item">
+          <div class="food-info">
+            <div class="food-name">Almonds</div>
+            <div class="food-macros">200 cal • 7g P • 6g C • 18g F</div>
+          </div>
+          <span class="food-serving">1 oz</span>
+        </div>
+        <button class="btn-small btn-outline" style="width:100%;margin-top:8px;" onclick="addToMeal('snacks')">+ Add Food</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food Search Modal -->
+  <div id="food-search-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span onclick="closeFoodSearch()" style="cursor:pointer;font-size:20px;color:#666;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </span>
+        <span style="font-weight:600;">Search Food</span>
+        <span style="width:20px;"></span>
+      </div>
+      
+      <div class="exercise-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#666" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" class="input" id="food-search-input" placeholder="Search foods..." style="padding-left:40px;margin:0;" oninput="searchFood()">
+      </div>
+      
+      <div id="food-api-status" style="font-size:11px;color:#666;text-align:center;margin:8px 0;"></div>
+      
+      <div id="food-search-results" style="max-height:400px;overflow-y:auto;"></div>
     </div>
   </div>
 
@@ -422,7 +561,9 @@
   <div id="client-detail" class="screen">
     <div style="padding:16px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="showScreen('trainer-clients')" style="cursor:pointer;font-size:20px;color:#666;">←</span>
+        <span onclick="showScreen('trainer-clients')" style="cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#666"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </span>
         <div class="client-avatar">SJ</div>
         <div>
           <div class="client-name" id="detail-client-name">Sarah Johnson</div>
@@ -432,20 +573,20 @@
       
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <div class="quick-action" onclick="showScreen('templates')">
-          <span class="quick-action-icon">📋</span>
+        <div class="quick-action" onclick="showScreen('program-builder')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#4169E1"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
           <span class="quick-action-label">Program</span>
         </div>
         <div class="quick-action" onclick="alert('Nutrition builder...')">
-          <span class="quick-action-icon">🥗</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#00ff88"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04zm1.97-13.95l2.56-.51v2.96l-2.56.51V8.04zm0 4.48l2.56-.51v2.96l-2.56.51v-2.96zm0 4.48l2.56-.51v2.96l-2.56.51v-2.96z"/></svg>
           <span class="quick-action-label">Nutrition</span>
         </div>
         <div class="quick-action" onclick="alert('Habits builder...')">
-          <span class="quick-action-icon">✅</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#ffcc00"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
           <span class="quick-action-label">Habits</span>
         </div>
         <div class="quick-action" onclick="showClientProgress()">
-          <span class="quick-action-icon">📈</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff6b6b"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
           <span class="quick-action-label">Progress</span>
         </div>
       </div>
@@ -457,7 +598,7 @@
           <div class="compliance-item"><div class="compliance-value">4/4</div><div class="compliance-label">Workouts</div></div>
           <div class="compliance-item"><div class="compliance-value">85%</div><div class="compliance-label">Nutrition</div></div>
           <div class="compliance-item"><div class="compliance-value">90%</div><div class="compliance-label">Habits</div></div>
-          <div class="compliance-item"><div class="compliance-value">✓</div><div class="compliance-label">Check-in</div></div>
+          <div class="compliance-item"><div class="compliance-value"><svg width="16" height="16" viewBox="0 0 24 24" fill="#00ff88"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div class="compliance-label">Check-in</div></div>
         </div>
       </div>
       
@@ -488,9 +629,9 @@
       <div class="card">
         <div class="card-header">RECENT ACTIVITY</div>
         <div style="font-size:13px;color:#888;">
-          <div style="padding:8px 0;border-bottom:1px solid #222;">✅ Completed Push Day • 2h ago</div>
-          <div style="padding:8px 0;border-bottom:1px solid #222;">📋 Submitted check-in • 1d ago</div>
-          <div style="padding:8px 0;">🏆 New PR: Deadlift 265lbs • 3d ago</div>
+          <div style="padding:8px 0;border-bottom:1px solid #222;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#00ff88" style="vertical-align:middle;margin-right:6px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Completed Push Day • 2h ago</div>
+          <div style="padding:8px 0;border-bottom:1px solid #222;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#4169E1" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg>Submitted check-in • 1d ago</div>
+          <div style="padding:8px 0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#ffcc00" style="vertical-align:middle;margin-right:6px;"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61z"/></svg>New PR: Deadlift 265lbs • 3d ago</div>
         </div>
       </div>
     </div>
@@ -522,11 +663,11 @@
           <div>
             <div class="session-time">9:00 AM • 60min</div>
             <div class="session-client">Sarah Johnson</div>
-            <div class="session-meta">🏋️ In-Person • Downtown Gym</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>In-Person • Downtown Gym</div>
           </div>
           <div style="text-align:right;">
             <div class="session-rate">$100</div>
-            <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+            <span class="status-badge status-confirmed">Confirmed</span>
           </div>
         </div>
       </div>
@@ -536,11 +677,11 @@
           <div>
             <div class="session-time">11:00 AM • 60min</div>
             <div class="session-client">Mike Chen</div>
-            <div class="session-meta">💻 Virtual • Zoom</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>Virtual • Zoom</div>
           </div>
           <div style="text-align:right;">
             <div class="session-rate">$75</div>
-            <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+            <span class="status-badge status-confirmed">Confirmed</span>
           </div>
         </div>
       </div>
@@ -550,11 +691,11 @@
           <div>
             <div class="session-time">2:00 PM • 45min</div>
             <div class="session-client">Emma Wilson</div>
-            <div class="session-meta">🏋️ In-Person • Downtown Gym</div>
+            <div class="session-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="#666" style="vertical-align:middle;margin-right:4px;"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>In-Person • Downtown Gym</div>
           </div>
           <div style="text-align:right;">
             <div class="session-rate">$100</div>
-            <span style="font-size:11px;padding:4px 10px;background:#ffcc0020;color:#ffcc00;border-radius:12px;">Pending</span>
+            <span class="status-badge status-pending">Pending</span>
           </div>
         </div>
       </div>
@@ -563,7 +704,7 @@
     </div>
   </div>
 
-  <!-- TRAINER: Templates -->
+  <!-- TRAINER: Templates with Exercise Library -->
   <div id="templates" class="screen">
     <div style="padding:16px;">
       <div class="card-header">PROGRAM TEMPLATES</div>
@@ -575,52 +716,128 @@
       
       <!-- My Templates -->
       <div id="templates-my">
-        <div class="template-card" onclick="alert('Edit template...')">
+        <div class="template-card" onclick="editTemplate('sarah-glute')">
           <div class="template-name">Sarah - Glute Focus</div>
           <div class="template-desc">Custom program for Sarah's goals</div>
           <div class="template-meta">4 days/week • 6 weeks • 18 exercises</div>
         </div>
         
-        <div class="template-card" onclick="alert('Edit template...')">
+        <div class="template-card" onclick="editTemplate('mike-strength')">
           <div class="template-name">Mike - Strength Base</div>
           <div class="template-desc">Building strength foundation</div>
           <div class="template-meta">3 days/week • 8 weeks • 12 exercises</div>
         </div>
         
-        <button class="btn btn-secondary" style="margin-top:12px;" onclick="alert('Create template...')">+ Create New Template</button>
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="showScreen('program-builder')">+ Create New Template</button>
       </div>
       
       <!-- Built-in Templates -->
       <div id="templates-builtin" style="display:none;">
-        <div class="template-card" onclick="alert('Use template...')">
+        <div class="template-card" onclick="useTemplate('ppl')">
           <div class="template-name">Push/Pull/Legs</div>
           <div class="template-desc">Classic 6-day split focusing on compound movements</div>
           <div class="template-meta">6 days/week • 4 weeks • 24 exercises</div>
         </div>
         
-        <div class="template-card" onclick="alert('Use template...')">
+        <div class="template-card" onclick="useTemplate('upper-lower')">
           <div class="template-name">Upper/Lower Split</div>
           <div class="template-desc">4-day split for balanced development</div>
           <div class="template-meta">4 days/week • 8 weeks • 20 exercises</div>
         </div>
         
-        <div class="template-card" onclick="alert('Use template...')">
+        <div class="template-card" onclick="useTemplate('full-body')">
           <div class="template-name">Full Body 3x</div>
           <div class="template-desc">3-day full body for beginners</div>
           <div class="template-meta">3 days/week • 12 weeks • 15 exercises</div>
         </div>
         
-        <div class="template-card" onclick="alert('Use template...')">
+        <div class="template-card" onclick="useTemplate('5x5')">
           <div class="template-name">Strength Focus (5x5)</div>
           <div class="template-desc">Classic strength building program</div>
           <div class="template-meta">3 days/week • 8 weeks • 12 exercises</div>
         </div>
         
-        <div class="template-card" onclick="alert('Use template...')">
+        <div class="template-card" onclick="useTemplate('hypertrophy')">
           <div class="template-name">Hypertrophy Block</div>
           <div class="template-desc">High volume muscle building</div>
           <div class="template-meta">5 days/week • 6 weeks • 30 exercises</div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINER: Program Builder with Exercise Library -->
+  <div id="program-builder" class="screen">
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span onclick="showScreen('templates')" style="cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#666"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </span>
+        <div class="card-header" style="margin:0;flex:1;">BUILD PROGRAM</div>
+        <button class="btn-small" onclick="saveProgram()">Save</button>
+      </div>
+      
+      <div class="input-label">PROGRAM NAME</div>
+      <input type="text" class="input" id="program-name" placeholder="e.g., Sarah - Glute Focus">
+      
+      <!-- Week View -->
+      <div class="card-header" style="margin-top:16px;">WEEKLY SCHEDULE</div>
+      <div id="program-week-grid"></div>
+      
+      <button class="btn btn-secondary" style="margin-top:12px;" onclick="showScreen('exercise-library')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Add Exercises from Library
+      </button>
+    </div>
+  </div>
+
+  <!-- TRAINER: Exercise Library -->
+  <div id="exercise-library" class="screen">
+    <div style="padding:16px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span onclick="closeExerciseLibrary()" style="cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#666"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </span>
+        <div class="card-header" style="margin:0;flex:1;">EXERCISE LIBRARY</div>
+        <span onclick="refreshExercises()" style="cursor:pointer;color:#4169E1;" title="Refresh from API">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </span>
+      </div>
+      
+      <!-- API Status -->
+      <div id="exercise-api-status" style="font-size:11px;color:#666;margin-bottom:12px;text-align:center;"></div>
+      
+      <!-- Search -->
+      <div class="exercise-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#666" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" class="input" id="exercise-search" placeholder="Search 1300+ exercises..." style="padding-left:40px;margin:0;" oninput="filterExercises()">
+      </div>
+      
+      <!-- Categories -->
+      <div class="exercise-categories" id="exercise-categories"></div>
+      
+      <!-- Exercise List -->
+      <div class="exercise-list" id="exercise-list"></div>
+      
+      <!-- Add Selected Button -->
+      <button class="btn" id="add-selected-btn" onclick="addSelectedExercises()" style="margin-top:16px;display:none;">Add Selected (0)</button>
+    </div>
+  </div>
+
+  <!-- Exercise Detail Modal -->
+  <div class="exercise-modal" id="exercise-modal" onclick="closeExerciseModal(event)">
+    <span class="exercise-modal-close" onclick="closeExerciseModal()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </span>
+    <div class="exercise-modal-content" onclick="event.stopPropagation()">
+      <div class="exercise-modal-gif">
+        <img id="modal-exercise-gif" src="" alt="Exercise demo">
+      </div>
+      <div class="exercise-modal-info">
+        <div class="exercise-modal-name" id="modal-exercise-name"></div>
+        <div class="exercise-modal-meta" id="modal-exercise-meta"></div>
+        <div id="modal-exercise-instructions" style="font-size:13px;color:#888;margin:12px 0;"></div>
+        <button class="btn" onclick="addExerciseFromModal()">Add to Program</button>
       </div>
     </div>
   </div>
@@ -701,7 +918,7 @@
               </div>
               <div style="text-align:right;">
                 <div style="font-size:16px;font-weight:600;">$400</div>
-                <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Paid</span>
+                <span class="status-badge status-confirmed">Paid</span>
               </div>
             </div>
           </div>
@@ -713,7 +930,7 @@
               </div>
               <div style="text-align:right;">
                 <div style="font-size:16px;font-weight:600;">$200</div>
-                <span style="font-size:11px;padding:4px 10px;background:#4169E120;color:#4169E1;border-radius:12px;">Sent</span>
+                <span class="status-badge" style="background:#4169E120;color:#4169E1;">Sent</span>
               </div>
             </div>
           </div>
@@ -725,7 +942,7 @@
               </div>
               <div style="text-align:right;">
                 <div style="font-size:16px;font-weight:600;">$400</div>
-                <span style="font-size:11px;padding:4px 10px;background:#ff6b6b20;color:#ff6b6b;border-radius:12px;">Overdue</span>
+                <span class="status-badge" style="background:#ff6b6b20;color:#ff6b6b;">Overdue</span>
               </div>
             </div>
           </div>
@@ -763,15 +980,6 @@
               <div class="expense-amount">$200</div>
             </div>
           </div>
-          <div class="session-card">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-weight:600;">Liability Insurance</div>
-                <div class="session-meta">Dec 1, 2024 • Recurring</div>
-              </div>
-              <div class="expense-amount">$150</div>
-            </div>
-          </div>
         </div>
         <button class="btn btn-secondary" style="margin-top:12px;" onclick="alert('Add expense...')">+ Add Expense</button>
       </div>
@@ -801,6 +1009,10 @@
           <span>Apple Health</span>
           <span style="color:#4169E1;font-size:12px;">Connect</span>
         </div>
+        <div class="expense-row" onclick="alert('Connect Calendly...')">
+          <span>Calendly</span>
+          <span style="color:#00ff88;font-size:12px;">Connected</span>
+        </div>
         <div class="expense-row" onclick="alert('Connect Stripe...')">
           <span>Stripe Payments</span>
           <span style="color:#4169E1;font-size:12px;">Connect</span>
@@ -814,7 +1026,7 @@
             <div style="font-weight:600;">Trainer Plan</div>
             <div style="font-size:12px;color:#666;">$29/month • Renews Jan 15</div>
           </div>
-          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Active</span>
+          <span class="status-badge status-confirmed">Active</span>
         </div>
       </div>
       
@@ -827,47 +1039,251 @@
   <!-- Client Tab Bar -->
   <div class="tab-bar" id="client-tabs">
     <div class="tab active" onclick="showScreen('client-dashboard')">
-      <span class="tab-icon">🏠</span>Today
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>
+      Today
     </div>
-    <div class="tab" onclick="showScreen('client-sessions')">
-      <span class="tab-icon">📅</span>Sessions
+    <div class="tab" onclick="showScreen('client-program')">
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>
+      Program
     </div>
     <div class="tab" onclick="showScreen('client-progress')">
-      <span class="tab-icon">📈</span>Progress
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>
+      Progress
     </div>
     <div class="tab" onclick="showScreen('messages')">
-      <span class="tab-icon">💬</span>Chat
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
+      Chat
     </div>
   </div>
   
   <!-- Trainer Tab Bar -->
   <div class="tab-bar" id="trainer-tabs" style="display:none;">
     <div class="tab active" onclick="showScreen('trainer-clients')">
-      <span class="tab-icon">👥</span>Clients
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></span>
+      Clients
     </div>
     <div class="tab" onclick="showScreen('trainer-sessions')">
-      <span class="tab-icon">📅</span>Sessions
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg></span>
+      Sessions
     </div>
     <div class="tab" onclick="showScreen('templates')">
-      <span class="tab-icon">📋</span>Templates
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></span>
+      Templates
     </div>
     <div class="tab" onclick="showScreen('business')">
-      <span class="tab-icon">💰</span>Business
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
+      Business
     </div>
     <div class="tab" onclick="showScreen('settings')">
-      <span class="tab-icon">⚙️</span>Settings
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
+      Settings
     </div>
   </div>
 </div>
 
+<style>
+    /* Additional Styles */
+    .msg-btn { position: relative; cursor: pointer; }
+    .msg-badge { position: absolute; top: -5px; right: -5px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+    
+    /* Buttons */
+    .btn { padding: 14px 24px; background: #4169E1; border: none; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; }
+    .btn:disabled { opacity: 0.5; }
+    .btn-secondary { background: #222; border: 1px solid #333; }
+    .btn-small { padding: 10px 16px; font-size: 12px; border-radius: 8px; background: #4169E1; border: none; color: #fff; cursor: pointer; }
+    .btn-outline { background: transparent; border: 1px solid #333; color: #fff; }
+    
+    /* Inputs */
+    .input { width: 100%; padding: 14px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 12px; color: #fff; font-size: 15px; margin-bottom: 12px; }
+    .input:focus { outline: none; border-color: #4169E1; }
+    .input-label { font-size: 11px; color: #888; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+    
+    /* Week Calendar */
+    .week-calendar { display: flex; gap: 4px; margin: 12px 0; }
+    .week-day { flex: 1; text-align: center; padding: 12px 4px; background: #111; border: 1px solid #222; border-radius: 12px; cursor: pointer; }
+    .week-day.today { border-color: #4169E1; background: #4169E120; }
+    .week-day.has-session { background: #00ff8820; }
+    .week-day.has-workout { border-color: #4169E1; }
+    .week-day-name { font-size: 10px; color: #666; }
+    .week-day-num { font-size: 18px; font-weight: 600; margin-top: 4px; }
+    .week-day-dot { width: 6px; height: 6px; border-radius: 3px; background: #4169E1; margin: 4px auto 0; }
+    
+    /* Session Card */
+    .session-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .session-time { font-size: 13px; color: #4169E1; font-weight: 600; }
+    .session-client { font-size: 15px; font-weight: 600; margin-top: 4px; }
+    .session-meta { font-size: 11px; color: #666; margin-top: 4px; }
+    .session-rate { font-size: 16px; font-weight: 700; color: #00ff88; }
+    
+    /* Status Badges */
+    .status-badge { font-size: 11px; padding: 4px 10px; border-radius: 12px; }
+    .status-confirmed { background: #00ff8820; color: #00ff88; }
+    .status-pending { background: #ffcc0020; color: #ffcc00; }
+    
+    /* Client Card */
+    .client-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .client-card:hover { border-color: #333; }
+    .client-avatar { width: 44px; height: 44px; border-radius: 22px; background: #4169E1; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+    .client-info { flex: 1; }
+    .client-name { font-weight: 600; font-size: 15px; }
+    .client-meta { font-size: 11px; color: #666; margin-top: 2px; }
+    
+    /* Quick Actions */
+    .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .quick-action { background: #111; border: 1px solid #222; border-radius: 12px; padding: 16px 8px; text-align: center; cursor: pointer; }
+    .quick-action:hover { border-color: #4169E1; }
+    .quick-action-label { font-size: 10px; color: #888; display: block; margin-top: 6px; }
+    
+    /* Compliance Grid */
+    .compliance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .compliance-item { text-align: center; padding: 12px 0; }
+    .compliance-value { font-size: 20px; font-weight: 700; color: #00ff88; }
+    .compliance-label { font-size: 10px; color: #666; margin-top: 4px; }
+    
+    /* Labs */
+    .lab-section-header { font-size: 10px; font-weight: 600; color: #4169E1; letter-spacing: 1px; margin: 16px 0 8px; padding-top: 12px; border-top: 1px solid #222; }
+    .lab-section-header:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+    .lab-result { background: #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .lab-name { font-size: 14px; font-weight: 500; }
+    .lab-range { font-size: 11px; color: #666; }
+    .lab-value { font-size: 18px; font-weight: 700; }
+    .lab-value.normal { color: #00ff88; }
+    .lab-value.high { color: #ff6b6b; }
+    .lab-value.low { color: #ffcc00; }
+    .lab-change { font-size: 11px; margin-top: 2px; }
+    .lab-change.up { color: #00ff88; }
+    .lab-change.down { color: #00ff88; }
+    .lab-change.neutral { color: #666; }
+    .lab-change.bad-up { color: #ff6b6b; }
+    .lab-change.bad-down { color: #ff6b6b; }
+    
+    /* Template Card */
+    .template-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
+    .template-card:hover { border-color: #4169E1; }
+    .template-name { font-size: 15px; font-weight: 600; }
+    .template-desc { font-size: 12px; color: #888; margin-top: 4px; }
+    .template-meta { font-size: 11px; color: #4169E1; margin-top: 8px; }
+    
+    /* Expense Row */
+    .expense-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; cursor: pointer; }
+    .expense-row:last-child { border-bottom: none; }
+    .expense-category { font-size: 14px; }
+    .expense-amount { font-size: 16px; font-weight: 600; color: #ff6b6b; }
+    
+    /* Tabs */
+    .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
+    .tab-btn { padding: 10px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; font-size: 12px; color: #888; cursor: pointer; white-space: nowrap; }
+    .tab-btn.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    .progress-tab { display: block; }
+</style>
+
+<style>
+    /* Food/Nutrition Styles */
+    .food-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; }
+    .food-item:last-of-type { border-bottom: none; }
+    .food-info { flex: 1; }
+    .food-name { font-size: 14px; font-weight: 500; }
+    .food-macros { font-size: 11px; color: #666; margin-top: 2px; }
+    .food-serving { font-size: 12px; color: #888; }
+    
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 100; padding: 20px; overflow-y: auto; }
+    .modal.active { display: block; }
+    .modal-content { background: #111; border-radius: 16px; max-width: 400px; margin: 0 auto; padding: 20px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    
+    /* Exercise Library */
+    .exercise-search { position: relative; margin-bottom: 16px; }
+    .exercise-categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; }
+    .exercise-category { padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer; }
+    .exercise-category.active { background: #4169E1; border-color: #4169E1; }
+    .exercise-list { max-height: 500px; overflow-y: auto; }
+    .exercise-item { display: flex; align-items: center; padding: 12px; background: #111; border: 1px solid #222; border-radius: 12px; margin-bottom: 8px; cursor: pointer; }
+    .exercise-item:hover { border-color: #4169E1; }
+    .exercise-item.selected { border-color: #00ff88; background: #00ff8810; }
+    .exercise-thumb { width: 70px; height: 70px; background: #1a1a1a; border-radius: 8px; margin-right: 12px; overflow: hidden; flex-shrink: 0; }
+    .exercise-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .exercise-info { flex: 1; }
+    .exercise-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .exercise-muscle { font-size: 11px; color: #888; }
+    .exercise-equipment { font-size: 10px; color: #4169E1; margin-top: 2px; }
+    
+    /* Exercise Detail Modal */
+    .exercise-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .exercise-modal.active { display: flex; }
+    .exercise-modal-content { background: #111; border-radius: 16px; max-width: 400px; width: 100%; max-height: 85vh; overflow-y: auto; }
+    .exercise-modal-gif { width: 100%; background: #000; border-radius: 16px 16px 0 0; overflow: hidden; }
+    .exercise-modal-gif img { width: 100%; display: block; }
+    .exercise-modal-info { padding: 20px; }
+    .exercise-modal-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .exercise-modal-meta { font-size: 12px; color: #888; margin-bottom: 16px; }
+    .exercise-modal-meta span { display: inline-block; background: #1a1a1a; padding: 4px 10px; border-radius: 12px; margin-right: 8px; margin-bottom: 4px; }
+    .exercise-modal-close { position: absolute; top: 30px; right: 30px; color: #fff; cursor: pointer; z-index: 101; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+    
+    /* Workout Card for Client Program */
+    .workout-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; }
+    .workout-card:hover { border-color: #4169E1; }
+    .workout-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .workout-card-name { font-size: 16px; font-weight: 600; }
+    .workout-card-day { font-size: 11px; color: #4169E1; }
+    .workout-exercises-preview { font-size: 12px; color: #888; }
+</style>
+
 <script>
+// ==================== API CONFIG ====================
+const EXERCISEDB_API_KEY = '9124d57c83msh0c85c857c3a0ac7p1ce14bjsn778e0824ad6e';
+const EXERCISEDB_HOST = 'exercisedb.p.rapidapi.com';
+const EXERCISEDB_BASE_URL = 'https://exercisedb.p.rapidapi.com';
+
+const FATSECRET_CLIENT_ID = '0e673b5b6d65496d901635c2d5f73a20';
+const FATSECRET_CLIENT_SECRET = 'b450736631d94538a37809dd6738c6fe';
+
 // ==================== STATE ====================
 let role = localStorage.getItem('arsenal_role') || 'client';
+let exerciseLibrary = JSON.parse(localStorage.getItem('exercisedb_cache') || '[]');
+let exerciseDbLoaded = exerciseLibrary.length > 0;
+let isLoadingExercises = false;
+let selectedExercises = [];
+let currentCategory = 'all';
+let currentExercise = null;
+let fatSecretToken = null;
+let currentMeal = 'breakfast';
+
+const exerciseCategories = [
+  { id: 'all', name: 'All' },
+  { id: 'chest', name: 'Chest' },
+  { id: 'back', name: 'Back' },
+  { id: 'shoulders', name: 'Shoulders' },
+  { id: 'legs', name: 'Legs' },
+  { id: 'arms', name: 'Arms' },
+  { id: 'core', name: 'Core' },
+  { id: 'cardio', name: 'Cardio' }
+];
+
+const bodyPartToCategory = {
+  'chest': 'chest', 'back': 'back', 'shoulders': 'shoulders',
+  'upper legs': 'legs', 'lower legs': 'legs',
+  'upper arms': 'arms', 'lower arms': 'arms',
+  'waist': 'core', 'cardio': 'cardio', 'neck': 'shoulders'
+};
+
+// Demo workout data
+const weeklyWorkouts = [
+  { day: 'Monday', name: 'Upper Push', exercises: ['Bench Press', 'Shoulder Press', 'Tricep Dips', 'Lateral Raises'] },
+  { day: 'Tuesday', name: 'Lower - Squat Focus', exercises: ['Back Squat', 'Leg Press', 'Lunges', 'Calf Raises'] },
+  { day: 'Wednesday', name: 'Rest Day', exercises: [] },
+  { day: 'Thursday', name: 'Upper Pull', exercises: ['Deadlift', 'Barbell Row', 'Lat Pulldown', 'Bicep Curls'] },
+  { day: 'Friday', name: 'Lower - Hinge Focus', exercises: ['Romanian DL', 'Hip Thrust', 'Leg Curl', 'Glute Bridge'] },
+  { day: 'Saturday', name: 'Full Body', exercises: ['Clean & Press', 'Pull-ups', 'Goblet Squat', 'Plank'] },
+  { day: 'Sunday', name: 'Active Recovery', exercises: ['Light Cardio', 'Stretching', 'Foam Rolling'] }
+];
 
 // ==================== INIT ====================
 function init() {
   updateRole();
   renderWeekCalendars();
+  renderDailyWorkouts();
+  updateExerciseApiStatus();
 }
 
 function updateRole() {
@@ -891,12 +1307,20 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id)?.classList.add('active');
   
-  // Update tab active state
   const tabBar = role === 'client' ? 'client-tabs' : 'trainer-tabs';
   document.querySelectorAll(`#${tabBar} .tab`).forEach(t => t.classList.remove('active'));
   event?.target?.closest('.tab')?.classList.add('active');
+  
+  // Load exercise library when opening that screen
+  if (id === 'exercise-library' && !exerciseDbLoaded) {
+    fetchExercisesFromAPI();
+  } else if (id === 'exercise-library') {
+    renderExerciseLibrary();
+  }
 }
+</script>
 
+<script>
 // ==================== WEEK CALENDAR ====================
 function renderWeekCalendars() {
   const today = new Date();
@@ -908,13 +1332,14 @@ function renderWeekCalendars() {
     const d = new Date(startOfWeek);
     d.setDate(startOfWeek.getDate() + i);
     const isToday = d.toDateString() === today.toDateString();
-    const hasSession = [0, 2, 4].includes(i); // Demo: sessions on Sun, Tue, Thu
+    const hasSession = [0, 2, 4].includes(i);
+    const hasWorkout = weeklyWorkouts[i].exercises.length > 0;
     
     html += `
-      <div class="week-day ${isToday ? 'today' : ''} ${hasSession ? 'has-session' : ''}">
+      <div class="week-day ${isToday ? 'today' : ''} ${hasSession ? 'has-session' : ''} ${hasWorkout ? 'has-workout' : ''}" onclick="selectDay(${i})">
         <div class="week-day-name">${['S','M','T','W','T','F','S'][i]}</div>
         <div class="week-day-num">${d.getDate()}</div>
-        ${hasSession ? '<div class="week-day-dot"></div>' : ''}
+        ${hasSession || hasWorkout ? '<div class="week-day-dot"></div>' : ''}
       </div>
     `;
   }
@@ -923,6 +1348,38 @@ function renderWeekCalendars() {
   const trainerCal = document.getElementById('trainer-week-cal');
   if (clientCal) clientCal.innerHTML = html;
   if (trainerCal) trainerCal.innerHTML = html;
+}
+
+function selectDay(dayIndex) {
+  alert(`Selected ${weeklyWorkouts[dayIndex].day}: ${weeklyWorkouts[dayIndex].name}`);
+}
+
+// ==================== DAILY WORKOUTS (CLIENT PROGRAM) ====================
+function renderDailyWorkouts() {
+  const container = document.getElementById('daily-workouts');
+  if (!container) return;
+  
+  let html = '';
+  weeklyWorkouts.forEach((workout, i) => {
+    if (workout.exercises.length === 0) return;
+    
+    html += `
+      <div class="workout-card" onclick="openWorkoutDetail(${i})">
+        <div class="workout-card-header">
+          <span class="workout-card-name">${workout.name}</span>
+          <span class="workout-card-day">${workout.day}</span>
+        </div>
+        <div class="workout-exercises-preview">${workout.exercises.slice(0, 3).join(' • ')}${workout.exercises.length > 3 ? ' +' + (workout.exercises.length - 3) + ' more' : ''}</div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+}
+
+function openWorkoutDetail(dayIndex) {
+  const workout = weeklyWorkouts[dayIndex];
+  alert(`${workout.name}\n\nExercises:\n${workout.exercises.map(e => '• ' + e).join('\n')}\n\n(Full workout logging UI with exercise GIFs would open here)`);
 }
 
 // ==================== PROGRESS TABS ====================
@@ -943,6 +1400,15 @@ function showTemplateTab(tab) {
   event.target.classList.add('active');
 }
 
+function editTemplate(id) {
+  showScreen('program-builder');
+}
+
+function useTemplate(id) {
+  alert(`Loading template: ${id}\n\nThis would populate the program builder with the template exercises.`);
+  showScreen('program-builder');
+}
+
 // ==================== BUSINESS TABS ====================
 function showBizTab(tab) {
   document.getElementById('biz-overview').style.display = tab === 'overview' ? 'block' : 'none';
@@ -959,15 +1425,375 @@ function showClientDetail(clientId) {
 }
 
 function showClientProgress() {
-  // Switch to client view to show progress
   role = 'client';
   updateRole();
   showScreen('client-progress');
 }
 
-// Initialize
+function saveProgram() {
+  alert('Program saved!');
+  showScreen('templates');
+}
+</script>
+
+<script>
+// ==================== EXERCISEDB API ====================
+function capitalizeWords(str) {
+  if (!str) return '';
+  return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+
+function updateExerciseApiStatus() {
+  const statusEl = document.getElementById('exercise-api-status');
+  if (!statusEl) return;
+  
+  const cacheDate = localStorage.getItem('exercisedb_cache_date');
+  if (exerciseLibrary.length > 0 && cacheDate) {
+    const date = new Date(cacheDate);
+    statusEl.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="#00ff88" style="vertical-align:middle;margin-right:4px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>${exerciseLibrary.length} exercises loaded • Cached ${date.toLocaleDateString()}`;
+    statusEl.style.color = '#00ff88';
+  } else {
+    statusEl.innerHTML = 'Exercises will load from ExerciseDB API';
+    statusEl.style.color = '#888';
+  }
+}
+
+async function fetchExercisesFromAPI() {
+  if (isLoadingExercises) return;
+  isLoadingExercises = true;
+  
+  const listEl = document.getElementById('exercise-list');
+  const statusEl = document.getElementById('exercise-api-status');
+  
+  if (listEl) {
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#888;"><svg width="24" height="24" viewBox="0 0 24 24" fill="#4169E1" style="animation:spin 1s linear infinite;"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg><br><br>Loading exercises from ExerciseDB...</div>';
+  }
+  
+  try {
+    const response = await fetch(`${EXERCISEDB_BASE_URL}/exercises?limit=1500&offset=0`, {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-host': EXERCISEDB_HOST,
+        'x-rapidapi-key': EXERCISEDB_API_KEY
+      }
+    });
+    
+    if (!response.ok) throw new Error(`API request failed: ${response.status}`);
+    
+    const data = await response.json();
+    
+    if (data.length <= 10 && statusEl) {
+      statusEl.innerHTML = '⚠️ Free tier: Only 10 exercises. Upgrade to Pro for 1300+';
+      statusEl.style.color = '#ffaa00';
+    }
+    
+    exerciseLibrary = data.map(ex => ({
+      id: ex.id,
+      name: capitalizeWords(ex.name),
+      muscle: capitalizeWords(ex.target),
+      secondaryMuscles: ex.secondaryMuscles || [],
+      equipment: capitalizeWords(ex.equipment),
+      category: bodyPartToCategory[ex.bodyPart] || 'other',
+      bodyPart: ex.bodyPart,
+      gifUrl: ex.gifUrl,
+      instructions: ex.instructions || []
+    }));
+    
+    localStorage.setItem('exercisedb_cache', JSON.stringify(exerciseLibrary));
+    localStorage.setItem('exercisedb_cache_date', new Date().toISOString());
+    exerciseDbLoaded = true;
+    
+    if (data.length > 10) updateExerciseApiStatus();
+    renderExerciseLibrary();
+    
+  } catch (error) {
+    console.error('Failed to fetch exercises:', error);
+    if (statusEl) {
+      statusEl.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="#ff6b6b" style="vertical-align:middle;margin-right:4px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>API Error - Check console';
+      statusEl.style.color = '#ff6b6b';
+    }
+    if (exerciseLibrary.length === 0 && listEl) {
+      listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#ff6b6b;">Failed to load exercises.<br><br><button class="btn-small" onclick="refreshExercises()">Try Again</button></div>';
+    }
+  } finally {
+    isLoadingExercises = false;
+  }
+}
+
+function refreshExercises() {
+  localStorage.removeItem('exercisedb_cache');
+  localStorage.removeItem('exercisedb_cache_date');
+  exerciseLibrary = [];
+  exerciseDbLoaded = false;
+  fetchExercisesFromAPI();
+}
+
+function renderExerciseLibrary() {
+  // Render categories
+  const catContainer = document.getElementById('exercise-categories');
+  if (catContainer) {
+    catContainer.innerHTML = exerciseCategories.map(cat => 
+      `<div class="exercise-category ${cat.id === currentCategory ? 'active' : ''}" onclick="filterByCategory('${cat.id}')">${cat.name}</div>`
+    ).join('');
+  }
+  
+  // Filter exercises
+  const searchTerm = document.getElementById('exercise-search')?.value.toLowerCase() || '';
+  let filtered = exerciseLibrary;
+  
+  if (currentCategory !== 'all') {
+    filtered = filtered.filter(ex => ex.category === currentCategory);
+  }
+  if (searchTerm) {
+    filtered = filtered.filter(ex => 
+      ex.name.toLowerCase().includes(searchTerm) || 
+      ex.muscle.toLowerCase().includes(searchTerm) ||
+      ex.equipment.toLowerCase().includes(searchTerm)
+    );
+  }
+  
+  // Render list
+  const listEl = document.getElementById('exercise-list');
+  if (!listEl) return;
+  
+  if (filtered.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#666;">No exercises found</div>';
+    return;
+  }
+  
+  listEl.innerHTML = filtered.slice(0, 50).map(ex => `
+    <div class="exercise-item ${selectedExercises.includes(ex.id) ? 'selected' : ''}" onclick="toggleExerciseSelect('${ex.id}')" ondblclick="showExerciseDetail('${ex.id}')">
+      <div class="exercise-thumb">
+        <img src="${ex.gifUrl}" alt="${ex.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%231a1a1a%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2212%22>No image</text></svg>'">
+      </div>
+      <div class="exercise-info">
+        <div class="exercise-name">${ex.name}</div>
+        <div class="exercise-muscle">${ex.muscle}</div>
+        <div class="exercise-equipment">${ex.equipment}</div>
+      </div>
+    </div>
+  `).join('');
+  
+  // Update add button
+  const addBtn = document.getElementById('add-selected-btn');
+  if (addBtn) {
+    addBtn.style.display = selectedExercises.length > 0 ? 'block' : 'none';
+    addBtn.textContent = `Add Selected (${selectedExercises.length})`;
+  }
+}
+
+function filterByCategory(catId) {
+  currentCategory = catId;
+  renderExerciseLibrary();
+}
+
+function filterExercises() {
+  renderExerciseLibrary();
+}
+
+function toggleExerciseSelect(id) {
+  const idx = selectedExercises.indexOf(id);
+  if (idx > -1) {
+    selectedExercises.splice(idx, 1);
+  } else {
+    selectedExercises.push(id);
+  }
+  renderExerciseLibrary();
+}
+
+function showExerciseDetail(id) {
+  currentExercise = exerciseLibrary.find(ex => ex.id === id);
+  if (!currentExercise) return;
+  
+  document.getElementById('modal-exercise-gif').src = currentExercise.gifUrl;
+  document.getElementById('modal-exercise-name').textContent = currentExercise.name;
+  document.getElementById('modal-exercise-meta').innerHTML = `
+    <span>${currentExercise.muscle}</span>
+    <span>${currentExercise.equipment}</span>
+    <span>${capitalizeWords(currentExercise.bodyPart)}</span>
+  `;
+  
+  const instructions = currentExercise.instructions;
+  document.getElementById('modal-exercise-instructions').innerHTML = instructions.length > 0 
+    ? '<strong>Instructions:</strong><ol style="margin:8px 0 0 16px;">' + instructions.map(i => `<li style="margin:4px 0;">${i}</li>`).join('') + '</ol>'
+    : '';
+  
+  document.getElementById('exercise-modal').classList.add('active');
+}
+
+function closeExerciseModal(e) {
+  if (!e || e.target.id === 'exercise-modal') {
+    document.getElementById('exercise-modal').classList.remove('active');
+  }
+}
+
+function addExerciseFromModal() {
+  if (currentExercise && !selectedExercises.includes(currentExercise.id)) {
+    selectedExercises.push(currentExercise.id);
+  }
+  closeExerciseModal();
+  renderExerciseLibrary();
+}
+
+function addSelectedExercises() {
+  const names = selectedExercises.map(id => exerciseLibrary.find(ex => ex.id === id)?.name).filter(Boolean);
+  alert(`Added ${names.length} exercises to program:\n\n${names.join('\n')}`);
+  selectedExercises = [];
+  showScreen('program-builder');
+}
+
+function closeExerciseLibrary() {
+  showScreen('program-builder');
+}
+</script>
+
+<script>
+// ==================== FATSECRET API (NUTRITION) ====================
+async function getFatSecretToken() {
+  if (fatSecretToken) return fatSecretToken;
+  
+  try {
+    // Note: In production, this should go through a backend to protect credentials
+    const credentials = btoa(`${FATSECRET_CLIENT_ID}:${FATSECRET_CLIENT_SECRET}`);
+    const response = await fetch('https://oauth.fatsecret.com/connect/token', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'grant_type=client_credentials&scope=basic'
+    });
+    
+    if (!response.ok) throw new Error('Token request failed');
+    
+    const data = await response.json();
+    fatSecretToken = data.access_token;
+    return fatSecretToken;
+  } catch (error) {
+    console.error('FatSecret auth error:', error);
+    return null;
+  }
+}
+
+async function searchFoodAPI(query) {
+  const token = await getFatSecretToken();
+  if (!token) {
+    console.error('No FatSecret token');
+    return [];
+  }
+  
+  try {
+    // Note: FatSecret API requires server-side calls due to CORS
+    // This is a demo - in production, route through your backend
+    const response = await fetch(`https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${encodeURIComponent(query)}&format=json`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) throw new Error('Search failed');
+    
+    const data = await response.json();
+    return data.foods?.food || [];
+  } catch (error) {
+    console.error('FatSecret search error:', error);
+    // Return demo data on error (CORS will block in browser)
+    return getDemoFoodResults(query);
+  }
+}
+
+function getDemoFoodResults(query) {
+  // Demo food database for when API is blocked by CORS
+  const demoFoods = [
+    { food_name: 'Chicken Breast, Grilled', food_description: 'Per 100g - Calories: 165kcal | Fat: 3.6g | Carbs: 0g | Protein: 31g', food_id: '1' },
+    { food_name: 'Brown Rice, Cooked', food_description: 'Per 100g - Calories: 112kcal | Fat: 0.9g | Carbs: 24g | Protein: 2.6g', food_id: '2' },
+    { food_name: 'Broccoli, Steamed', food_description: 'Per 100g - Calories: 35kcal | Fat: 0.4g | Carbs: 7g | Protein: 2.4g', food_id: '3' },
+    { food_name: 'Salmon, Baked', food_description: 'Per 100g - Calories: 208kcal | Fat: 13g | Carbs: 0g | Protein: 20g', food_id: '4' },
+    { food_name: 'Greek Yogurt, Plain', food_description: 'Per 100g - Calories: 97kcal | Fat: 5g | Carbs: 3.6g | Protein: 9g', food_id: '5' },
+    { food_name: 'Eggs, Scrambled', food_description: 'Per 100g - Calories: 149kcal | Fat: 11g | Carbs: 1.6g | Protein: 10g', food_id: '6' },
+    { food_name: 'Oatmeal, Cooked', food_description: 'Per 100g - Calories: 71kcal | Fat: 1.5g | Carbs: 12g | Protein: 2.5g', food_id: '7' },
+    { food_name: 'Banana', food_description: 'Per medium - Calories: 105kcal | Fat: 0.4g | Carbs: 27g | Protein: 1.3g', food_id: '8' },
+    { food_name: 'Almonds', food_description: 'Per 28g - Calories: 164kcal | Fat: 14g | Carbs: 6g | Protein: 6g', food_id: '9' },
+    { food_name: 'Protein Shake, Whey', food_description: 'Per scoop - Calories: 120kcal | Fat: 1g | Carbs: 3g | Protein: 24g', food_id: '10' },
+    { food_name: 'Sweet Potato, Baked', food_description: 'Per 100g - Calories: 90kcal | Fat: 0.1g | Carbs: 21g | Protein: 2g', food_id: '11' },
+    { food_name: 'Avocado', food_description: 'Per 100g - Calories: 160kcal | Fat: 15g | Carbs: 9g | Protein: 2g', food_id: '12' }
+  ];
+  
+  const q = query.toLowerCase();
+  return demoFoods.filter(f => f.food_name.toLowerCase().includes(q));
+}
+
+let searchTimeout;
+function searchFood() {
+  clearTimeout(searchTimeout);
+  const query = document.getElementById('food-search-input').value;
+  const resultsEl = document.getElementById('food-search-results');
+  const statusEl = document.getElementById('food-api-status');
+  
+  if (query.length < 2) {
+    resultsEl.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Type at least 2 characters to search</div>';
+    return;
+  }
+  
+  resultsEl.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">Searching...</div>';
+  
+  searchTimeout = setTimeout(async () => {
+    const results = await searchFoodAPI(query);
+    
+    if (results.length === 0) {
+      resultsEl.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">No foods found</div>';
+      return;
+    }
+    
+    if (statusEl) {
+      statusEl.innerHTML = `Found ${results.length} results`;
+      statusEl.style.color = '#00ff88';
+    }
+    
+    resultsEl.innerHTML = results.map(food => `
+      <div class="food-item" style="cursor:pointer;padding:14px;background:#1a1a1a;border-radius:12px;margin-bottom:8px;" onclick="addFoodToLog('${food.food_name}', '${food.food_description}')">
+        <div class="food-info">
+          <div class="food-name">${food.food_name}</div>
+          <div class="food-macros">${food.food_description}</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </div>
+    `).join('');
+  }, 300);
+}
+
+function openFoodSearch() {
+  currentMeal = 'snacks';
+  document.getElementById('food-search-modal').classList.add('active');
+  document.getElementById('food-search-input').value = '';
+  document.getElementById('food-search-results').innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Search for foods using the FatSecret database</div>';
+}
+
+function closeFoodSearch() {
+  document.getElementById('food-search-modal').classList.remove('active');
+}
+
+function addToMeal(meal) {
+  currentMeal = meal;
+  openFoodSearch();
+}
+
+function addFoodToLog(name, description) {
+  alert(`Added to ${currentMeal}:\n\n${name}\n${description}`);
+  closeFoodSearch();
+}
+
+function openBarcodeScanner() {
+  alert('Barcode Scanner\n\nIn the full app, this would open your camera to scan food barcodes and automatically look up nutrition info via FatSecret API.');
+}
+
+// ==================== INITIALIZE ====================
 init();
+
+// Add CSS animation for loading spinner
+const style = document.createElement('style');
+style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+document.head.appendChild(style);
 </script>
 </body>
 </html>
-
