@@ -39,11 +39,7 @@
     .tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; display: flex; border-top: 1px solid #222; padding: 10px 0 25px; z-index: 50; }
     .tab { flex: 1; text-align: center; cursor: pointer; color: #555; font-size: 10px; font-weight: 500; }
     .tab.active { color: #4169E1; }
-    .tab-icon { display: block; margin-bottom: 4px; height: 22px; }
-    .tab-icon svg { width: 22px; height: 22px; fill: currentColor; }
-    
-    /* FAB */
-    .fab { position: fixed; bottom: 100px; right: calc(50% - 195px); width: 56px; height: 56px; border-radius: 28px; background: #4169E1; color: #fff; border: none; font-size: 28px; cursor: pointer; box-shadow: 0 4px 20px rgba(65,105,225,0.4); z-index: 50; }
+    .tab-icon { display: block; margin-bottom: 4px; font-size: 20px; }
     
     /* Buttons */
     .btn { padding: 14px 24px; background: #4169E1; border: none; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; }
@@ -60,43 +56,81 @@
     .input-label { font-size: 11px; color: #888; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
     textarea.input { resize: none; min-height: 80px; }
     
-    /* Exercise Library */
-    .exercise-search { position: relative; margin-bottom: 16px; }
-    .exercise-search input { padding-left: 40px; }
-    .exercise-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #666; }
-    .exercise-categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; }
-    .exercise-category { padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer; }
-    .exercise-category.active { background: #4169E1; border-color: #4169E1; }
-    .exercise-list { max-height: 500px; overflow-y: auto; }
-    .exercise-item { display: flex; align-items: center; padding: 12px; background: #111; border: 1px solid #222; border-radius: 12px; margin-bottom: 8px; cursor: pointer; }
-    .exercise-item:hover { border-color: #4169E1; }
-    .exercise-item.selected { border-color: #00ff88; background: #00ff8810; }
-    .exercise-thumb { width: 70px; height: 70px; background: #1a1a1a; border-radius: 8px; margin-right: 12px; overflow: hidden; flex-shrink: 0; }
-    .exercise-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .exercise-info { flex: 1; }
-    .exercise-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-    .exercise-muscle { font-size: 11px; color: #888; }
-    .exercise-equipment { font-size: 10px; color: #4169E1; margin-top: 2px; }
+    /* Week Calendar */
+    .week-calendar { display: flex; gap: 4px; margin: 12px 0; }
+    .week-day { flex: 1; text-align: center; padding: 12px 4px; background: #111; border: 1px solid #222; border-radius: 12px; cursor: pointer; }
+    .week-day.today { border-color: #4169E1; background: #4169E120; }
+    .week-day.has-session { background: #00ff8820; }
+    .week-day-name { font-size: 10px; color: #666; }
+    .week-day-num { font-size: 18px; font-weight: 600; margin-top: 4px; }
+    .week-day-dot { width: 6px; height: 6px; border-radius: 3px; background: #4169E1; margin: 4px auto 0; }
     
-    /* Exercise Detail Modal */
-    .exercise-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
-    .exercise-modal.active { display: flex; }
-    .exercise-modal-content { background: #111; border-radius: 16px; max-width: 400px; width: 100%; max-height: 85vh; overflow-y: auto; }
-    .exercise-modal-gif { width: 100%; background: #000; border-radius: 16px 16px 0 0; overflow: hidden; }
-    .exercise-modal-gif img { width: 100%; display: block; }
-    .exercise-modal-info { padding: 20px; }
-    .exercise-modal-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .exercise-modal-meta { font-size: 12px; color: #888; margin-bottom: 16px; }
-    .exercise-modal-meta span { display: inline-block; background: #1a1a1a; padding: 4px 10px; border-radius: 12px; margin-right: 8px; margin-bottom: 4px; }
-    .exercise-modal-close { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 28px; cursor: pointer; z-index: 101; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; }
-</style>
+    /* Session Card */
+    .session-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .session-time { font-size: 13px; color: #4169E1; font-weight: 600; }
+    .session-client { font-size: 15px; font-weight: 600; margin-top: 4px; }
+    .session-meta { font-size: 11px; color: #666; margin-top: 4px; }
+    .session-rate { font-size: 16px; font-weight: 700; color: #00ff88; }
+    
+    /* Client Card */
+    .client-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .client-card:hover { border-color: #333; }
+    .client-avatar { width: 44px; height: 44px; border-radius: 22px; background: #4169E1; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+    .client-info { flex: 1; }
+    .client-name { font-weight: 600; font-size: 15px; }
+    .client-meta { font-size: 11px; color: #666; margin-top: 2px; }
+    
+    /* Quick Actions */
+    .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .quick-action { background: #111; border: 1px solid #222; border-radius: 12px; padding: 16px 8px; text-align: center; cursor: pointer; }
+    .quick-action:hover { border-color: #4169E1; }
+    .quick-action-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+    .quick-action-label { font-size: 10px; color: #888; }
+    
+    /* Compliance Grid */
+    .compliance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .compliance-item { text-align: center; padding: 12px 0; }
+    .compliance-value { font-size: 20px; font-weight: 700; color: #00ff88; }
+    .compliance-label { font-size: 10px; color: #666; margin-top: 4px; }
+    
+    /* Labs */
+    .lab-result { background: #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .lab-name { font-size: 14px; font-weight: 500; }
+    .lab-range { font-size: 11px; color: #666; }
+    .lab-value { font-size: 18px; font-weight: 700; }
+    .lab-value.normal { color: #00ff88; }
+    .lab-value.high { color: #ff6b6b; }
+    .lab-value.low { color: #ffcc00; }
+    
+    /* Template Card */
+    .template-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
+    .template-card:hover { border-color: #4169E1; }
+    .template-name { font-size: 15px; font-weight: 600; }
+    .template-desc { font-size: 12px; color: #888; margin-top: 4px; }
+    .template-meta { font-size: 11px; color: #4169E1; margin-top: 8px; }
+    
+    /* Expense Row */
+    .expense-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+    .expense-row:last-child { border-bottom: none; }
+    .expense-category { font-size: 14px; }
+    .expense-amount { font-size: 16px; font-weight: 600; color: #ff6b6b; }
+    
+    /* Tabs */
+    .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
+    .tab-btn { padding: 10px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; font-size: 12px; color: #888; cursor: pointer; white-space: nowrap; }
+    .tab-btn.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    
+    /* Message */
+    .msg-btn { position: relative; cursor: pointer; }
+    .msg-badge { position: absolute; top: -5px; right: -5px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+  </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div class="msg-btn" onclick="openMessages()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-      <span class="msg-badge" id="msg-badge">2</span>
+    <div class="msg-btn" onclick="showScreen('messages')">
+      <span style="font-size:20px;">💬</span>
+      <span class="msg-badge">2</span>
     </div>
     <div class="logo-text"><span class="logo-bold">ARSENAL</span><span class="logo-light">HEALTH</span></div>
     <div class="role-badge" id="role-badge" onclick="toggleRole()">CLIENT</div>
@@ -104,143 +138,219 @@
 
   <!-- ==================== CLIENT SCREENS ==================== -->
   
-  <!-- CLIENT: Dashboard/Today -->
-  <div id="dashboard" class="screen active">
+  <!-- CLIENT: Dashboard -->
+  <div id="client-dashboard" class="screen active">
     <div class="card">
       <div class="card-header">TODAY'S READINESS</div>
       <div class="stats-row">
-        <div class="stat-item"><div class="stat-value recovery-high" id="recovery-score">78%</div><div class="stat-label">Recovery</div></div>
+        <div class="stat-item"><div class="stat-value recovery-high">78%</div><div class="stat-label">Recovery</div></div>
         <div class="stat-divider"></div>
-        <div class="stat-item"><div class="stat-value" id="hrv-score">62</div><div class="stat-label">HRV</div></div>
+        <div class="stat-item"><div class="stat-value">62</div><div class="stat-label">HRV</div></div>
         <div class="stat-divider"></div>
-        <div class="stat-item"><div class="stat-value" id="sleep-score">7.2</div><div class="stat-label">Sleep</div></div>
+        <div class="stat-item"><div class="stat-value">7.2</div><div class="stat-label">Sleep</div></div>
       </div>
     </div>
     
-    <!-- Today's Habits -->
+    <!-- Upcoming Session -->
     <div class="card">
-      <div class="card-header">TODAY'S HABITS <span id="habits-progress" style="color:#00ff88;">3/5</span></div>
-      <div id="daily-habits"></div>
+      <div class="card-header">NEXT SESSION</div>
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Tomorrow • 9:00 AM</div>
+            <div class="session-client">In-Person Training</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+          </div>
+          <button class="btn-small btn-outline">Reschedule</button>
+        </div>
+      </div>
     </div>
     
     <!-- Today's Workout -->
     <div class="card">
       <div class="card-header">TODAY'S WORKOUT</div>
-      <div id="todays-workout"></div>
+      <div class="template-card" onclick="alert('Opening workout...')">
+        <div class="template-name">💪 Upper Push</div>
+        <div class="template-desc">Bench Press, Shoulder Press, Flyes, Triceps</div>
+        <div class="template-meta">4 exercises • ~45 min</div>
+      </div>
     </div>
     
     <!-- Nutrition -->
     <div class="card">
       <div class="card-header">NUTRITION</div>
-      <div id="nutrition-summary"></div>
-    </div>
-    
-    <!-- Weekly Check-in Reminder -->
-    <div id="checkin-reminder" class="card" style="background:#4169E115;border-color:#4169E1;display:none;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span style="font-size:24px;">📋</span>
-        <div style="flex:1;">
-          <div style="font-weight:600;font-size:14px;">Weekly Check-in Due</div>
-          <div style="font-size:12px;color:#888;">Let your coach know how you're doing</div>
-        </div>
-        <button class="btn-small" onclick="openCheckIn()">Start</button>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;">1,850</div><div class="stat-label">Calories</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#4169E1;">165g</div><div class="stat-label">Protein</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#ffcc00;">180g</div><div class="stat-label">Carbs</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-value" style="font-size:20px;color:#ff6b6b;">62g</div><div class="stat-label">Fats</div></div>
       </div>
     </div>
   </div>
 
-  <!-- CLIENT: Program/Workouts -->
-  <div id="program" class="screen">
+  <!-- CLIENT: Sessions/Calendar -->
+  <div id="client-sessions" class="screen">
     <div style="padding:16px;">
-      <div class="card-header">THIS WEEK</div>
-      <div class="week-calendar" id="week-calendar"></div>
+      <div class="card-header">MY SESSIONS</div>
       
-      <div class="card-header" style="margin-top:20px;">UPCOMING WORKOUTS</div>
-      <div id="upcoming-workouts"></div>
+      <!-- Week Calendar -->
+      <div class="week-calendar" id="client-week-cal"></div>
       
-      <div class="card-header" style="margin-top:20px;">COMPLETED</div>
-      <div id="completed-workouts"></div>
-    </div>
-  </div>
-
-  <!-- CLIENT: Check-in -->
-  <div id="checkin" class="screen">
-    <div style="padding:16px;">
-      <div class="card-header">WEEKLY CHECK-IN</div>
+      <div class="card-header" style="margin-top:20px;">UPCOMING</div>
       
-      <div class="card">
-        <div class="input-label">HOW ARE YOU FEELING? (1-10)</div>
-        <div class="rating-row" id="mood-rating"></div>
-      </div>
-      
-      <div class="card">
-        <div class="input-label">ENERGY LEVEL (1-10)</div>
-        <div class="rating-row" id="energy-rating"></div>
-      </div>
-      
-      <div class="card">
-        <div class="input-label">SORENESS LEVEL (1-10)</div>
-        <div class="rating-row" id="soreness-rating"></div>
-      </div>
-      
-      <div class="card">
-        <div class="input-label">SLEEP QUALITY (1-10)</div>
-        <div class="rating-row" id="sleep-rating"></div>
-      </div>
-      
-      <div class="card">
-        <div class="input-label">PROGRESS PHOTOS (OPTIONAL)</div>
-        <div class="photo-upload-grid">
-          <div class="photo-upload-box" onclick="uploadPhoto('front')">
-            <span>📷</span>
-            <span style="font-size:10px;">Front</span>
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Dec 21 • 9:00 AM</div>
+            <div class="session-client">In-Person Training</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">📍 Downtown Gym - Studio B</div>
           </div>
-          <div class="photo-upload-box" onclick="uploadPhoto('side')">
-            <span>📷</span>
-            <span style="font-size:10px;">Side</span>
-          </div>
-          <div class="photo-upload-box" onclick="uploadPhoto('back')">
-            <span>📷</span>
-            <span style="font-size:10px;">Back</span>
-          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
         </div>
       </div>
       
-      <div class="card">
-        <div class="input-label">NOTES FOR YOUR COACH</div>
-        <textarea class="input" id="checkin-notes" placeholder="How was your week? Any wins, struggles, or questions?"></textarea>
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Dec 24 • 10:00 AM</div>
+            <div class="session-client">Virtual Check-in</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">💻 Zoom</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+        </div>
       </div>
       
-      <button class="btn" onclick="submitCheckIn()" style="margin:16px;">Submit Check-in</button>
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:start;">
+          <div>
+            <div class="session-time">Dec 28 • 9:00 AM</div>
+            <div class="session-client">In-Person Training</div>
+            <div class="session-meta">👤 Alex Trainer</div>
+            <div class="session-meta">📍 Downtown Gym - Studio B</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#ffcc0020;color:#ffcc00;border-radius:12px;">Pending</span>
+        </div>
+      </div>
+      
+      <button class="btn" style="margin-top:16px;" onclick="alert('Opening booking calendar...')">Book New Session</button>
     </div>
   </div>
 
-  <!-- CLIENT: Progress/Analytics -->
-  <div id="progress" class="screen">
+  <!-- CLIENT: Progress with Labs -->
+  <div id="client-progress" class="screen">
     <div style="padding:16px;">
       <div class="card-header">PROGRESS</div>
       
-      <!-- PRs -->
-      <div class="card">
-        <div class="card-header" style="margin-bottom:12px;">PERSONAL RECORDS 🏆</div>
-        <div id="pr-list"></div>
+      <div class="tab-buttons" id="progress-tabs">
+        <button class="tab-btn active" onclick="showProgressTab('prs')">PRs</button>
+        <button class="tab-btn" onclick="showProgressTab('body')">Body Comp</button>
+        <button class="tab-btn" onclick="showProgressTab('labs')">Labs</button>
+        <button class="tab-btn" onclick="showProgressTab('photos')">Photos</button>
       </div>
       
-      <!-- Body Composition -->
-      <div class="card">
-        <div class="card-header" style="margin-bottom:12px;">BODY COMPOSITION</div>
-        <div id="body-comp-summary"></div>
+      <!-- PRs Tab -->
+      <div id="progress-prs" class="progress-tab">
+        <div class="card">
+          <div class="card-header">PERSONAL RECORDS 🏆</div>
+          <div class="lab-result">
+            <div><div class="lab-name">Deadlift</div><div class="lab-range">Dec 15, 2024</div></div>
+            <div class="lab-value normal">265 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Back Squat</div><div class="lab-range">Dec 10, 2024</div></div>
+            <div class="lab-value normal">225 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Bench Press</div><div class="lab-range">Dec 1, 2024</div></div>
+            <div class="lab-value normal">185 lbs</div>
+          </div>
+        </div>
       </div>
       
-      <!-- Measurements -->
-      <div class="card">
-        <div class="card-header" style="margin-bottom:12px;">MEASUREMENTS</div>
-        <div id="measurements-summary"></div>
+      <!-- Body Comp Tab -->
+      <div id="progress-body" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">BODY COMPOSITION</div>
+          <div class="stats-row" style="margin-bottom:16px;">
+            <div class="stat-item"><div class="stat-value" style="font-size:24px;">145</div><div class="stat-label">Weight (lbs)</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-value" style="font-size:24px;">22%</div><div class="stat-label">Body Fat</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat-item"><div class="stat-value" style="font-size:24px;">108</div><div class="stat-label">Muscle (lbs)</div></div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Dec 15</div><div class="lab-range">145 lbs • 22% BF</div></div>
+            <div class="lab-value normal">-3 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Nov 15</div><div class="lab-range">148 lbs • 24% BF</div></div>
+            <div class="lab-value normal">-4 lbs</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Oct 15</div><div class="lab-range">152 lbs • 26% BF</div></div>
+            <div class="lab-value" style="color:#888;">Start</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Labs Tab -->
+      <div id="progress-labs" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">BLOOD PANEL <span style="color:#4169E1;">Dec 1, 2024</span></div>
+          <div class="lab-result">
+            <div><div class="lab-name">Testosterone</div><div class="lab-range">Range: 300-1000 ng/dL</div></div>
+            <div class="lab-value normal">650 ng/dL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Vitamin D</div><div class="lab-range">Range: 30-100 ng/mL</div></div>
+            <div class="lab-value normal">45 ng/mL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Iron</div><div class="lab-range">Range: 60-170 mcg/dL</div></div>
+            <div class="lab-value normal">85 mcg/dL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">B12</div><div class="lab-range">Range: 200-900 pg/mL</div></div>
+            <div class="lab-value normal">520 pg/mL</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">METABOLIC PANEL <span style="color:#4169E1;">Sep 15, 2024</span></div>
+          <div class="lab-result">
+            <div><div class="lab-name">Fasting Glucose</div><div class="lab-range">Range: 70-100 mg/dL</div></div>
+            <div class="lab-value normal">92 mg/dL</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">HbA1c</div><div class="lab-range">Range: 4.0-5.6%</div></div>
+            <div class="lab-value normal">5.2%</div>
+          </div>
+          <div class="lab-result">
+            <div><div class="lab-name">Cholesterol</div><div class="lab-range">Range: &lt;200 mg/dL</div></div>
+            <div class="lab-value normal">185 mg/dL</div>
+          </div>
+        </div>
+        
+        <button class="btn btn-secondary" style="margin-top:8px;">+ Upload Lab Results</button>
       </div>
       
-      <!-- Progress Photos -->
-      <div class="card">
-        <div class="card-header" style="margin-bottom:12px;">PROGRESS PHOTOS</div>
-        <div id="progress-photos"></div>
+      <!-- Photos Tab -->
+      <div id="progress-photos" class="progress-tab" style="display:none;">
+        <div class="card">
+          <div class="card-header">PROGRESS PHOTOS</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Front</div>
+            <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Side</div>
+            <div style="aspect-ratio:3/4;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Back</div>
+          </div>
+          <button class="btn btn-secondary" style="margin-top:12px;">+ Upload Photos</button>
+        </div>
       </div>
     </div>
   </div>
@@ -249,10 +359,23 @@
   <div id="messages" class="screen">
     <div style="padding:16px;">
       <div class="card-header">MESSAGES</div>
-      <div id="message-thread"></div>
-      <div class="message-input-row">
-        <input type="text" class="input" id="message-input" placeholder="Type a message..." style="margin:0;flex:1;">
-        <button class="btn-small" onclick="sendMessage()" style="margin-left:8px;">Send</button>
+      <div style="max-height:400px;overflow-y:auto;margin-bottom:16px;">
+        <div style="margin-bottom:12px;max-width:80%;">
+          <div style="padding:12px 16px;background:#1a1a1a;border-radius:16px;border-bottom-left-radius:4px;font-size:14px;">Great work on your deadlifts yesterday! Form looked solid 💪</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Alex • 2h ago</div>
+        </div>
+        <div style="margin-bottom:12px;max-width:80%;margin-left:auto;">
+          <div style="padding:12px 16px;background:#4169E1;border-radius:16px;border-bottom-right-radius:4px;font-size:14px;">Thanks! Felt really good. Should I go heavier next week?</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;text-align:right;">1h ago</div>
+        </div>
+        <div style="margin-bottom:12px;max-width:80%;">
+          <div style="padding:12px 16px;background:#1a1a1a;border-radius:16px;border-bottom-left-radius:4px;font-size:14px;">Let's add 10lbs to your working sets. You're ready!</div>
+          <div style="font-size:10px;color:#666;margin-top:4px;">Alex • 30m ago</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" class="input" placeholder="Type a message..." style="margin:0;flex:1;">
+        <button class="btn-small" onclick="alert('Message sent!')">Send</button>
       </div>
     </div>
   </div>
@@ -260,12 +383,38 @@
   <!-- ==================== TRAINER SCREENS ==================== -->
   
   <!-- TRAINER: Clients List -->
-  <div id="clients" class="screen">
+  <div id="trainer-clients" class="screen">
     <div style="padding:16px;">
       <div class="card-header">MY CLIENTS</div>
-      <div id="clients-list"></div>
       
-      <button class="btn" onclick="openAddClient()" style="margin-top:16px;">+ Add Client</button>
+      <div class="client-card" onclick="showClientDetail('sarah')">
+        <div class="client-avatar">SJ</div>
+        <div class="client-info">
+          <div class="client-name">Sarah Johnson</div>
+          <div class="client-meta">Premium • 4 sessions/mo • Active 2h ago</div>
+        </div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#00ff88;">92%</div><div style="font-size:10px;color:#666;">Compliance</div></div>
+      </div>
+      
+      <div class="client-card" onclick="showClientDetail('mike')">
+        <div class="client-avatar" style="background:#ff6b6b;">MC</div>
+        <div class="client-info">
+          <div class="client-name">Mike Chen</div>
+          <div class="client-meta">Basic • 2 sessions/mo • Active 1d ago</div>
+        </div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#ffcc00;">78%</div><div style="font-size:10px;color:#666;">Compliance</div></div>
+      </div>
+      
+      <div class="client-card" onclick="showClientDetail('emma')">
+        <div class="client-avatar" style="background:#00ff88;color:#000;">EW</div>
+        <div class="client-info">
+          <div class="client-name">Emma Wilson</div>
+          <div class="client-meta">Premium • 4 sessions/mo • Active 3h ago</div>
+        </div>
+        <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#00ff88;">95%</div><div style="font-size:10px;color:#666;">Compliance</div></div>
+      </div>
+      
+      <button class="btn" style="margin-top:16px;" onclick="alert('Add client form...')">+ Add Client</button>
     </div>
   </div>
 
@@ -273,315 +422,359 @@
   <div id="client-detail" class="screen">
     <div style="padding:16px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="showScreen('clients')" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;" id="client-detail-name">Client Name</div>
+        <span onclick="showScreen('trainer-clients')" style="cursor:pointer;font-size:20px;color:#666;">←</span>
+        <div class="client-avatar">SJ</div>
+        <div>
+          <div class="client-name" id="detail-client-name">Sarah Johnson</div>
+          <div class="client-meta">Premium • 4 sessions/mo</div>
+        </div>
       </div>
       
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <div class="quick-action" onclick="openProgramBuilder()">
-          <span>📋</span>
-          <span>Program</span>
+        <div class="quick-action" onclick="showScreen('templates')">
+          <span class="quick-action-icon">📋</span>
+          <span class="quick-action-label">Program</span>
         </div>
-        <div class="quick-action" onclick="openNutritionBuilder()">
-          <span>🥗</span>
-          <span>Nutrition</span>
+        <div class="quick-action" onclick="alert('Nutrition builder...')">
+          <span class="quick-action-icon">🥗</span>
+          <span class="quick-action-label">Nutrition</span>
         </div>
-        <div class="quick-action" onclick="openHabitsBuilder()">
-          <span>✅</span>
-          <span>Habits</span>
+        <div class="quick-action" onclick="alert('Habits builder...')">
+          <span class="quick-action-icon">✅</span>
+          <span class="quick-action-label">Habits</span>
         </div>
-        <div class="quick-action" onclick="viewClientProgress()">
-          <span>📈</span>
-          <span>Progress</span>
+        <div class="quick-action" onclick="showClientProgress()">
+          <span class="quick-action-icon">📈</span>
+          <span class="quick-action-label">Progress</span>
         </div>
       </div>
       
-      <!-- Compliance Overview -->
+      <!-- Compliance -->
       <div class="card">
         <div class="card-header">THIS WEEK</div>
         <div class="compliance-grid">
-          <div class="compliance-item">
-            <div class="compliance-value" id="client-workout-compliance">4/4</div>
-            <div class="compliance-label">Workouts</div>
-          </div>
-          <div class="compliance-item">
-            <div class="compliance-value" id="client-nutrition-compliance">85%</div>
-            <div class="compliance-label">Nutrition</div>
-          </div>
-          <div class="compliance-item">
-            <div class="compliance-value" id="client-habit-compliance">90%</div>
-            <div class="compliance-label">Habits</div>
-          </div>
-          <div class="compliance-item">
-            <div class="compliance-value" id="client-checkin-status">✓</div>
-            <div class="compliance-label">Check-in</div>
-          </div>
+          <div class="compliance-item"><div class="compliance-value">4/4</div><div class="compliance-label">Workouts</div></div>
+          <div class="compliance-item"><div class="compliance-value">85%</div><div class="compliance-label">Nutrition</div></div>
+          <div class="compliance-item"><div class="compliance-value">90%</div><div class="compliance-label">Habits</div></div>
+          <div class="compliance-item"><div class="compliance-value">✓</div><div class="compliance-label">Check-in</div></div>
         </div>
       </div>
       
-      <!-- Recent Check-in -->
-      <div class="card" id="recent-checkin-card">
-        <div class="card-header">LATEST CHECK-IN <span id="checkin-date" style="color:#4169E1;"></span></div>
-        <div id="recent-checkin-content"></div>
+      <!-- Upcoming Sessions -->
+      <div class="card">
+        <div class="card-header">UPCOMING SESSIONS</div>
+        <div class="session-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div>
+              <div class="session-time">Dec 21 • 9:00 AM</div>
+              <div class="session-meta">In-Person • Downtown Gym</div>
+            </div>
+            <div class="session-rate">$100</div>
+          </div>
+        </div>
+        <div class="session-card">
+          <div style="display:flex;justify-content:space-between;">
+            <div>
+              <div class="session-time">Dec 28 • 9:00 AM</div>
+              <div class="session-meta">In-Person • Downtown Gym</div>
+            </div>
+            <div class="session-rate">$100</div>
+          </div>
+        </div>
       </div>
       
       <!-- Recent Activity -->
       <div class="card">
         <div class="card-header">RECENT ACTIVITY</div>
-        <div id="client-activity"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TRAINER: Program Builder -->
-  <div id="program-builder" class="screen">
-    <div style="padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="backFromBuilder()" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;">PROGRAM BUILDER</div>
-        <button class="btn-small" onclick="saveProgram()" style="margin-left:auto;">Save</button>
-      </div>
-      
-      <!-- Program Templates -->
-      <div class="card" style="background:#0a0a0a;">
-        <div class="card-header">TEMPLATES</div>
-        <div class="template-row">
-          <button class="btn-small btn-secondary" onclick="loadTemplate('ppl')">Push/Pull/Legs</button>
-          <button class="btn-small btn-secondary" onclick="loadTemplate('upper-lower')">Upper/Lower</button>
-          <button class="btn-small btn-secondary" onclick="loadTemplate('full-body')">Full Body</button>
-          <button class="btn-small btn-secondary" onclick="openTemplateLibrary()">More...</button>
-        </div>
-      </div>
-      
-      <!-- Week View -->
-      <div class="week-nav">
-        <span onclick="builderPrevWeek()">←</span>
-        <span id="builder-week-label">This Week</span>
-        <span onclick="builderNextWeek()">→</span>
-      </div>
-      
-      <div id="builder-week-grid"></div>
-      
-      <!-- Add Workout Button -->
-      <button class="btn btn-secondary" onclick="openWorkoutBuilder()" style="margin-top:16px;">+ Add Workout</button>
-    </div>
-  </div>
-
-  <!-- TRAINER: Workout Builder -->
-  <div id="workout-builder" class="screen">
-    <div style="padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="backFromWorkoutBuilder()" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;">BUILD WORKOUT</div>
-        <button class="btn-small" onclick="saveWorkout()" style="margin-left:auto;">Save</button>
-      </div>
-      
-      <div class="input-label">WORKOUT NAME</div>
-      <input type="text" class="input" id="workout-name" placeholder="e.g., Upper Body A">
-      
-      <div class="input-label">SCHEDULED DATE</div>
-      <input type="date" class="input" id="workout-date">
-      
-      <div class="input-label">NOTES FOR CLIENT</div>
-      <textarea class="input" id="workout-notes" placeholder="Focus on controlled tempo, RPE 7-8..."></textarea>
-      
-      <!-- Exercise List -->
-      <div class="card-header" style="margin-top:20px;">EXERCISES</div>
-      <div id="workout-exercises"></div>
-      
-      <button class="btn btn-secondary" onclick="openExerciseLibrary()" style="margin-top:12px;">+ Add Exercise</button>
-      
-      <!-- Superset/Circuit Options -->
-      <div class="card" style="margin-top:16px;background:#0a0a0a;">
-        <div class="card-header">ADVANCED</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-small btn-outline" onclick="createSuperset()">Create Superset</button>
-          <button class="btn-small btn-outline" onclick="createCircuit()">Create Circuit</button>
-          <button class="btn-small btn-outline" onclick="addRestPeriod()">Add Rest</button>
+        <div style="font-size:13px;color:#888;">
+          <div style="padding:8px 0;border-bottom:1px solid #222;">✅ Completed Push Day • 2h ago</div>
+          <div style="padding:8px 0;border-bottom:1px solid #222;">📋 Submitted check-in • 1d ago</div>
+          <div style="padding:8px 0;">🏆 New PR: Deadlift 265lbs • 3d ago</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- TRAINER: Exercise Library Modal -->
-  <div id="exercise-library" class="screen">
-    <div style="padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="closeExerciseLibrary()" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;flex:1;">EXERCISE LIBRARY</div>
-        <span onclick="refreshExercises()" style="cursor:pointer;font-size:16px;color:#4169E1;" title="Refresh from API">🔄</span>
-      </div>
-      
-      <!-- API Status -->
-      <div id="exercise-api-status" style="font-size:11px;color:#666;margin-bottom:12px;text-align:center;"></div>
-      
-      <!-- Search -->
-      <div class="exercise-search">
-        <span class="exercise-search-icon">🔍</span>
-        <input type="text" class="input" id="exercise-search" placeholder="Search 1300+ exercises..." oninput="filterExercises()">
-      </div>
-      
-      <!-- Categories -->
-      <div class="exercise-categories" id="exercise-categories"></div>
-      
-      <!-- Exercise List -->
-      <div class="exercise-list" id="exercise-list"></div>
-      
-      <!-- Add Selected Button -->
-      <button class="btn" id="add-selected-btn" onclick="addSelectedExercises()" style="margin-top:16px;display:none;">Add Selected (0)</button>
-    </div>
-  </div>
-
-  <!-- TRAINER: Nutrition Builder -->
-  <div id="nutrition-builder" class="screen">
-    <div style="padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="backFromBuilder()" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;">NUTRITION PLAN</div>
-        <button class="btn-small" onclick="saveNutrition()" style="margin-left:auto;">Save</button>
-      </div>
-      
-      <!-- Macro Calculator -->
-      <div class="card">
-        <div class="card-header">DAILY TARGETS</div>
-        <div class="macro-inputs">
-          <div class="macro-input">
-            <div class="input-label">CALORIES</div>
-            <input type="number" class="input" id="target-calories" placeholder="2000">
-          </div>
-          <div class="macro-input">
-            <div class="input-label">PROTEIN (g)</div>
-            <input type="number" class="input" id="target-protein" placeholder="150">
-          </div>
-          <div class="macro-input">
-            <div class="input-label">CARBS (g)</div>
-            <input type="number" class="input" id="target-carbs" placeholder="200">
-          </div>
-          <div class="macro-input">
-            <div class="input-label">FATS (g)</div>
-            <input type="number" class="input" id="target-fats" placeholder="65">
-          </div>
-        </div>
-      </div>
-      
-      <!-- Quick Presets -->
-      <div class="card" style="background:#0a0a0a;">
-        <div class="card-header">QUICK PRESETS</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-small btn-secondary" onclick="setMacroPreset('cut')">Cut (-500)</button>
-          <button class="btn-small btn-secondary" onclick="setMacroPreset('maintain')">Maintain</button>
-          <button class="btn-small btn-secondary" onclick="setMacroPreset('bulk')">Bulk (+300)</button>
-          <button class="btn-small btn-secondary" onclick="setMacroPreset('high-protein')">High Protein</button>
-        </div>
-      </div>
-      
-      <!-- Meal Timing (Optional) -->
-      <div class="card">
-        <div class="card-header">MEAL TIMING (OPTIONAL)</div>
-        <div id="meal-timing-list"></div>
-        <button class="btn-small btn-outline" onclick="addMealTiming()" style="margin-top:8px;">+ Add Meal</button>
-      </div>
-      
-      <!-- Notes -->
-      <div class="card">
-        <div class="input-label">NOTES FOR CLIENT</div>
-        <textarea class="input" id="nutrition-notes" placeholder="Focus on protein with each meal, stay hydrated..."></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- TRAINER: Habits Builder -->
-  <div id="habits-builder" class="screen">
-    <div style="padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="backFromBuilder()" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;">DAILY HABITS</div>
-        <button class="btn-small" onclick="saveHabits()" style="margin-left:auto;">Save</button>
-      </div>
-      
-      <!-- Current Habits -->
-      <div class="card-header">ASSIGNED HABITS</div>
-      <div id="assigned-habits-list"></div>
-      
-      <!-- Add Habit -->
-      <div class="card" style="margin-top:16px;">
-        <div class="card-header">ADD NEW HABIT</div>
-        <input type="text" class="input" id="new-habit-name" placeholder="e.g., Drink 100oz water">
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <select class="input" id="habit-frequency" style="flex:1;">
-            <option value="daily">Daily</option>
-            <option value="weekdays">Weekdays</option>
-            <option value="weekends">Weekends</option>
-            <option value="custom">Custom Days</option>
-          </select>
-          <button class="btn-small" onclick="addHabit()">Add</button>
-        </div>
-      </div>
-      
-      <!-- Preset Habits -->
-      <div class="card" style="background:#0a0a0a;">
-        <div class="card-header">QUICK ADD</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn-small btn-secondary" onclick="addPresetHabit('water')">💧 Water</button>
-          <button class="btn-small btn-secondary" onclick="addPresetHabit('steps')">👟 10k Steps</button>
-          <button class="btn-small btn-secondary" onclick="addPresetHabit('sleep')">😴 8hr Sleep</button>
-          <button class="btn-small btn-secondary" onclick="addPresetHabit('protein')">🥩 Hit Protein</button>
-          <button class="btn-small btn-secondary" onclick="addPresetHabit('stretch')">🧘 Stretch</button>
-          <button class="btn-small btn-secondary" onclick="addPresetHabit('creatine')">💊 Creatine</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TRAINER: Template Library -->
-  <div id="template-library" class="screen">
-    <div style="padding:16px;">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-        <span onclick="closeTemplateLibrary()" style="cursor:pointer;font-size:20px;color:#666;">←</span>
-        <div class="card-header" style="margin:0;">PROGRAM TEMPLATES</div>
-      </div>
-      
-      <!-- My Templates -->
-      <div class="card-header">MY TEMPLATES</div>
-      <div id="my-templates"></div>
-      
-      <!-- Save Current as Template -->
-      <button class="btn btn-secondary" onclick="saveAsTemplate()" style="margin:16px 0;">Save Current Program as Template</button>
-      
-      <!-- Built-in Templates -->
-      <div class="card-header">BUILT-IN TEMPLATES</div>
-      <div id="builtin-templates"></div>
-    </div>
-  </div>
-
-  <!-- TRAINER: Sessions/Calendar -->
-  <div id="sessions" class="screen">
+  <!-- TRAINER: Sessions with Revenue -->
+  <div id="trainer-sessions" class="screen">
     <div style="padding:16px;">
       <div class="card-header">SESSIONS</div>
       
       <!-- Revenue Summary -->
       <div class="card" style="background:#0a0a0a;">
         <div class="stats-row">
-          <div class="stat-item"><div class="stat-value" style="color:#00ff88;" id="revenue-today">$0</div><div class="stat-label">Today</div></div>
+          <div class="stat-item"><div class="stat-value" style="color:#00ff88;">$275</div><div class="stat-label">Today</div></div>
           <div class="stat-divider"></div>
-          <div class="stat-item"><div class="stat-value" id="revenue-week">$0</div><div class="stat-label">This Week</div></div>
+          <div class="stat-item"><div class="stat-value">$1,100</div><div class="stat-label">This Week</div></div>
           <div class="stat-divider"></div>
-          <div class="stat-item"><div class="stat-value" id="revenue-month">$0</div><div class="stat-label">This Month</div></div>
+          <div class="stat-item"><div class="stat-value">$4,200</div><div class="stat-label">This Month</div></div>
         </div>
       </div>
       
-      <!-- Calendar -->
-      <div class="week-nav" style="margin-top:16px;">
-        <span onclick="sessionsPrev()">←</span>
-        <span id="sessions-week-label">This Week</span>
-        <span onclick="sessionsNext()">→</span>
-      </div>
-      <div id="sessions-calendar"></div>
+      <!-- Week Calendar -->
+      <div class="week-calendar" id="trainer-week-cal"></div>
       
-      <!-- Session List -->
-      <div class="card-header" style="margin-top:20px;">UPCOMING</div>
-      <div id="sessions-list"></div>
+      <div class="card-header" style="margin-top:16px;">TODAY - DEC 20</div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="session-time">9:00 AM • 60min</div>
+            <div class="session-client">Sarah Johnson</div>
+            <div class="session-meta">🏋️ In-Person • Downtown Gym</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="session-rate">$100</div>
+            <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="session-time">11:00 AM • 60min</div>
+            <div class="session-client">Mike Chen</div>
+            <div class="session-meta">💻 Virtual • Zoom</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="session-rate">$75</div>
+            <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Confirmed</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="session-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="session-time">2:00 PM • 45min</div>
+            <div class="session-client">Emma Wilson</div>
+            <div class="session-meta">🏋️ In-Person • Downtown Gym</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="session-rate">$100</div>
+            <span style="font-size:11px;padding:4px 10px;background:#ffcc0020;color:#ffcc00;border-radius:12px;">Pending</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="btn" style="margin-top:16px;" onclick="alert('New session form...')">+ Schedule Session</button>
+    </div>
+  </div>
+
+  <!-- TRAINER: Templates -->
+  <div id="templates" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">PROGRAM TEMPLATES</div>
+      
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="showTemplateTab('my')">My Templates</button>
+        <button class="tab-btn" onclick="showTemplateTab('builtin')">Built-in</button>
+      </div>
+      
+      <!-- My Templates -->
+      <div id="templates-my">
+        <div class="template-card" onclick="alert('Edit template...')">
+          <div class="template-name">Sarah - Glute Focus</div>
+          <div class="template-desc">Custom program for Sarah's goals</div>
+          <div class="template-meta">4 days/week • 6 weeks • 18 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Edit template...')">
+          <div class="template-name">Mike - Strength Base</div>
+          <div class="template-desc">Building strength foundation</div>
+          <div class="template-meta">3 days/week • 8 weeks • 12 exercises</div>
+        </div>
+        
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="alert('Create template...')">+ Create New Template</button>
+      </div>
+      
+      <!-- Built-in Templates -->
+      <div id="templates-builtin" style="display:none;">
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Push/Pull/Legs</div>
+          <div class="template-desc">Classic 6-day split focusing on compound movements</div>
+          <div class="template-meta">6 days/week • 4 weeks • 24 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Upper/Lower Split</div>
+          <div class="template-desc">4-day split for balanced development</div>
+          <div class="template-meta">4 days/week • 8 weeks • 20 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Full Body 3x</div>
+          <div class="template-desc">3-day full body for beginners</div>
+          <div class="template-meta">3 days/week • 12 weeks • 15 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Strength Focus (5x5)</div>
+          <div class="template-desc">Classic strength building program</div>
+          <div class="template-meta">3 days/week • 8 weeks • 12 exercises</div>
+        </div>
+        
+        <div class="template-card" onclick="alert('Use template...')">
+          <div class="template-name">Hypertrophy Block</div>
+          <div class="template-desc">High volume muscle building</div>
+          <div class="template-meta">5 days/week • 6 weeks • 30 exercises</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINER: Business/Billing -->
+  <div id="business" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">BUSINESS</div>
+      
+      <!-- Financial Overview -->
+      <div class="card" style="background:#0a0a0a;">
+        <div class="stats-row">
+          <div class="stat-item"><div class="stat-value" style="color:#00ff88;">$4,200</div><div class="stat-label">Revenue</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="color:#ff6b6b;">$1,000</div><div class="stat-label">Expenses</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><div class="stat-value" style="color:#00ff88;">$3,200</div><div class="stat-label">Profit</div></div>
+        </div>
+      </div>
+      
+      <div class="tab-buttons" style="margin-top:16px;">
+        <button class="tab-btn active" onclick="showBizTab('overview')">Overview</button>
+        <button class="tab-btn" onclick="showBizTab('invoices')">Invoices</button>
+        <button class="tab-btn" onclick="showBizTab('expenses')">Expenses</button>
+      </div>
+      
+      <!-- Overview Tab -->
+      <div id="biz-overview">
+        <div class="card">
+          <div class="card-header">REVENUE BREAKDOWN</div>
+          <div class="expense-row">
+            <div class="expense-category">Premium Plans (3)</div>
+            <div style="font-size:16px;font-weight:600;color:#00ff88;">$1,200</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Basic Plans (2)</div>
+            <div style="font-size:16px;font-weight:600;color:#00ff88;">$400</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Drop-in Sessions</div>
+            <div style="font-size:16px;font-weight:600;color:#00ff88;">$600</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">EXPENSE BREAKDOWN</div>
+          <div class="expense-row">
+            <div class="expense-category">Gym Rent</div>
+            <div class="expense-amount">$500</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Software</div>
+            <div class="expense-amount">$50</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Insurance</div>
+            <div class="expense-amount">$150</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Equipment</div>
+            <div class="expense-amount">$200</div>
+          </div>
+          <div class="expense-row">
+            <div class="expense-category">Marketing</div>
+            <div class="expense-amount">$100</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoices Tab -->
+      <div id="biz-invoices" style="display:none;">
+        <div class="card">
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">INV-001 • Sarah Johnson</div>
+                <div class="session-meta">Dec 15, 2024 • Due Dec 30</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:16px;font-weight:600;">$400</div>
+                <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Paid</span>
+              </div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">INV-002 • Mike Chen</div>
+                <div class="session-meta">Dec 10, 2024 • Due Dec 25</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:16px;font-weight:600;">$200</div>
+                <span style="font-size:11px;padding:4px 10px;background:#4169E120;color:#4169E1;border-radius:12px;">Sent</span>
+              </div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">INV-003 • Emma Wilson</div>
+                <div class="session-meta">Dec 1, 2024 • Due Dec 15</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:16px;font-weight:600;">$400</div>
+                <span style="font-size:11px;padding:4px 10px;background:#ff6b6b20;color:#ff6b6b;border-radius:12px;">Overdue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn" style="margin-top:12px;" onclick="alert('Create invoice...')">+ Create Invoice</button>
+      </div>
+      
+      <!-- Expenses Tab -->
+      <div id="biz-expenses" style="display:none;">
+        <div class="card">
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Gym Rent</div>
+                <div class="session-meta">Dec 1, 2024 • Recurring</div>
+              </div>
+              <div class="expense-amount">$500</div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Arsenal Health Subscription</div>
+                <div class="session-meta">Dec 1, 2024 • Recurring</div>
+              </div>
+              <div class="expense-amount">$50</div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Resistance Bands</div>
+                <div class="session-meta">Dec 10, 2024 • One-time</div>
+              </div>
+              <div class="expense-amount">$200</div>
+            </div>
+          </div>
+          <div class="session-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-weight:600;">Liability Insurance</div>
+                <div class="session-meta">Dec 1, 2024 • Recurring</div>
+              </div>
+              <div class="expense-amount">$150</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="alert('Add expense...')">+ Add Expense</button>
+      </div>
     </div>
   </div>
 
@@ -590,43 +783,42 @@
     <div style="padding:16px;">
       <div class="card">
         <div style="display:flex;align-items:center;gap:16px;">
-          <div class="avatar">A</div>
+          <div class="client-avatar" style="width:60px;height:60px;font-size:24px;">A</div>
           <div>
-            <div style="font-weight:600;font-size:18px;">Ari</div>
-            <div style="color:#666;font-size:13px;">ari@arsenalhealth.com</div>
+            <div style="font-weight:600;font-size:18px;">Alex Trainer</div>
+            <div style="color:#666;font-size:13px;">alex@arsenalhealth.com</div>
           </div>
         </div>
       </div>
       
-      <div class="card-header" style="margin:24px 0 12px;">DATA SOURCES</div>
+      <div class="card-header" style="margin:24px 16px 12px;">INTEGRATIONS</div>
       <div class="card">
-        <div class="setting-row" onclick="toggleSource('whoop')">
+        <div class="expense-row" onclick="alert('Connect Whoop...')">
           <span>Whoop</span>
-          <span id="whoop-status" class="source-status">Connect</span>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
         </div>
-        <div class="setting-row" onclick="toggleSource('apple')">
+        <div class="expense-row" onclick="alert('Connect Apple Health...')">
           <span>Apple Health</span>
-          <span id="apple-status" class="source-status">Connect</span>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
         </div>
-        <div class="setting-row" onclick="toggleSource('garmin')">
-          <span>Garmin</span>
-          <span id="garmin-status" class="source-status">Connect</span>
+        <div class="expense-row" onclick="alert('Connect Stripe...')">
+          <span>Stripe Payments</span>
+          <span style="color:#4169E1;font-size:12px;">Connect</span>
         </div>
       </div>
       
-      <div class="card-header" style="margin:24px 0 12px;">NUTRITION TRACKING</div>
+      <div class="card-header" style="margin:24px 16px 12px;">SUBSCRIPTION</div>
       <div class="card">
-        <div class="setting-row" onclick="toggleSource('myfitnesspal')">
-          <span>MyFitnessPal</span>
-          <span id="mfp-status" class="source-status">Connect</span>
-        </div>
-        <div class="setting-row" onclick="toggleSource('fatsecret')">
-          <span>FatSecret</span>
-          <span id="fatsecret-status" class="source-status">Connect</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:600;">Trainer Plan</div>
+            <div style="font-size:12px;color:#666;">$29/month • Renews Jan 15</div>
+          </div>
+          <span style="font-size:11px;padding:4px 10px;background:#00ff8820;color:#00ff88;border-radius:12px;">Active</span>
         </div>
       </div>
       
-      <button class="btn-outline" onclick="clearData()" style="margin-top:20px;">Clear All Data</button>
+      <button class="btn btn-outline" style="margin:16px;" onclick="localStorage.clear();location.reload();">Clear All Data</button>
     </div>
   </div>
 
@@ -634,471 +826,48 @@
   
   <!-- Client Tab Bar -->
   <div class="tab-bar" id="client-tabs">
-    <div class="tab active" onclick="showScreen('dashboard')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>
-      Today
+    <div class="tab active" onclick="showScreen('client-dashboard')">
+      <span class="tab-icon">🏠</span>Today
     </div>
-    <div class="tab" onclick="showScreen('program')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>
-      Program
+    <div class="tab" onclick="showScreen('client-sessions')">
+      <span class="tab-icon">📅</span>Sessions
     </div>
-    <div class="tab" onclick="showScreen('checkin')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
-      Check-in
-    </div>
-    <div class="tab" onclick="showScreen('progress')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>
-      Progress
+    <div class="tab" onclick="showScreen('client-progress')">
+      <span class="tab-icon">📈</span>Progress
     </div>
     <div class="tab" onclick="showScreen('messages')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
-      Chat
+      <span class="tab-icon">💬</span>Chat
     </div>
   </div>
-
+  
   <!-- Trainer Tab Bar -->
   <div class="tab-bar" id="trainer-tabs" style="display:none;">
-    <div class="tab active" onclick="showScreen('clients')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></span>
-      Clients
+    <div class="tab active" onclick="showScreen('trainer-clients')">
+      <span class="tab-icon">👥</span>Clients
     </div>
-    <div class="tab" onclick="showScreen('sessions')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg></span>
-      Sessions
+    <div class="tab" onclick="showScreen('trainer-sessions')">
+      <span class="tab-icon">📅</span>Sessions
     </div>
-    <div class="tab" onclick="showScreen('exercise-library')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg></span>
-      Exercises
+    <div class="tab" onclick="showScreen('templates')">
+      <span class="tab-icon">📋</span>Templates
     </div>
-    <div class="tab" onclick="showScreen('template-library')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></span>
-      Templates
+    <div class="tab" onclick="showScreen('business')">
+      <span class="tab-icon">💰</span>Business
     </div>
     <div class="tab" onclick="showScreen('settings')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
-      Settings
+      <span class="tab-icon">⚙️</span>Settings
     </div>
   </div>
-
-  <!-- Exercise Detail Modal -->
-  <div class="exercise-modal" id="exercise-modal" onclick="closeExerciseModal(event)">
-    <span class="exercise-modal-close" onclick="closeExerciseModal()">×</span>
-    <div class="exercise-modal-content" onclick="event.stopPropagation()">
-      <div class="exercise-modal-gif">
-        <img id="modal-exercise-gif" src="" alt="Exercise demo">
-      </div>
-      <div class="exercise-modal-info">
-        <div class="exercise-modal-name" id="modal-exercise-name"></div>
-        <div class="exercise-modal-meta" id="modal-exercise-meta"></div>
-        <button class="btn" onclick="addExerciseFromModal()">Add to Workout</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- FAB for logging workout -->
-  <button class="fab" id="fab-btn" onclick="handleFab()">+</button>
 </div>
 
-<style>
-  /* Additional Styles */
-  .msg-btn { position: relative; cursor: pointer; }
-  .msg-badge { position: absolute; top: -5px; right: -5px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
-  
-  /* Week Calendar */
-  .week-calendar { display: flex; gap: 4px; }
-  .week-day { flex: 1; text-align: center; padding: 12px 4px; background: #111; border: 1px solid #222; border-radius: 12px; cursor: pointer; }
-  .week-day.today { border-color: #4169E1; }
-  .week-day.has-workout { background: #4169E120; }
-  .week-day.completed { background: #00ff8820; }
-  .week-day-name { font-size: 10px; color: #666; }
-  .week-day-num { font-size: 18px; font-weight: 600; margin-top: 4px; }
-  .week-day-dot { width: 6px; height: 6px; border-radius: 3px; background: #4169E1; margin: 4px auto 0; }
-  .week-day.completed .week-day-dot { background: #00ff88; }
-  
-  /* Habits */
-  .habit-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
-  .habit-item:last-child { border-bottom: none; }
-  .habit-checkbox { width: 28px; height: 28px; border: 2px solid #333; border-radius: 8px; margin-right: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .habit-checkbox.checked { background: #00ff88; border-color: #00ff88; }
-  .habit-checkbox.checked::after { content: '✓'; color: #000; font-weight: bold; }
-  .habit-name { flex: 1; font-size: 14px; }
-  .habit-streak { font-size: 11px; color: #ffaa00; }
-  
-  /* Workout Card */
-  .workout-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; }
-  .workout-card:hover { border-color: #333; }
-  .workout-card.completed { opacity: 0.7; }
-  .workout-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .workout-card-name { font-size: 16px; font-weight: 600; }
-  .workout-card-date { font-size: 11px; color: #4169E1; }
-  .workout-card-exercises { font-size: 12px; color: #888; }
-  .workout-card-status { font-size: 11px; padding: 4px 10px; border-radius: 12px; }
-  .workout-card-status.scheduled { background: #4169E120; color: #4169E1; }
-  .workout-card-status.completed { background: #00ff8820; color: #00ff88; }
-  
-  /* Rating Row */
-  .rating-row { display: flex; gap: 8px; }
-  .rating-btn { width: 36px; height: 36px; border-radius: 8px; background: #1a1a1a; border: 1px solid #333; color: #fff; font-size: 14px; cursor: pointer; }
-  .rating-btn.selected { background: #4169E1; border-color: #4169E1; }
-  
-  /* Photo Upload */
-  .photo-upload-grid { display: flex; gap: 12px; }
-  .photo-upload-box { flex: 1; aspect-ratio: 1; background: #1a1a1a; border: 2px dashed #333; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-  .photo-upload-box:hover { border-color: #4169E1; }
-  
-  /* Quick Actions */
-  .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
-  .quick-action { background: #111; border: 1px solid #222; border-radius: 12px; padding: 16px 8px; text-align: center; cursor: pointer; }
-  .quick-action:hover { border-color: #4169E1; }
-  .quick-action span:first-child { font-size: 24px; display: block; margin-bottom: 4px; }
-  .quick-action span:last-child { font-size: 10px; color: #888; }
-  
-  /* Compliance Grid */
-  .compliance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .compliance-item { text-align: center; padding: 12px 0; }
-  .compliance-value { font-size: 20px; font-weight: 700; color: #00ff88; }
-  .compliance-label { font-size: 10px; color: #666; margin-top: 4px; }
-  
-  /* Week Nav */
-  .week-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
-  .week-nav span { cursor: pointer; padding: 8px 16px; }
-  .week-nav span:first-child, .week-nav span:last-child { color: #4169E1; }
-  
-  /* Builder Week Grid */
-  .builder-day { background: #111; border: 1px solid #222; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
-  .builder-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .builder-day-name { font-weight: 600; }
-  .builder-day-date { font-size: 11px; color: #666; }
-  .builder-workout { background: #1a1a1a; border-radius: 8px; padding: 10px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
-  .builder-workout-name { font-size: 13px; }
-  .builder-add-btn { color: #4169E1; font-size: 12px; cursor: pointer; }
-  
-  /* Template Row */
-  .template-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  
-  /* Macro Inputs */
-  .macro-inputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .macro-input { margin-bottom: 8px; }
-  
-  /* Setting Row */
-  .setting-row { padding: 14px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between; cursor: pointer; }
-  .setting-row:last-child { border-bottom: none; }
-  .source-status { color: #4169E1; font-size: 12px; }
-  .source-status.connected { color: #00ff88; }
-  
-  /* Avatar */
-  .avatar { width: 50px; height: 50px; border-radius: 25px; background: #4169E1; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; }
-  
-  /* Client Card */
-  .client-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-  .client-card:hover { border-color: #333; }
-  .client-avatar { width: 44px; height: 44px; border-radius: 22px; background: #4169E1; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-  .client-info { flex: 1; }
-  .client-name { font-weight: 600; font-size: 15px; }
-  .client-meta { font-size: 11px; color: #666; margin-top: 2px; }
-  .client-compliance { text-align: right; }
-  .client-compliance-value { font-size: 18px; font-weight: 700; }
-  .client-compliance-label { font-size: 10px; color: #666; }
-  
-  /* Message Thread */
-  .message-thread { max-height: 400px; overflow-y: auto; margin-bottom: 16px; }
-  .message { margin-bottom: 12px; max-width: 80%; }
-  .message.sent { margin-left: auto; }
-  .message-bubble { padding: 12px 16px; border-radius: 16px; font-size: 14px; }
-  .message.received .message-bubble { background: #1a1a1a; border-bottom-left-radius: 4px; }
-  .message.sent .message-bubble { background: #4169E1; border-bottom-right-radius: 4px; }
-  .message-time { font-size: 10px; color: #666; margin-top: 4px; }
-  .message.sent .message-time { text-align: right; }
-  .message-input-row { display: flex; gap: 8px; position: sticky; bottom: 90px; background: #000; padding: 12px 0; }
-  
-  /* PR List */
-  .pr-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
-  .pr-item:last-child { border-bottom: none; }
-  .pr-name { font-size: 14px; }
-  .pr-value { font-size: 18px; font-weight: 700; color: #00ff88; }
-  .pr-date { font-size: 10px; color: #666; }
-  
-  /* Session Card */
-  .session-card { background: #111; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 8px; }
-  .session-time { font-size: 13px; color: #4169E1; font-weight: 600; }
-  .session-client { font-size: 15px; font-weight: 600; margin-top: 4px; }
-  .session-type { font-size: 11px; color: #666; margin-top: 2px; }
-</style>
-
 <script>
-// ==================== EXERCISEDB API CONFIG ====================
-const EXERCISEDB_API_KEY = '9124d57c83msh0c85c857c3a0ac7p1ce14bjsn778e0824ad6e';
-const EXERCISEDB_HOST = 'exercisedb.p.rapidapi.com';
-const EXERCISEDB_BASE_URL = 'https://exercisedb.p.rapidapi.com';
-
-// ==================== DATA ====================
+// ==================== STATE ====================
 let role = localStorage.getItem('arsenal_role') || 'client';
-let selectedClient = null;
-
-// Exercise Library - Will be populated from API or cache
-let exerciseLibrary = JSON.parse(localStorage.getItem('exercisedb_cache') || '[]');
-let exerciseDbLoaded = exerciseLibrary.length > 0;
-let isLoadingExercises = false;
-
-// Map body parts to our categories
-const bodyPartToCategory = {
-  'chest': 'chest',
-  'back': 'back',
-  'shoulders': 'shoulders',
-  'upper legs': 'legs',
-  'lower legs': 'legs',
-  'upper arms': 'arms',
-  'lower arms': 'arms',
-  'waist': 'core',
-  'cardio': 'cardio',
-  'neck': 'shoulders'
-};
-
-// Fetch all exercises from ExerciseDB API
-async function fetchExercisesFromAPI() {
-  if (isLoadingExercises) return;
-  isLoadingExercises = true;
-  
-  try {
-    // Show loading state
-    const listEl = document.getElementById('exercise-list');
-    const statusEl = document.getElementById('exercise-api-status');
-    if (listEl) {
-      listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#888;"><div style="font-size:24px;margin-bottom:12px;">⏳</div>Loading exercises from ExerciseDB...</div>';
-    }
-    
-    // Try to get all exercises (requires Pro subscription for full results)
-    const response = await fetch(`${EXERCISEDB_BASE_URL}/exercises?limit=1500&offset=0`, {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-host': EXERCISEDB_HOST,
-        'x-rapidapi-key': EXERCISEDB_API_KEY
-      }
-    });
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API Error:', response.status, errorText);
-      throw new Error(`API request failed: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    
-    // Check if we got limited results (free tier)
-    if (data.length <= 10) {
-      console.warn('Only received 10 exercises - you may be on the free tier. Upgrade to Pro for all 1300+ exercises.');
-      if (statusEl) {
-        statusEl.innerHTML = '⚠️ Free tier: Only 10 exercises. <a href="https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb/pricing" target="_blank" style="color:#4169E1;">Upgrade to Pro</a> for 1300+';
-        statusEl.style.color = '#ffaa00';
-      }
-    }
-    
-    // Transform API data to our format
-    exerciseLibrary = data.map(ex => ({
-      id: ex.id,
-      name: capitalizeWords(ex.name),
-      muscle: capitalizeWords(ex.target),
-      secondaryMuscles: ex.secondaryMuscles || [],
-      equipment: capitalizeWords(ex.equipment),
-      category: bodyPartToCategory[ex.bodyPart] || 'other',
-      bodyPart: ex.bodyPart,
-      gifUrl: ex.gifUrl,
-      instructions: ex.instructions || []
-    }));
-    
-    // Cache in localStorage
-    localStorage.setItem('exercisedb_cache', JSON.stringify(exerciseLibrary));
-    localStorage.setItem('exercisedb_cache_date', new Date().toISOString());
-    exerciseDbLoaded = true;
-    
-    console.log(`Loaded ${exerciseLibrary.length} exercises from ExerciseDB`);
-    
-    // Update status display
-    if (data.length > 10) {
-      updateExerciseApiStatus();
-    }
-    
-    // Re-render if on exercise library screen
-    if (document.getElementById('exercise-library')?.classList.contains('active')) {
-      renderExerciseLibrary();
-    }
-    
-  } catch (error) {
-    console.error('Failed to fetch exercises:', error);
-    // Fall back to cached data or show error
-    const statusEl = document.getElementById('exercise-api-status');
-    if (statusEl) {
-      statusEl.innerHTML = '❌ API Error - Check console for details';
-      statusEl.style.color = '#ff6b6b';
-    }
-    if (exerciseLibrary.length === 0) {
-      const listEl = document.getElementById('exercise-list');
-      if (listEl) {
-        listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#ff6b6b;"><div style="font-size:24px;margin-bottom:12px;">⚠️</div>Failed to load exercises.<br><br><button class="btn-small" onclick="refreshExercises()">Try Again</button></div>';
-      }
-    }
-  } finally {
-    isLoadingExercises = false;
-  }
-}
-
-// Helper to capitalize words
-function capitalizeWords(str) {
-  if (!str) return '';
-  return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
-const exerciseCategories = [
-  { id: 'all', name: 'All' },
-  { id: 'chest', name: 'Chest' },
-  { id: 'back', name: 'Back' },
-  { id: 'shoulders', name: 'Shoulders' },
-  { id: 'legs', name: 'Legs' },
-  { id: 'arms', name: 'Arms' },
-  { id: 'core', name: 'Core' },
-  { id: 'cardio', name: 'Cardio' }
-];
-
-// Program Templates
-const programTemplates = {
-  'ppl': {
-    name: 'Push/Pull/Legs',
-    days: [
-      { day: 0, name: 'Push A', exercises: ['bench-press', 'ohp', 'db-fly', 'lateral-raise', 'tricep-pushdown'] },
-      { day: 1, name: 'Pull A', exercises: ['deadlift', 'barbell-row', 'lat-pulldown', 'face-pull', 'barbell-curl'] },
-      { day: 2, name: 'Legs A', exercises: ['squat', 'rdl', 'leg-press', 'leg-curl', 'calf-raise'] },
-      { day: 3, name: 'Rest', exercises: [] },
-      { day: 4, name: 'Push B', exercises: ['incline-bench', 'db-shoulder-press', 'cable-fly', 'lateral-raise', 'skull-crusher'] },
-      { day: 5, name: 'Pull B', exercises: ['barbell-row', 'pullup', 'seated-row', 'rear-delt-fly', 'hammer-curl'] },
-      { day: 6, name: 'Legs B', exercises: ['front-squat', 'hip-thrust', 'bulgarian-split', 'leg-extension', 'calf-raise'] }
-    ]
-  },
-  'upper-lower': {
-    name: 'Upper/Lower',
-    days: [
-      { day: 0, name: 'Upper A', exercises: ['bench-press', 'barbell-row', 'ohp', 'lat-pulldown', 'barbell-curl', 'tricep-pushdown'] },
-      { day: 1, name: 'Lower A', exercises: ['squat', 'rdl', 'leg-press', 'leg-curl', 'calf-raise'] },
-      { day: 2, name: 'Rest', exercises: [] },
-      { day: 3, name: 'Upper B', exercises: ['incline-bench', 'db-row', 'db-shoulder-press', 'pullup', 'hammer-curl', 'skull-crusher'] },
-      { day: 4, name: 'Lower B', exercises: ['deadlift', 'front-squat', 'hip-thrust', 'leg-extension', 'calf-raise'] },
-      { day: 5, name: 'Rest', exercises: [] },
-      { day: 6, name: 'Rest', exercises: [] }
-    ]
-  },
-  'full-body': {
-    name: 'Full Body 3x',
-    days: [
-      { day: 0, name: 'Full Body A', exercises: ['squat', 'bench-press', 'barbell-row', 'ohp', 'barbell-curl'] },
-      { day: 1, name: 'Rest', exercises: [] },
-      { day: 2, name: 'Full Body B', exercises: ['deadlift', 'incline-bench', 'lat-pulldown', 'lunges', 'tricep-pushdown'] },
-      { day: 3, name: 'Rest', exercises: [] },
-      { day: 4, name: 'Full Body C', exercises: ['front-squat', 'db-bench', 'db-row', 'hip-thrust', 'lateral-raise'] },
-      { day: 5, name: 'Rest', exercises: [] },
-      { day: 6, name: 'Rest', exercises: [] }
-    ]
-  }
-};
-
-// Preset Habits
-const presetHabits = {
-  'water': { name: 'Drink 100oz water', icon: '💧' },
-  'steps': { name: '10,000 steps', icon: '👟' },
-  'sleep': { name: '8 hours sleep', icon: '😴' },
-  'protein': { name: 'Hit protein goal', icon: '🥩' },
-  'stretch': { name: '10 min stretching', icon: '🧘' },
-  'creatine': { name: 'Take creatine', icon: '💊' }
-};
-
-// Demo Data
-const clients = [
-  { id: 'ari', name: 'Ari', email: 'ari@arsenalhealth.com', avatar: 'A', compliance: 92 },
-  { id: 'john', name: 'John Smith', email: 'john@email.com', avatar: 'J', compliance: 78 },
-  { id: 'sarah', name: 'Sarah Johnson', email: 'sarah@email.com', avatar: 'S', compliance: 95 }
-];
-
-let habits = JSON.parse(localStorage.getItem('arsenal_habits') || JSON.stringify([
-  { id: 1, name: 'Drink 100oz water', icon: '💧', completed: false },
-  { id: 2, name: 'Hit protein goal', icon: '🥩', completed: true },
-  { id: 3, name: '10,000 steps', icon: '👟', completed: true },
-  { id: 4, name: '8 hours sleep', icon: '😴', completed: false },
-  { id: 5, name: 'Take creatine', icon: '💊', completed: true }
-]));
-
-let workouts = JSON.parse(localStorage.getItem('arsenal_workouts') || JSON.stringify([
-  { id: 1, name: 'Upper Push', date: getTodayStr(), status: 'scheduled', exercises: [
-    { name: 'Bench Press', sets: [{w:95,r:8},{w:105,r:6},{w:115,r:4}] },
-    { name: 'DB Shoulder Press', sets: [{w:30,r:10},{w:35,r:8}] },
-    { name: 'Cable Fly', sets: [{w:25,r:12},{w:30,r:10}] },
-    { name: 'Tricep Pushdown', sets: [{w:50,r:12},{w:60,r:10}] }
-  ]},
-  { id: 2, name: 'Lower - Squat', date: getDateStr(1), status: 'scheduled', exercises: [
-    { name: 'Back Squat', sets: [{w:155,r:8},{w:175,r:6},{w:195,r:4}] },
-    { name: 'Romanian DL', sets: [{w:135,r:10},{w:155,r:8}] },
-    { name: 'Leg Press', sets: [{w:200,r:12},{w:250,r:10}] }
-  ]},
-  { id: 3, name: 'Upper Pull', date: getDateStr(3), status: 'scheduled', exercises: [
-    { name: 'Barbell Row', sets: [{w:95,r:8},{w:105,r:6}] },
-    { name: 'Lat Pulldown', sets: [{w:90,r:12},{w:100,r:10}] },
-    { name: 'Face Pull', sets: [{w:40,r:15}] }
-  ]},
-  { id: 4, name: 'Lower - Deadlift', date: getDateStr(-1), status: 'completed', exercises: [
-    { name: 'Deadlift', sets: [{w:185,r:6},{w:215,r:4},{w:245,r:2}] }
-  ]}
-]));
-
-let messages = [
-  { id: 1, from: 'trainer', text: 'Great work on your deadlifts yesterday! Form looked solid 💪', time: '2h ago' },
-  { id: 2, from: 'client', text: 'Thanks! Felt really good. Should I go heavier next week?', time: '1h ago' },
-  { id: 3, from: 'trainer', text: 'Let\'s add 10lbs to your working sets. You\'re ready!', time: '30m ago' }
-];
-
-let prs = [
-  { exercise: 'Deadlift', weight: 265, date: '2024-12-15' },
-  { exercise: 'Back Squat', weight: 225, date: '2024-12-10' },
-  { exercise: 'Bench Press', weight: 115, date: '2024-12-01' }
-];
-
-let selectedExercises = [];
-let currentWorkoutExercises = [];
-let currentCategory = 'all';
-
-// ==================== UTILITY FUNCTIONS ====================
-function getTodayStr() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function getDateStr(offset) {
-  const d = new Date();
-  d.setDate(d.getDate() + offset);
-  return d.toISOString().split('T')[0];
-}
-
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-}
 
 // ==================== INIT ====================
 function init() {
   updateRole();
-  renderDashboard();
-  
-  // Show exercise cache status
-  updateExerciseApiStatus();
-}
-
-function updateExerciseApiStatus() {
-  const statusEl = document.getElementById('exercise-api-status');
-  if (!statusEl) return;
-  
-  const cacheDate = localStorage.getItem('exercisedb_cache_date');
-  if (exerciseLibrary.length > 0 && cacheDate) {
-    const date = new Date(cacheDate);
-    statusEl.innerHTML = `✅ ${exerciseLibrary.length} exercises loaded • Cached ${date.toLocaleDateString()}`;
-    statusEl.style.color = '#00ff88';
-  } else {
-    statusEl.innerHTML = '⏳ Exercises will load from ExerciseDB API';
-    statusEl.style.color = '#888';
-  }
+  renderWeekCalendars();
 }
 
 function updateRole() {
@@ -1109,7 +878,7 @@ function updateRole() {
   document.getElementById('client-tabs').style.display = role === 'client' ? 'flex' : 'none';
   document.getElementById('trainer-tabs').style.display = role === 'trainer' ? 'flex' : 'none';
   
-  showScreen(role === 'client' ? 'dashboard' : 'clients');
+  showScreen(role === 'client' ? 'client-dashboard' : 'trainer-clients');
 }
 
 function toggleRole() {
@@ -1122,288 +891,14 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id)?.classList.add('active');
   
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  // Update tab active state
+  const tabBar = role === 'client' ? 'client-tabs' : 'trainer-tabs';
+  document.querySelectorAll(`#${tabBar} .tab`).forEach(t => t.classList.remove('active'));
   event?.target?.closest('.tab')?.classList.add('active');
-  
-  // Render screen-specific content
-  if (id === 'dashboard') renderDashboard();
-  if (id === 'program') renderProgram();
-  if (id === 'checkin') renderCheckIn();
-  if (id === 'progress') renderProgress();
-  if (id === 'messages') renderMessages();
-  if (id === 'clients') renderClients();
-  if (id === 'exercise-library') renderExerciseLibrary();
-  if (id === 'template-library') renderTemplateLibrary();
 }
 
-// ==================== CLIENT: DASHBOARD ====================
-function renderDashboard() {
-  // Habits
-  const habitsHtml = habits.map(h => `
-    <div class="habit-item">
-      <div class="habit-checkbox ${h.completed ? 'checked' : ''}" onclick="toggleHabit(${h.id})"></div>
-      <span class="habit-name">${h.icon} ${h.name}</span>
-    </div>
-  `).join('');
-  document.getElementById('daily-habits').innerHTML = habitsHtml;
-  
-  const completed = habits.filter(h => h.completed).length;
-  document.getElementById('habits-progress').textContent = `${completed}/${habits.length}`;
-  
-  // Today's Workout
-  const todayWorkout = workouts.find(w => w.date === getTodayStr() && w.status !== 'completed');
-  if (todayWorkout) {
-    document.getElementById('todays-workout').innerHTML = `
-      <div class="workout-card" onclick="openWorkout(${todayWorkout.id})">
-        <div class="workout-card-header">
-          <span class="workout-card-name">${todayWorkout.name}</span>
-          <span class="workout-card-status scheduled">Ready</span>
-        </div>
-        <div class="workout-card-exercises">${todayWorkout.exercises.length} exercises</div>
-      </div>
-    `;
-  } else {
-    document.getElementById('todays-workout').innerHTML = '<p style="color:#666;font-size:13px;">Rest day - no workout scheduled</p>';
-  }
-  
-  // Nutrition Summary
-  document.getElementById('nutrition-summary').innerHTML = `
-    <div class="stats-row">
-      <div class="stat-item"><div class="stat-value" style="font-size:20px;">1,850</div><div class="stat-label">Calories</div></div>
-      <div class="stat-divider"></div>
-      <div class="stat-item"><div class="stat-value" style="font-size:20px;">142g</div><div class="stat-label">Protein</div></div>
-      <div class="stat-divider"></div>
-      <div class="stat-item"><div class="stat-value" style="font-size:20px;">185g</div><div class="stat-label">Carbs</div></div>
-      <div class="stat-divider"></div>
-      <div class="stat-item"><div class="stat-value" style="font-size:20px;">58g</div><div class="stat-label">Fats</div></div>
-    </div>
-  `;
-  
-  // Check-in reminder (show on Sundays)
-  const today = new Date().getDay();
-  document.getElementById('checkin-reminder').style.display = today === 0 ? 'block' : 'none';
-}
-
-function toggleHabit(id) {
-  const habit = habits.find(h => h.id === id);
-  if (habit) {
-    habit.completed = !habit.completed;
-    localStorage.setItem('arsenal_habits', JSON.stringify(habits));
-    renderDashboard();
-  }
-}
-
-// ==================== CLIENT: PROGRAM ====================
-function renderProgram() {
-  // Week Calendar
-  const today = new Date();
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay());
-  
-  let calendarHtml = '';
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(startOfWeek);
-    d.setDate(startOfWeek.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
-    const dayWorkout = workouts.find(w => w.date === dateStr);
-    const isToday = dateStr === getTodayStr();
-    const hasWorkout = !!dayWorkout;
-    const isCompleted = dayWorkout?.status === 'completed';
-    
-    calendarHtml += `
-      <div class="week-day ${isToday ? 'today' : ''} ${hasWorkout ? 'has-workout' : ''} ${isCompleted ? 'completed' : ''}">
-        <div class="week-day-name">${['S','M','T','W','T','F','S'][i]}</div>
-        <div class="week-day-num">${d.getDate()}</div>
-        ${hasWorkout ? '<div class="week-day-dot"></div>' : ''}
-      </div>
-    `;
-  }
-  document.getElementById('week-calendar').innerHTML = calendarHtml;
-  
-  // Upcoming Workouts
-  const upcoming = workouts.filter(w => w.status === 'scheduled').slice(0, 3);
-  document.getElementById('upcoming-workouts').innerHTML = upcoming.map(w => `
-    <div class="workout-card" onclick="openWorkout(${w.id})">
-      <div class="workout-card-header">
-        <span class="workout-card-name">${w.name}</span>
-        <span class="workout-card-date">${formatDate(w.date)}</span>
-      </div>
-      <div class="workout-card-exercises">${w.exercises.length} exercises</div>
-    </div>
-  `).join('') || '<p style="color:#666;font-size:13px;">No upcoming workouts</p>';
-  
-  // Completed
-  const completed = workouts.filter(w => w.status === 'completed').slice(0, 3);
-  document.getElementById('completed-workouts').innerHTML = completed.map(w => `
-    <div class="workout-card completed">
-      <div class="workout-card-header">
-        <span class="workout-card-name">${w.name}</span>
-        <span class="workout-card-status completed">✓ Done</span>
-      </div>
-      <div class="workout-card-exercises">${formatDate(w.date)}</div>
-    </div>
-  `).join('') || '<p style="color:#666;font-size:13px;">No completed workouts yet</p>';
-}
-
-function openWorkout(id) {
-  const workout = workouts.find(w => w.id === id);
-  if (!workout) return;
-  
-  alert(`Opening workout: ${workout.name}\n\nExercises:\n${workout.exercises.map(e => `• ${e.name}`).join('\n')}\n\n(Full workout logging UI would open here)`);
-}
-
-// ==================== CLIENT: CHECK-IN ====================
-function renderCheckIn() {
-  ['mood', 'energy', 'soreness', 'sleep'].forEach(type => {
-    const container = document.getElementById(`${type}-rating`);
-    let html = '';
-    for (let i = 1; i <= 10; i++) {
-      html += `<button class="rating-btn" onclick="selectRating('${type}', ${i})">${i}</button>`;
-    }
-    container.innerHTML = html;
-  });
-}
-
-function selectRating(type, value) {
-  const container = document.getElementById(`${type}-rating`);
-  container.querySelectorAll('.rating-btn').forEach((btn, i) => {
-    btn.classList.toggle('selected', i + 1 === value);
-  });
-}
-
-function submitCheckIn() {
-  alert('Check-in submitted! Your coach will review it soon. 💪');
-  showScreen('dashboard');
-}
-
-function openCheckIn() {
-  showScreen('checkin');
-}
-
-// ==================== CLIENT: PROGRESS ====================
-function renderProgress() {
-  // PRs
-  document.getElementById('pr-list').innerHTML = prs.map(pr => `
-    <div class="pr-item">
-      <div>
-        <div class="pr-name">${pr.exercise}</div>
-        <div class="pr-date">${formatDate(pr.date)}</div>
-      </div>
-      <div class="pr-value">${pr.weight} lbs</div>
-    </div>
-  `).join('');
-  
-  // Body Comp
-  document.getElementById('body-comp-summary').innerHTML = `
-    <div class="stats-row">
-      <div class="stat-item"><div class="stat-value" style="font-size:20px;">135.2</div><div class="stat-label">Weight (lbs)</div></div>
-      <div class="stat-divider"></div>
-      <div class="stat-item"><div class="stat-value" style="font-size:20px;">19.2%</div><div class="stat-label">Body Fat</div></div>
-    </div>
-    <p style="font-size:11px;color:#00ff88;text-align:center;margin-top:12px;">↓ 2.3% body fat in 3 months</p>
-  `;
-  
-  // Measurements
-  document.getElementById('measurements-summary').innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
-      <div><div style="font-size:16px;font-weight:600;">34"</div><div style="font-size:10px;color:#666;">Waist</div></div>
-      <div><div style="font-size:16px;font-weight:600;">38"</div><div style="font-size:10px;color:#666;">Hips</div></div>
-      <div><div style="font-size:16px;font-weight:600;">12"</div><div style="font-size:10px;color:#666;">Arms</div></div>
-    </div>
-  `;
-  
-  // Progress Photos
-  document.getElementById('progress-photos').innerHTML = `
-    <div style="display:flex;gap:8px;">
-      <div style="flex:1;aspect-ratio:1;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Week 1</div>
-      <div style="flex:1;aspect-ratio:1;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Week 6</div>
-      <div style="flex:1;aspect-ratio:1;background:#1a1a1a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#666;">Week 12</div>
-    </div>
-  `;
-}
-
-// ==================== CLIENT: MESSAGES ====================
-function renderMessages() {
-  document.getElementById('message-thread').innerHTML = messages.map(m => `
-    <div class="message ${m.from === 'client' ? 'sent' : 'received'}">
-      <div class="message-bubble">${m.text}</div>
-      <div class="message-time">${m.time}</div>
-    </div>
-  `).join('');
-}
-
-function sendMessage() {
-  const input = document.getElementById('message-input');
-  if (!input.value.trim()) return;
-  
-  messages.push({ id: messages.length + 1, from: 'client', text: input.value, time: 'Just now' });
-  input.value = '';
-  renderMessages();
-}
-
-function openMessages() {
-  showScreen('messages');
-}
-
-// ==================== TRAINER: CLIENTS ====================
-function renderClients() {
-  document.getElementById('clients-list').innerHTML = clients.map(c => `
-    <div class="client-card" onclick="openClient('${c.id}')">
-      <div class="client-avatar">${c.avatar}</div>
-      <div class="client-info">
-        <div class="client-name">${c.name}</div>
-        <div class="client-meta">${c.email}</div>
-      </div>
-      <div class="client-compliance">
-        <div class="client-compliance-value" style="color:${c.compliance >= 90 ? '#00ff88' : c.compliance >= 70 ? '#ffaa00' : '#ff6b6b'}">${c.compliance}%</div>
-        <div class="client-compliance-label">Compliance</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function openClient(id) {
-  selectedClient = clients.find(c => c.id === id);
-  document.getElementById('client-detail-name').textContent = selectedClient.name;
-  showScreen('client-detail');
-  renderClientDetail();
-}
-
-function renderClientDetail() {
-  // Recent check-in
-  document.getElementById('checkin-date').textContent = 'Dec 15';
-  document.getElementById('recent-checkin-content').innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;margin-bottom:12px;">
-      <div><div style="font-size:18px;">8</div><div style="font-size:10px;color:#666;">Mood</div></div>
-      <div><div style="font-size:18px;">7</div><div style="font-size:10px;color:#666;">Energy</div></div>
-      <div><div style="font-size:18px;">4</div><div style="font-size:10px;color:#666;">Soreness</div></div>
-      <div><div style="font-size:18px;">8</div><div style="font-size:10px;color:#666;">Sleep</div></div>
-    </div>
-    <p style="font-size:12px;color:#888;">"Feeling great this week! Hit all my workouts and stayed on track with nutrition."</p>
-  `;
-  
-  // Recent activity
-  document.getElementById('client-activity').innerHTML = `
-    <div style="font-size:12px;">
-      <div style="padding:8px 0;border-bottom:1px solid #222;">✅ Completed Upper Push - Today</div>
-      <div style="padding:8px 0;border-bottom:1px solid #222;">🥗 Hit protein goal - Today</div>
-      <div style="padding:8px 0;border-bottom:1px solid #222;">✅ Completed Lower - Yesterday</div>
-      <div style="padding:8px 0;">📋 Submitted check-in - 2 days ago</div>
-    </div>
-  `;
-}
-
-function openAddClient() {
-  alert('Add Client form would open here');
-}
-
-// ==================== TRAINER: PROGRAM BUILDER ====================
-function openProgramBuilder() {
-  showScreen('program-builder');
-  renderProgramBuilder();
-}
-
-function renderProgramBuilder() {
+// ==================== WEEK CALENDAR ====================
+function renderWeekCalendars() {
   const today = new Date();
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
@@ -1412,449 +907,62 @@ function renderProgramBuilder() {
   for (let i = 0; i < 7; i++) {
     const d = new Date(startOfWeek);
     d.setDate(startOfWeek.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
-    const dayWorkout = workouts.find(w => w.date === dateStr);
+    const isToday = d.toDateString() === today.toDateString();
+    const hasSession = [0, 2, 4].includes(i); // Demo: sessions on Sun, Tue, Thu
     
     html += `
-      <div class="builder-day">
-        <div class="builder-day-header">
-          <span class="builder-day-name">${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][i]}</span>
-          <span class="builder-day-date">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-        </div>
-        ${dayWorkout ? `
-          <div class="builder-workout">
-            <span class="builder-workout-name">${dayWorkout.name}</span>
-            <span onclick="editWorkout(${dayWorkout.id})" style="color:#4169E1;cursor:pointer;">Edit</span>
-          </div>
-        ` : `
-          <span class="builder-add-btn" onclick="addWorkoutToDay('${dateStr}')">+ Add Workout</span>
-        `}
+      <div class="week-day ${isToday ? 'today' : ''} ${hasSession ? 'has-session' : ''}">
+        <div class="week-day-name">${['S','M','T','W','T','F','S'][i]}</div>
+        <div class="week-day-num">${d.getDate()}</div>
+        ${hasSession ? '<div class="week-day-dot"></div>' : ''}
       </div>
     `;
   }
-  document.getElementById('builder-week-grid').innerHTML = html;
-}
-
-function loadTemplate(templateId) {
-  const template = programTemplates[templateId];
-  if (!template) return;
   
-  alert(`Loading template: ${template.name}\n\nThis would populate the week with:\n${template.days.map(d => `${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.day]}: ${d.name}`).join('\n')}`);
+  const clientCal = document.getElementById('client-week-cal');
+  const trainerCal = document.getElementById('trainer-week-cal');
+  if (clientCal) clientCal.innerHTML = html;
+  if (trainerCal) trainerCal.innerHTML = html;
 }
 
-function backFromBuilder() {
+// ==================== PROGRESS TABS ====================
+function showProgressTab(tab) {
+  document.querySelectorAll('.progress-tab').forEach(t => t.style.display = 'none');
+  document.getElementById('progress-' + tab).style.display = 'block';
+  
+  document.querySelectorAll('#progress-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ==================== TEMPLATE TABS ====================
+function showTemplateTab(tab) {
+  document.getElementById('templates-my').style.display = tab === 'my' ? 'block' : 'none';
+  document.getElementById('templates-builtin').style.display = tab === 'builtin' ? 'block' : 'none';
+  
+  document.querySelectorAll('#templates .tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ==================== BUSINESS TABS ====================
+function showBizTab(tab) {
+  document.getElementById('biz-overview').style.display = tab === 'overview' ? 'block' : 'none';
+  document.getElementById('biz-invoices').style.display = tab === 'invoices' ? 'block' : 'none';
+  document.getElementById('biz-expenses').style.display = tab === 'expenses' ? 'block' : 'none';
+  
+  document.querySelectorAll('#business .tab-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ==================== CLIENT DETAIL ====================
+function showClientDetail(clientId) {
   showScreen('client-detail');
 }
 
-// ==================== TRAINER: WORKOUT BUILDER ====================
-function openWorkoutBuilder() {
-  currentWorkoutExercises = [];
-  showScreen('workout-builder');
-  renderWorkoutExercises();
-}
-
-function backFromWorkoutBuilder() {
-  showScreen('program-builder');
-}
-
-function renderWorkoutExercises() {
-  if (currentWorkoutExercises.length === 0) {
-    document.getElementById('workout-exercises').innerHTML = '<p style="color:#666;font-size:13px;">No exercises added yet. Tap "Add Exercise" to start building.</p>';
-    return;
-  }
-  
-  document.getElementById('workout-exercises').innerHTML = currentWorkoutExercises.map((ex, i) => `
-    <div class="exercise-item" style="margin-bottom:8px;">
-      <div class="exercise-thumb">
-        <img src="${ex.gifUrl}" alt="${ex.name}" loading="lazy" onerror="this.parentElement.innerHTML='🏋️'">
-      </div>
-      <div class="exercise-info">
-        <div class="exercise-name">${ex.name}</div>
-        <div class="exercise-muscle">${ex.muscle}</div>
-        <div style="margin-top:8px;display:flex;gap:8px;">
-          <input type="text" class="input" placeholder="Sets x Reps" style="margin:0;padding:8px;font-size:12px;width:80px;">
-          <input type="text" class="input" placeholder="Weight" style="margin:0;padding:8px;font-size:12px;width:70px;">
-        </div>
-      </div>
-      <span onclick="removeExercise(${i})" style="color:#ff6b6b;cursor:pointer;padding:8px;font-size:18px;">✕</span>
-    </div>
-  `).join('');
-}
-
-function removeExercise(index) {
-  currentWorkoutExercises.splice(index, 1);
-  renderWorkoutExercises();
-}
-
-function saveWorkout() {
-  const name = document.getElementById('workout-name').value;
-  const date = document.getElementById('workout-date').value;
-  
-  if (!name || !date) {
-    alert('Please enter a workout name and date');
-    return;
-  }
-  
-  workouts.push({
-    id: workouts.length + 1,
-    name: name,
-    date: date,
-    status: 'scheduled',
-    exercises: currentWorkoutExercises.map(e => ({ name: e.name, sets: [{w:0,r:10}] }))
-  });
-  
-  localStorage.setItem('arsenal_workouts', JSON.stringify(workouts));
-  alert('Workout saved!');
-  showScreen('program-builder');
-  renderProgramBuilder();
-}
-
-function addWorkoutToDay(dateStr) {
-  document.getElementById('workout-date').value = dateStr;
-  openWorkoutBuilder();
-}
-
-function editWorkout(id) {
-  alert('Edit workout ' + id);
-}
-
-function createSuperset() { alert('Superset creation UI would open'); }
-function createCircuit() { alert('Circuit creation UI would open'); }
-function addRestPeriod() { alert('Rest period added'); }
-
-// ==================== TRAINER: EXERCISE LIBRARY ====================
-function openExerciseLibrary() {
-  selectedExercises = [];
-  showScreen('exercise-library');
-  renderExerciseLibrary();
-}
-
-function closeExerciseLibrary() {
-  showScreen('workout-builder');
-}
-
-function renderExerciseLibrary() {
-  // Load from API if not loaded yet
-  if (!exerciseDbLoaded && !isLoadingExercises) {
-    fetchExercisesFromAPI();
-  }
-  
-  // Categories
-  document.getElementById('exercise-categories').innerHTML = exerciseCategories.map(c => `
-    <div class="exercise-category ${currentCategory === c.id ? 'active' : ''}" onclick="filterByCategory('${c.id}')">${c.name}</div>
-  `).join('');
-  
-  // Show loading state if no exercises
-  if (exerciseLibrary.length === 0) {
-    document.getElementById('exercise-list').innerHTML = `
-      <div style="text-align:center;padding:40px;color:#888;">
-        <div style="font-size:24px;margin-bottom:12px;">⏳</div>
-        <div>Loading exercises from ExerciseDB...</div>
-        <div style="font-size:11px;margin-top:8px;">1300+ exercises with animated GIFs</div>
-      </div>
-    `;
-    return;
-  }
-  
-  // Filter exercises
-  const searchTerm = document.getElementById('exercise-search')?.value?.toLowerCase() || '';
-  let filtered = exerciseLibrary;
-  
-  if (currentCategory !== 'all') {
-    filtered = filtered.filter(e => e.category === currentCategory);
-  }
-  
-  if (searchTerm) {
-    filtered = filtered.filter(e => 
-      e.name.toLowerCase().includes(searchTerm) || 
-      e.muscle.toLowerCase().includes(searchTerm) ||
-      e.equipment.toLowerCase().includes(searchTerm)
-    );
-  }
-  
-  // Limit to 50 for performance, show count
-  const total = filtered.length;
-  const displayLimit = 100;
-  const limited = filtered.slice(0, displayLimit);
-  
-  // Render list with GIF thumbnails
-  let listHtml = limited.map(e => `
-    <div class="exercise-item ${selectedExercises.includes(e.id) ? 'selected' : ''}" onclick="toggleExerciseSelection('${e.id}')" ondblclick="showExerciseDetail('${e.id}')">
-      <div class="exercise-thumb">
-        <img src="${e.gifUrl}" alt="${e.name}" loading="lazy" onerror="this.parentElement.innerHTML='🏋️'">
-      </div>
-      <div class="exercise-info">
-        <div class="exercise-name">${e.name}</div>
-        <div class="exercise-muscle">${e.muscle}</div>
-        <div class="exercise-equipment">${e.equipment}</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
-        ${selectedExercises.includes(e.id) ? '<span style="color:#00ff88;font-size:18px;">✓</span>' : ''}
-        <span onclick="event.stopPropagation();showExerciseDetail('${e.id}')" style="color:#4169E1;font-size:10px;">View</span>
-      </div>
-    </div>
-  `).join('');
-  
-  // Show count info
-  if (total > displayLimit) {
-    listHtml += `<div style="text-align:center;padding:16px;color:#666;font-size:12px;">Showing ${displayLimit} of ${total} exercises. Use search to find more.</div>`;
-  } else {
-    listHtml += `<div style="text-align:center;padding:16px;color:#666;font-size:12px;">${total} exercises found</div>`;
-  }
-  
-  document.getElementById('exercise-list').innerHTML = listHtml;
-  
-  // Update button
-  const btn = document.getElementById('add-selected-btn');
-  if (selectedExercises.length > 0) {
-    btn.style.display = 'block';
-    btn.textContent = `Add Selected (${selectedExercises.length})`;
-  } else {
-    btn.style.display = 'none';
-  }
-}
-
-// Refresh exercises from API
-function refreshExercises() {
-  localStorage.removeItem('exercisedb_cache');
-  exerciseLibrary = [];
-  exerciseDbLoaded = false;
-  fetchExercisesFromAPI();
-}
-
-// Show exercise detail modal with full GIF
-let currentModalExercise = null;
-function showExerciseDetail(id) {
-  const exercise = exerciseLibrary.find(e => e.id === id || e.id === parseInt(id));
-  if (!exercise) return;
-  
-  currentModalExercise = exercise;
-  document.getElementById('modal-exercise-gif').src = exercise.gifUrl;
-  document.getElementById('modal-exercise-name').textContent = exercise.name;
-  
-  // Show more details including instructions
-  let metaHtml = `
-    <span>💪 ${exercise.muscle}</span>
-    <span>🏋️ ${exercise.equipment}</span>
-    <span>📁 ${exercise.category.charAt(0).toUpperCase() + exercise.category.slice(1)}</span>
-  `;
-  if (exercise.bodyPart) {
-    metaHtml += `<span>🎯 ${capitalizeWords(exercise.bodyPart)}</span>`;
-  }
-  document.getElementById('modal-exercise-meta').innerHTML = metaHtml;
-  
-  // Add instructions if available
-  const modalInfo = document.querySelector('.exercise-modal-info');
-  let instructionsEl = document.getElementById('modal-exercise-instructions');
-  if (!instructionsEl) {
-    instructionsEl = document.createElement('div');
-    instructionsEl.id = 'modal-exercise-instructions';
-    instructionsEl.style.cssText = 'margin:16px 0;font-size:13px;color:#aaa;line-height:1.6;';
-    modalInfo.insertBefore(instructionsEl, modalInfo.querySelector('button'));
-  }
-  
-  if (exercise.instructions && exercise.instructions.length > 0) {
-    instructionsEl.innerHTML = '<div style="font-weight:600;color:#fff;margin-bottom:8px;">Instructions:</div>' + 
-      exercise.instructions.map((inst, i) => `<div style="margin-bottom:6px;">${i+1}. ${inst}</div>`).join('');
-  } else {
-    instructionsEl.innerHTML = '';
-  }
-  
-  document.getElementById('exercise-modal').classList.add('active');
-}
-
-function closeExerciseModal(event) {
-  if (event && event.target !== event.currentTarget) return;
-  document.getElementById('exercise-modal').classList.remove('active');
-}
-
-function addExerciseFromModal() {
-  if (currentModalExercise && !selectedExercises.includes(currentModalExercise.id)) {
-    selectedExercises.push(currentModalExercise.id);
-    renderExerciseLibrary();
-  }
-  closeExerciseModal();
-}
-
-function filterByCategory(category) {
-  currentCategory = category;
-  renderExerciseLibrary();
-}
-
-function filterExercises() {
-  renderExerciseLibrary();
-}
-
-function toggleExerciseSelection(id) {
-  const idx = selectedExercises.indexOf(id);
-  if (idx >= 0) {
-    selectedExercises.splice(idx, 1);
-  } else {
-    selectedExercises.push(id);
-  }
-  renderExerciseLibrary();
-}
-
-function addSelectedExercises() {
-  selectedExercises.forEach(id => {
-    const exercise = exerciseLibrary.find(e => e.id === id);
-    if (exercise && !currentWorkoutExercises.find(e => e.id === id)) {
-      currentWorkoutExercises.push(exercise);
-    }
-  });
-  selectedExercises = [];
-  showScreen('workout-builder');
-  renderWorkoutExercises();
-}
-
-// ==================== TRAINER: NUTRITION BUILDER ====================
-function openNutritionBuilder() {
-  showScreen('nutrition-builder');
-}
-
-function saveNutrition() {
-  alert('Nutrition plan saved!');
-  showScreen('client-detail');
-}
-
-function setMacroPreset(preset) {
-  const presets = {
-    'cut': { calories: 1700, protein: 150, carbs: 150, fats: 55 },
-    'maintain': { calories: 2000, protein: 140, carbs: 200, fats: 65 },
-    'bulk': { calories: 2300, protein: 160, carbs: 250, fats: 75 },
-    'high-protein': { calories: 2000, protein: 180, carbs: 150, fats: 65 }
-  };
-  
-  const p = presets[preset];
-  if (p) {
-    document.getElementById('target-calories').value = p.calories;
-    document.getElementById('target-protein').value = p.protein;
-    document.getElementById('target-carbs').value = p.carbs;
-    document.getElementById('target-fats').value = p.fats;
-  }
-}
-
-function addMealTiming() {
-  alert('Add meal timing UI would open');
-}
-
-// ==================== TRAINER: HABITS BUILDER ====================
-function openHabitsBuilder() {
-  showScreen('habits-builder');
-  renderHabitsBuilder();
-}
-
-function renderHabitsBuilder() {
-  document.getElementById('assigned-habits-list').innerHTML = habits.map(h => `
-    <div class="habit-item">
-      <span class="habit-name">${h.icon} ${h.name}</span>
-      <span onclick="removeHabitFromClient(${h.id})" style="color:#ff6b6b;cursor:pointer;">✕</span>
-    </div>
-  `).join('');
-}
-
-function addHabit() {
-  const name = document.getElementById('new-habit-name').value;
-  if (!name) return;
-  
-  habits.push({ id: habits.length + 1, name: name, icon: '✅', completed: false });
-  document.getElementById('new-habit-name').value = '';
-  localStorage.setItem('arsenal_habits', JSON.stringify(habits));
-  renderHabitsBuilder();
-}
-
-function addPresetHabit(presetId) {
-  const preset = presetHabits[presetId];
-  if (preset && !habits.find(h => h.name === preset.name)) {
-    habits.push({ id: habits.length + 1, name: preset.name, icon: preset.icon, completed: false });
-    localStorage.setItem('arsenal_habits', JSON.stringify(habits));
-    renderHabitsBuilder();
-  }
-}
-
-function removeHabitFromClient(id) {
-  habits = habits.filter(h => h.id !== id);
-  localStorage.setItem('arsenal_habits', JSON.stringify(habits));
-  renderHabitsBuilder();
-}
-
-function saveHabits() {
-  alert('Habits saved!');
-  showScreen('client-detail');
-}
-
-// ==================== TRAINER: TEMPLATE LIBRARY ====================
-function openTemplateLibrary() {
-  showScreen('template-library');
-  renderTemplateLibrary();
-}
-
-function closeTemplateLibrary() {
-  showScreen('program-builder');
-}
-
-function renderTemplateLibrary() {
-  // My Templates
-  document.getElementById('my-templates').innerHTML = `
-    <div class="workout-card">
-      <div class="workout-card-header">
-        <span class="workout-card-name">Ari's 4-Day Split</span>
-        <span class="workout-card-date">Saved Dec 10</span>
-      </div>
-      <div class="workout-card-exercises">Upper/Lower • 4 days/week</div>
-    </div>
-  `;
-  
-  // Built-in Templates
-  document.getElementById('builtin-templates').innerHTML = Object.entries(programTemplates).map(([id, t]) => `
-    <div class="workout-card" onclick="loadTemplate('${id}')">
-      <div class="workout-card-header">
-        <span class="workout-card-name">${t.name}</span>
-      </div>
-      <div class="workout-card-exercises">${t.days.filter(d => d.exercises.length > 0).length} training days/week</div>
-    </div>
-  `).join('');
-}
-
-function saveAsTemplate() {
-  const name = prompt('Template name:');
-  if (name) {
-    alert(`Template "${name}" saved!`);
-  }
-}
-
-// ==================== TRAINER: OTHER ====================
-function viewClientProgress() {
-  alert('Client progress view would open');
-}
-
-function builderPrevWeek() { alert('Previous week'); }
-function builderNextWeek() { alert('Next week'); }
-function sessionsPrev() { alert('Previous week'); }
-function sessionsNext() { alert('Next week'); }
-
-function toggleSource(source) {
-  alert(`${source} connection UI would open`);
-}
-
-function clearData() {
-  if (confirm('Clear all data?')) {
-    localStorage.clear();
-    location.reload();
-  }
-}
-
-function handleFab() {
-  if (role === 'client') {
-    const todayWorkout = workouts.find(w => w.date === getTodayStr() && w.status !== 'completed');
-    if (todayWorkout) {
-      openWorkout(todayWorkout.id);
-    } else {
-      alert('No workout scheduled for today');
-    }
-  } else {
-    openWorkoutBuilder();
-  }
+function showClientProgress() {
+  // Switch to client view to show progress
+  role = 'client';
+  updateRole();
+  showScreen('client-progress');
 }
 
 // Initialize
@@ -1862,3 +970,4 @@ init();
 </script>
 </body>
 </html>
+
