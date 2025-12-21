@@ -862,10 +862,12 @@ async function fetchExercisesFromAPI() {
   try {
     // Show loading state
     const listEl = document.getElementById('exercise-list');
+    const statusEl = document.getElementById('exercise-api-status');
     if (listEl) {
-      listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#888;"><div style="font-size:24px;margin-bottom:12px;">⏳</div>Loading 1300+ exercises...</div>';
+      listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#888;"><div style="font-size:24px;margin-bottom:12px;">⏳</div>Loading exercises from ExerciseDB...</div>';
     }
     
+    // Try to get all exercises (requires Pro subscription for full results)
     const response = await fetch(`${EXERCISEDB_BASE_URL}/exercises?limit=1500&offset=0`, {
       method: 'GET',
       headers: {
@@ -874,9 +876,22 @@ async function fetchExercisesFromAPI() {
       }
     });
     
-    if (!response.ok) throw new Error('API request failed');
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error:', response.status, errorText);
+      throw new Error(`API request failed: ${response.status}`);
+    }
     
     const data = await response.json();
+    
+    // Check if we got limited results (free tier)
+    if (data.length <= 10) {
+      console.warn('Only received 10 exercises - you may be on the free tier. Upgrade to Pro for all 1300+ exercises.');
+      if (statusEl) {
+        statusEl.innerHTML = '⚠️ Free tier: Only 10 exercises. <a href="https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb/pricing" target="_blank" style="color:#4169E1;">Upgrade to Pro</a> for 1300+';
+        statusEl.style.color = '#ffaa00';
+      }
+    }
     
     // Transform API data to our format
     exerciseLibrary = data.map(ex => ({
@@ -899,7 +914,9 @@ async function fetchExercisesFromAPI() {
     console.log(`Loaded ${exerciseLibrary.length} exercises from ExerciseDB`);
     
     // Update status display
-    updateExerciseApiStatus();
+    if (data.length > 10) {
+      updateExerciseApiStatus();
+    }
     
     // Re-render if on exercise library screen
     if (document.getElementById('exercise-library')?.classList.contains('active')) {
