@@ -14,13 +14,15 @@
     
     /* Header */
     .header { background: #000; padding: 50px 20px 16px; display: flex; justify-content: center; align-items: center; position: relative; }
-    .header-left { position: absolute; left: 20px; }
-    .header-right { position: absolute; right: 20px; }
+    .header-left { position: absolute; left: 20px; top: 50px; }
+    .header-right { position: absolute; right: 20px; top: 50px; }
     .logo-text { font-size: 26px; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; letter-spacing: 1px; }
     .logo-lift { color: #fff; }
     .logo-wise { background: linear-gradient(90deg, #4169E1, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .role-badge { font-size: 10px; padding: 6px 12px; border-radius: 20px; background: #1a1a1a; border: 1px solid #333; cursor: pointer; }
     .role-badge.trainer { background: #4169E120; border-color: #4169E1; color: #4169E1; }
+    .msg-btn { position: relative; }
+    .msg-badge { position: absolute; top: -6px; right: -6px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
     
     /* Screen Transitions */
     .screen { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.25s ease, transform 0.25s ease; }
@@ -714,8 +716,9 @@
       
       <div class="tab-buttons">
         <button class="tab-btn active" onclick="showTemplateTab('ai')">AI Coach</button>
-        <button class="tab-btn" onclick="showTemplateTab('my')">My Programs</button>
-        <button class="tab-btn" onclick="showTemplateTab('builtin')">Templates</button>
+        <button class="tab-btn" onclick="showTemplateTab('my')">Programs</button>
+        <button class="tab-btn" onclick="showTemplateTab('exercises')">Exercises</button>
+        <button class="tab-btn" onclick="showTemplateTab('nutrition')">Nutrition</button>
       </div>
       
       <!-- AI Coach Tab -->
@@ -1802,23 +1805,21 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     </div>
     <div class="tab" onclick="showScreen('templates')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></span>
-      Programs
-    </div>
-    <div class="tab" onclick="showScreen('trainer-nutrition')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04z"/></svg></span>
-      Nutrition
+      Programming
     </div>
     <div class="tab" onclick="showScreen('business')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
       Business
+    </div>
+    <div class="tab" onclick="showScreen('settings')">
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
+      Settings
     </div>
   </div>
 </div>
 
 <style>
     /* Additional Styles */
-    .msg-btn { position: relative; cursor: pointer; }
-    .msg-badge { position: absolute; top: -5px; right: -5px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
     
     /* Buttons */
     .btn { padding: 14px 24px; background: linear-gradient(135deg, #4169E1 0%, #00ff88 100%); border: none; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
