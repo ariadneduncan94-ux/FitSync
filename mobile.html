@@ -13,16 +13,17 @@
     .app { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #000; position: relative; padding-bottom: 90px; }
     
     /* Header */
-    .header { background: #000; padding: 50px 20px 16px; display: flex; justify-content: center; align-items: center; position: relative; min-height: 90px; }
-    .header-left { position: absolute; left: 20px; bottom: 16px; display: flex; align-items: center; }
-    .header-right { position: absolute; right: 20px; bottom: 16px; display: flex; align-items: center; }
-    .logo-text { font-size: 26px; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; letter-spacing: 1px; margin-top: 34px; }
+    .header { background: #000; padding: 12px 20px; padding-top: 50px; display: flex; justify-content: space-between; align-items: center; }
+    .header-left { display: flex; align-items: center; }
+    .header-center { position: absolute; left: 50%; transform: translateX(-50%); }
+    .header-right { display: flex; align-items: center; }
+    .logo-text { font-size: 26px; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; letter-spacing: 1px; }
     .logo-lift { color: #fff; }
     .logo-wise { background: linear-gradient(90deg, #4169E1, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .role-badge { font-size: 10px; padding: 6px 12px; border-radius: 20px; background: #1a1a1a; border: 1px solid #333; cursor: pointer; }
     .role-badge.trainer { background: #4169E120; border-color: #4169E1; color: #4169E1; }
-    .msg-btn { position: relative; display: flex; align-items: center; justify-content: center; }
-    .msg-badge { position: absolute; top: -8px; right: -8px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+    .msg-btn { position: relative; display: flex; align-items: center; justify-content: center; padding: 8px; }
+    .msg-badge { position: absolute; top: 0; right: 0; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
     
     /* Screen Transitions */
     .screen { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.25s ease, transform 0.25s ease; }
@@ -57,9 +58,11 @@
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-left msg-btn" onclick="showScreen('messages')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-      <span class="msg-badge">2</span>
+    <div class="header-left">
+      <div class="msg-btn" onclick="showScreen('messages')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+        <span class="msg-badge">2</span>
+      </div>
     </div>
     <div class="logo-text"><span class="logo-lift">Lift</span><span class="logo-wise">Wise</span></div>
     <div class="header-right">
