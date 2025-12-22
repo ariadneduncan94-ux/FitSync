@@ -124,7 +124,7 @@
         </div>
         <div class="nav-item" onclick="showPage('ai-coach')">
           <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 20h24M12 14v12M28 14v12M6 17h4v6H6zM30 17h4v6h-4z" stroke-linecap="round"/><path d="M20 8l4 6h-8l4-6z" fill="currentColor" stroke="none"/></svg>
-          AI Coach
+          <span><span style="color:#fff;">Lift</span><span style="background:linear-gradient(90deg,#4169E1,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistant</span></span>
         </div>
       </div>
       
@@ -417,6 +417,55 @@
     .program-stat { text-align: center; }
     .program-stat-value { display: block; font-size: 18px; font-weight: 700; color: #4169E1; }
     .program-stat-label { font-size: 10px; color: #666; text-transform: uppercase; }
+    
+    /* Program Detail View */
+    .program-day-card { background: #1a1a1a; border: 1px solid #222; border-radius: 10px; padding: 12px; text-align: center; }
+    .program-day-card.today { border-color: #4169E1; background: #4169E110; }
+    .program-day-name { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+    .program-day-focus { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+    .program-day-exercises { font-size: 11px; color: #888; line-height: 1.6; min-height: 80px; }
+    .program-day-status { font-size: 10px; padding: 4px 8px; border-radius: 10px; margin-top: 10px; display: inline-block; }
+    .program-day-status.completed { background: #00ff8820; color: #00ff88; }
+    .program-day-status.pending { background: #33333380; color: #666; }
+    .program-day-status.rest { background: #22222280; color: #444; }
+    .program-day-status.today { background: #4169E130; color: #4169E1; }
+    
+    /* LiftAssistant Insight Cards */
+    .insight-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .insight-card.priority { border-left: 3px solid #ff6b6b; }
+    .insight-card.positive { border-left: 3px solid #00ff88; }
+    .insight-card.nutrition { border-left: 3px solid #ffcc00; }
+    .insight-card.habit { border-left: 3px solid #4169E1; }
+    .insight-card.milestone { border-left: 3px solid #00ff88; background: linear-gradient(135deg, #00ff8808 0%, transparent 100%); }
+    .insight-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .insight-icon { font-size: 14px; }
+    .insight-type { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; }
+    .insight-time { font-size: 10px; color: #555; margin-left: auto; }
+    .insight-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .insight-body { font-size: 12px; color: #aaa; line-height: 1.5; margin-bottom: 10px; }
+    .insight-suggestion { font-size: 12px; color: #888; background: #0a0a0a; border-radius: 8px; padding: 10px; margin-bottom: 10px; line-height: 1.5; }
+    .insight-suggestion strong { color: #4169E1; }
+    .insight-actions { display: flex; gap: 8px; }
+    .insight-btn { padding: 6px 12px; background: #222; border: 1px solid #333; border-radius: 6px; color: #ccc; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+    .insight-btn:hover { border-color: #4169E1; color: #fff; }
+    .insight-btn.primary { background: linear-gradient(135deg, #4169E1, #00ff88); border: none; color: #fff; }
+    .insight-btn.primary:hover { transform: translateY(-1px); }
+    
+    /* Program Draft Styles */
+    .program-draft { font-size: 13px; line-height: 1.5; }
+    .draft-header { background: linear-gradient(135deg, #4169E110, #00ff8808); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+    .draft-section { background: #0a0a0a; border-radius: 6px; padding: 10px; margin-bottom: 10px; font-size: 12px; }
+    .draft-phases { margin: 12px 0; }
+    .draft-phase { background: #0a0a0a; border: 1px solid #222; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+    .phase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .phase-weeks { font-size: 11px; color: #4169E1; background: #4169E120; padding: 2px 8px; border-radius: 10px; }
+    .phase-focus { font-size: 12px; color: #888; margin-bottom: 10px; font-style: italic; }
+    .phase-structure { border-left: 2px solid #333; padding-left: 12px; margin-left: 4px; }
+    .phase-day { margin-bottom: 8px; font-size: 12px; }
+    .phase-day strong { color: #fff; }
+    .phase-exercises { color: #666; font-size: 11px; margin-top: 2px; }
+    .phase-notes { font-size: 11px; color: #00ff88; margin-top: 8px; padding-top: 8px; border-top: 1px solid #222; }
+    .draft-actions { background: #4169E110; border-radius: 8px; padding: 12px; margin-top: 12px; text-align: center; }
     
     /* P&L Chart Styles */
     .chart-period-btns { display: flex; gap: 4px; }
@@ -728,7 +777,7 @@
       </header>
       
       <div class="content">
-        <div class="client-row">
+        <div class="client-row" onclick="viewClient('sarah')">
           <div class="client-avatar-lg">SJ</div>
           <div class="client-details">
             <div class="client-name-lg">Sarah Johnson</div>
@@ -750,7 +799,7 @@
           </div>
         </div>
         
-        <div class="client-row">
+        <div class="client-row" onclick="viewClient('mike')">
           <div class="client-avatar-lg" style="background: linear-gradient(135deg, #00ff88, #4169E1);">MC</div>
           <div class="client-details">
             <div class="client-name-lg">Mike Chen</div>
@@ -772,7 +821,7 @@
           </div>
         </div>
         
-        <div class="client-row">
+        <div class="client-row" onclick="viewClient('emma')">
           <div class="client-avatar-lg" style="background: linear-gradient(135deg, #ff6b6b, #ffcc00);">EW</div>
           <div class="client-details">
             <div class="client-name-lg">Emma Wilson</div>
@@ -794,7 +843,7 @@
           </div>
         </div>
         
-        <div class="client-row">
+        <div class="client-row" onclick="viewClient('david')">
           <div class="client-avatar-lg" style="background: linear-gradient(135deg, #ffcc00, #ff6b6b);">DP</div>
           <div class="client-details">
             <div class="client-name-lg">David Park</div>
@@ -817,11 +866,265 @@
         </div>
       </div>
     </div>
+    
+    <!-- Client Detail Page -->
+    <div id="page-client-detail" class="page">
+      <header class="header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-secondary btn-sm" onclick="showPage('clients')" style="padding:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          </button>
+          <div class="client-avatar-lg" id="client-detail-avatar">SJ</div>
+          <div>
+            <h1 class="header-title" id="client-detail-name" style="margin:0;">Sarah Johnson</h1>
+            <div style="font-size:12px;color:#666;" id="client-detail-meta">Hypertrophy • 3x/week • Since Oct 2024</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary btn-sm" onclick="messageClient()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            Message
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="editClientProgram()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"/></svg>
+            Edit Program
+          </button>
+        </div>
+      </header>
+      
+      <div class="content" style="display:grid;grid-template-columns:1fr 380px;gap:20px;height:calc(100vh - 80px);overflow:hidden;">
+        <!-- Main Content Area -->
+        <div style="overflow-y:auto;padding-right:10px;">
+          <!-- Quick Stats -->
+          <div class="grid-4" style="margin-bottom:20px;">
+            <div class="stat-card">
+              <div class="stat-value" id="client-stat-compliance" style="color:#00ff88;">94%</div>
+              <div class="stat-label">Compliance</div>
+              <div class="stat-change up" id="client-stat-compliance-trend">↑ 8% vs last month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="client-stat-workouts">12</div>
+              <div class="stat-label">Workouts (Dec)</div>
+              <div class="stat-change up">On track</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="client-stat-weight">142 lbs</div>
+              <div class="stat-label">Current Weight</div>
+              <div class="stat-change up" id="client-stat-weight-trend">↓ 3 lbs this month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="client-stat-streak">8</div>
+              <div class="stat-label">Day Streak</div>
+              <div class="stat-change">Personal best!</div>
+            </div>
+          </div>
+          
+          <!-- Performance Charts -->
+          <div class="grid-2" style="margin-bottom:20px;">
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Strength Progress</span>
+                <div class="chart-period-btns">
+                  <button class="period-btn" onclick="updateClientChart('1m')">1M</button>
+                  <button class="period-btn active" onclick="updateClientChart('3m')">3M</button>
+                  <button class="period-btn" onclick="updateClientChart('6m')">6M</button>
+                </div>
+              </div>
+              <div style="height:180px;position:relative;">
+                <canvas id="clientStrengthChart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Body Composition</span>
+              </div>
+              <div style="height:180px;position:relative;">
+                <canvas id="clientBodyChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recent Activity & Nutrition -->
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Recent Workouts</span>
+                <span style="font-size:11px;color:#4169E1;cursor:pointer;">View All</span>
+              </div>
+              <div class="schedule-item">
+                <div class="schedule-time" style="min-width:70px;">Today</div>
+                <div class="schedule-info">
+                  <div class="schedule-title">Upper Push</div>
+                  <div class="schedule-meta">All sets completed • RPE 8 avg</div>
+                </div>
+                <span class="exercise-tag" style="background:#00ff8820;color:#00ff88;">Done</span>
+              </div>
+              <div class="schedule-item">
+                <div class="schedule-time" style="min-width:70px;">Dec 20</div>
+                <div class="schedule-info">
+                  <div class="schedule-title">Lower Body</div>
+                  <div class="schedule-meta">Squat PR: 185 lbs</div>
+                </div>
+                <span class="exercise-tag" style="background:#4169E120;color:#4169E1;">PR!</span>
+              </div>
+              <div class="schedule-item">
+                <div class="schedule-time" style="min-width:70px;">Dec 18</div>
+                <div class="schedule-info">
+                  <div class="schedule-title">Pull Day</div>
+                  <div class="schedule-meta">Skipped last 2 exercises</div>
+                </div>
+                <span class="exercise-tag" style="background:#ffcc0020;color:#ffcc00;">Partial</span>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title">Nutrition (7-day avg)</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+                <div style="text-align:center;">
+                  <div style="font-size:18px;font-weight:700;">1,820</div>
+                  <div style="font-size:10px;color:#666;">CALORIES</div>
+                  <div style="font-size:10px;color:#00ff88;">↓ 180 deficit</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:18px;font-weight:700;color:#4169E1;">142g</div>
+                  <div style="font-size:10px;color:#666;">PROTEIN</div>
+                  <div style="font-size:10px;color:#00ff88;">✓ On target</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:18px;font-weight:700;color:#ffcc00;">165g</div>
+                  <div style="font-size:10px;color:#666;">CARBS</div>
+                  <div style="font-size:10px;color:#888;">-15g</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:18px;font-weight:700;color:#ff6b6b;">58g</div>
+                  <div style="font-size:10px;color:#666;">FATS</div>
+                  <div style="font-size:10px;color:#888;">+3g</div>
+                </div>
+              </div>
+              <div style="height:6px;background:#222;border-radius:3px;overflow:hidden;display:flex;">
+                <div style="width:31%;background:#4169E1;"></div>
+                <div style="width:36%;background:#ffcc00;"></div>
+                <div style="width:28%;background:#ff6b6b;"></div>
+              </div>
+              <div style="font-size:10px;color:#666;margin-top:6px;text-align:center;">Protein 31% • Carbs 36% • Fats 28%</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- LiftAssistant Insights Panel -->
+        <div class="card" style="display:flex;flex-direction:column;height:100%;margin:0;overflow:hidden;">
+          <div style="padding:16px;border-bottom:1px solid #222;display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4169E1,#00ff88);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-weight:600;font-size:14px;"><span>Lift</span><span style="background:linear-gradient(90deg,#4169E1,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistant</span> Insights</div>
+              <div style="font-size:11px;color:#666;">Analyzing 12 weeks of data</div>
+            </div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#00ff88;"></div>
+          </div>
+          
+          <!-- Insights Feed -->
+          <div style="flex:1;overflow-y:auto;padding:12px;" id="client-insights-feed">
+            <!-- Priority Alert -->
+            <div class="insight-card priority">
+              <div class="insight-header">
+                <span class="insight-icon">🎯</span>
+                <span class="insight-type">Action Needed</span>
+                <span class="insight-time">Just now</span>
+              </div>
+              <div class="insight-title">Recovery Pattern Detected</div>
+              <div class="insight-body">Sarah's HRV has dropped 15% over the past 5 days while sleep quality decreased. Combined with her partial workout on Dec 18, she may be approaching overtraining.</div>
+              <div class="insight-suggestion">
+                <strong>Suggestion:</strong> Consider a deload week or reduce volume by 20% for the next 3-4 sessions. Check in about stress/sleep.
+              </div>
+              <div class="insight-actions">
+                <button class="insight-btn primary" onclick="applyInsight('deload')">Apply Deload</button>
+                <button class="insight-btn" onclick="dismissInsight(this)">Dismiss</button>
+              </div>
+            </div>
+            
+            <!-- Positive Trend -->
+            <div class="insight-card positive">
+              <div class="insight-header">
+                <span class="insight-icon">📈</span>
+                <span class="insight-type">Trend</span>
+                <span class="insight-time">2 hours ago</span>
+              </div>
+              <div class="insight-title">Strength Gains Accelerating</div>
+              <div class="insight-body">Bench press has increased 12% in 6 weeks (95→107 lbs). This exceeds the typical 5-8% for her training age. Squat PR yesterday confirms progressive overload is working.</div>
+              <div class="insight-suggestion">
+                <strong>Coaching tip:</strong> Celebrate this win! Consider discussing long-term strength goals in your next session.
+              </div>
+            </div>
+            
+            <!-- Nutrition Insight -->
+            <div class="insight-card nutrition">
+              <div class="insight-header">
+                <span class="insight-icon">🥗</span>
+                <span class="insight-type">Nutrition</span>
+                <span class="insight-time">Yesterday</span>
+              </div>
+              <div class="insight-title">Protein Timing Opportunity</div>
+              <div class="insight-body">Analysis shows Sarah consistently logs protein-heavy meals at dinner (60% of daily intake) but minimal protein at breakfast. Post-workout protein is often delayed 3+ hours.</div>
+              <div class="insight-suggestion">
+                <strong>Suggestion:</strong> Recommend redistributing protein across meals. A morning shake could improve muscle protein synthesis by ~15%.
+              </div>
+              <div class="insight-actions">
+                <button class="insight-btn" onclick="sendNutritionTip()">Send Tip to Sarah</button>
+              </div>
+            </div>
+            
+            <!-- Habit Pattern -->
+            <div class="insight-card habit">
+              <div class="insight-header">
+                <span class="insight-icon">🔄</span>
+                <span class="insight-type">Pattern</span>
+                <span class="insight-time">3 days ago</span>
+              </div>
+              <div class="insight-title">Weekend Compliance Drop</div>
+              <div class="insight-body">Nutrition logging drops 40% on weekends (last 8 weeks). Saturday workouts are skipped 3x more often than weekday sessions.</div>
+              <div class="insight-suggestion">
+                <strong>Coaching opportunity:</strong> Discuss weekend routine. Consider moving Saturday workout to Sunday or creating a flexible "weekend workout" option.
+              </div>
+            </div>
+            
+            <!-- Milestone -->
+            <div class="insight-card milestone">
+              <div class="insight-header">
+                <span class="insight-icon">🏆</span>
+                <span class="insight-type">Milestone</span>
+                <span class="insight-time">1 week ago</span>
+              </div>
+              <div class="insight-title">8-Week Consistency Streak</div>
+              <div class="insight-body">Sarah has logged workouts for 8 consecutive weeks - her longest streak since starting. Compliance is up 23% compared to her first month.</div>
+            </div>
+          </div>
+          
+          <!-- Ask LiftAssistant -->
+          <div style="padding:12px;border-top:1px solid #222;">
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="client-ai-input" placeholder="Ask about Sarah's progress..." style="flex:1;padding:10px 14px;background:#0a0a0a;border:1px solid #333;border-radius:8px;color:#fff;font-size:13px;">
+              <button class="btn btn-sm" onclick="askClientAI()" style="padding:10px 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </button>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+              <button class="ai-quick-chip" onclick="askClientAI('What should I focus on next session?')">Next session focus</button>
+              <button class="ai-quick-chip" onclick="askClientAI('Is she ready for a program change?')">Program change?</button>
+              <button class="ai-quick-chip" onclick="askClientAI('Summarize this month')">Monthly summary</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!-- AI Coach Page -->
+    <!-- LiftAssistant Page -->
     <div id="page-ai-coach" class="page">
       <header class="header">
-        <h1 class="header-title">AI Coach</h1>
+        <h1 class="header-title"><span>Lift</span><span style="background:linear-gradient(90deg,#4169E1,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistant</span></h1>
         <div class="header-actions">
           <button class="btn btn-secondary btn-sm">View History</button>
         </div>
@@ -1091,6 +1394,207 @@
       </div>
     </div>
     
+    <!-- Program Detail View Page -->
+    <div id="page-program-detail" class="page">
+      <header class="header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-secondary btn-sm" onclick="showPage('programs')" style="padding:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          </button>
+          <h1 class="header-title" id="program-detail-title">Push/Pull/Legs</h1>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary btn-sm" onclick="duplicateProgram()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            Duplicate
+          </button>
+          <button class="btn" onclick="editInStudio()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            Edit in Studio
+          </button>
+        </div>
+      </header>
+      
+      <div class="content">
+        <!-- Program Overview -->
+        <div class="grid-2" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Program Info</span>
+              <span class="exercise-tag bodypart" id="program-detail-type">Hypertrophy</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div>
+                <div style="font-size:11px;color:#666;text-transform:uppercase;margin-bottom:4px;">Client</div>
+                <div style="font-size:14px;font-weight:500;" id="program-detail-client">Sarah Johnson</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:#666;text-transform:uppercase;margin-bottom:4px;">Duration</div>
+                <div style="font-size:14px;font-weight:500;" id="program-detail-duration">8 weeks</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:#666;text-transform:uppercase;margin-bottom:4px;">Frequency</div>
+                <div style="font-size:14px;font-weight:500;" id="program-detail-frequency">4 days/week</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:#666;text-transform:uppercase;margin-bottom:4px;">Current Week</div>
+                <div style="font-size:14px;font-weight:500;" id="program-detail-week">Week 3 of 8</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Progress</span>
+            </div>
+            <div style="margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-size:12px;color:#888;">Overall Completion</span>
+                <span style="font-size:12px;font-weight:600;" id="program-detail-completion">37%</span>
+              </div>
+              <div style="height:8px;background:#222;border-radius:4px;overflow:hidden;">
+                <div style="height:100%;width:37%;background:linear-gradient(90deg,#4169E1,#00ff88);border-radius:4px;" id="program-detail-progress-bar"></div>
+              </div>
+            </div>
+            <div class="stats-row" style="justify-content:space-between;">
+              <div class="stat-item" style="flex:none;">
+                <div class="stat-value" style="font-size:24px;color:#00ff88;" id="program-detail-compliance">85%</div>
+                <div class="stat-label">Compliance</div>
+              </div>
+              <div class="stat-item" style="flex:none;">
+                <div class="stat-value" style="font-size:24px;" id="program-detail-workouts">12</div>
+                <div class="stat-label">Workouts Done</div>
+              </div>
+              <div class="stat-item" style="flex:none;">
+                <div class="stat-value" style="font-size:24px;" id="program-detail-remaining">20</div>
+                <div class="stat-label">Remaining</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Weekly Schedule -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <span class="card-title">Weekly Schedule</span>
+            <div style="display:flex;gap:4px;">
+              <button class="period-btn" onclick="viewProgramWeek(1)">Wk 1</button>
+              <button class="period-btn" onclick="viewProgramWeek(2)">Wk 2</button>
+              <button class="period-btn active" onclick="viewProgramWeek(3)">Wk 3</button>
+              <button class="period-btn" onclick="viewProgramWeek(4)">Wk 4</button>
+            </div>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;" id="program-week-view">
+            <div class="program-day-card">
+              <div class="program-day-name">Mon</div>
+              <div class="program-day-focus">Push</div>
+              <div class="program-day-exercises">
+                <div>Bench Press</div>
+                <div>Incline DB Press</div>
+                <div>Shoulder Press</div>
+                <div>Lateral Raises</div>
+                <div>Tricep Pushdown</div>
+              </div>
+              <div class="program-day-status completed">✓ Completed</div>
+            </div>
+            <div class="program-day-card">
+              <div class="program-day-name">Tue</div>
+              <div class="program-day-focus">Pull</div>
+              <div class="program-day-exercises">
+                <div>Barbell Row</div>
+                <div>Lat Pulldown</div>
+                <div>Seated Cable Row</div>
+                <div>Face Pulls</div>
+                <div>Barbell Curl</div>
+              </div>
+              <div class="program-day-status completed">✓ Completed</div>
+            </div>
+            <div class="program-day-card">
+              <div class="program-day-name">Wed</div>
+              <div class="program-day-focus">Rest</div>
+              <div class="program-day-exercises" style="color:#444;">
+                <div>Recovery Day</div>
+              </div>
+              <div class="program-day-status rest">Rest</div>
+            </div>
+            <div class="program-day-card today">
+              <div class="program-day-name">Thu</div>
+              <div class="program-day-focus">Legs</div>
+              <div class="program-day-exercises">
+                <div>Barbell Squat</div>
+                <div>Romanian Deadlift</div>
+                <div>Leg Press</div>
+                <div>Leg Curl</div>
+                <div>Calf Raises</div>
+              </div>
+              <div class="program-day-status today">Today</div>
+            </div>
+            <div class="program-day-card">
+              <div class="program-day-name">Fri</div>
+              <div class="program-day-focus">Upper</div>
+              <div class="program-day-exercises">
+                <div>Incline Bench</div>
+                <div>Pull-ups</div>
+                <div>DB Shoulder Press</div>
+                <div>Cable Flyes</div>
+                <div>Hammer Curls</div>
+              </div>
+              <div class="program-day-status pending">Upcoming</div>
+            </div>
+            <div class="program-day-card">
+              <div class="program-day-name">Sat</div>
+              <div class="program-day-focus">Cardio</div>
+              <div class="program-day-exercises" style="color:#666;">
+                <div>30 min LISS</div>
+                <div>or HIIT 15 min</div>
+              </div>
+              <div class="program-day-status pending">Upcoming</div>
+            </div>
+            <div class="program-day-card">
+              <div class="program-day-name">Sun</div>
+              <div class="program-day-focus">Rest</div>
+              <div class="program-day-exercises" style="color:#444;">
+                <div>Recovery Day</div>
+              </div>
+              <div class="program-day-status rest">Rest</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Activity</span>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time" style="min-width:80px;">Today</div>
+            <div class="schedule-info">
+              <div class="schedule-title">Legs workout scheduled</div>
+              <div class="schedule-meta">5 exercises • Est. 55 min</div>
+            </div>
+            <span class="exercise-tag" style="background:#ffcc0020;color:#ffcc00;">Pending</span>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time" style="min-width:80px;">Yesterday</div>
+            <div class="schedule-info">
+              <div class="schedule-title">Pull workout completed</div>
+              <div class="schedule-meta">All sets completed • 48 min</div>
+            </div>
+            <span class="exercise-tag" style="background:#00ff8820;color:#00ff88;">Done</span>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time" style="min-width:80px;">Dec 18</div>
+            <div class="schedule-info">
+              <div class="schedule-title">Push workout completed</div>
+              <div class="schedule-meta">All sets completed • 52 min</div>
+            </div>
+            <span class="exercise-tag" style="background:#00ff8820;color:#00ff88;">Done</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- Program Studio Page -->
     <div id="page-studio" class="page">
       <header class="header">
@@ -1251,14 +1755,14 @@
           </div>
         </div>
         
-        <!-- Right Panel: AI Assistant -->
+        <!-- Right Panel: LiftAssistant -->
         <div class="studio-panel studio-ai">
           <div class="studio-panel-header">
             <div style="display:flex;align-items:center;gap:8px;">
               <div class="ai-icon-sm">
                 <svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path d="M8 20h24M12 14v12M28 14v12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
               </div>
-              <span class="studio-panel-title">AI Assistant</span>
+              <span class="studio-panel-title"><span style="color:#fff;">Lift</span><span style="background:linear-gradient(90deg,#4169E1,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistant</span></span>
             </div>
           </div>
           
@@ -1329,7 +1833,7 @@
       <div class="content">
         <!-- Tab Navigation -->
         <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-          <button class="nutrition-tab active" id="tab-ai" onclick="showNutritionTab('ai')">AI Generator</button>
+          <button class="nutrition-tab active" id="tab-ai" onclick="showNutritionTab('ai')"><span style="color:#fff;">Lift</span><span style="background:linear-gradient(90deg,#4169E1,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistant</span></button>
           <button class="nutrition-tab" id="tab-create" onclick="showNutritionTab('create')">Custom Builder</button>
           <button class="nutrition-tab" id="tab-plans" onclick="showNutritionTab('plans')">Client Plans</button>
           <button class="nutrition-tab" id="tab-foods" onclick="showNutritionTab('foods')">Food Database</button>
@@ -1345,7 +1849,7 @@
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04z"/></svg>
                 </div>
                 <div>
-                  <div style="font-weight: 600;">Nutrition AI</div>
+                  <div style="font-weight: 600;"><span>Lift</span><span style="background:linear-gradient(90deg,#4169E1,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistant</span></div>
                   <div style="font-size: 12px; color: #666;">Meal Plan Generator • GPT-4</div>
                 </div>
               </div>
@@ -1356,7 +1860,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04z"/></svg>
                   </div>
                   <div style="background: #1a1a1a; border-radius: 12px; padding: 14px; max-width: 85%;">
-                    <div style="font-size: 11px; color: #00ff88; margin-bottom: 6px;">Nutrition AI</div>
+                    <div style="font-size: 11px; color: #00ff88; margin-bottom: 6px;"><span style="color:#fff;">Lift</span><span style="color:#00ff88;">Assistant</span></div>
                     <div style="line-height: 1.5; font-size: 14px;">
                       Hey! I can help you create personalized nutrition plans. Tell me about your client:
                       <ul style="margin: 10px 0 0 16px; color: #ccc; font-size: 13px;">
@@ -2123,8 +2627,8 @@ async function loadExerciseLibrary() {
     const response = await fetch('https://exercisedb.p.rapidapi.com/exercises?limit=100', {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': 'DEMO_KEY', // In production, use a real API key
-        'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+        'x-rapidapi-key': '9124d57c83msh0c85c857c3a0ac7p1ce14bjsn778e0824ad6e',
+        'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
       }
     });
     
@@ -2582,7 +3086,7 @@ function sendNutritionAIMessage() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04z"/></svg>
         </div>
         <div style="background:#1a1a1a;border-radius:12px;padding:14px;max-width:85%;">
-          <div style="font-size:11px;color:#00ff88;margin-bottom:6px;">Nutrition AI</div>
+          <div style="font-size:11px;margin-bottom:6px;"><span style="color:#fff;">Lift</span><span style="color:#00ff88;">Assistant</span></div>
           <div style="line-height:1.5;font-size:14px;">${plan}</div>
         </div>
       </div>
@@ -3003,7 +3507,8 @@ function aiStudioCommand(command) {
   
   switch(command) {
     case 'generate':
-      response = generateAIProgram();
+      showProgramDraftUI();
+      response = "Let's build a program! Tell me about your client - their goals, experience level, how many days they can train, any strengths/weaknesses, and how long the program should be.";
       break;
     case 'deload':
       response = addDeloadWeek();
@@ -3020,11 +3525,41 @@ function aiStudioCommand(command) {
   chat.scrollTop = chat.scrollHeight;
 }
 
+// Program Draft State
+let programDraft = null;
+
 function processAIStudioCommand(message) {
   const lower = message.toLowerCase();
   
+  // Check for detailed program request
+  if (isDetailedProgramRequest(lower)) {
+    return generateProgramDraft(message);
+  }
+  
+  // Check if user is responding to a draft
+  if (programDraft && (lower.includes('looks good') || lower.includes('love it') || lower.includes('perfect') || lower.includes('apply') || lower.includes('populate') || lower.includes('let\'s do it') || lower.includes('yes'))) {
+    return applyProgramDraft();
+  }
+  
+  // Check for draft modifications
+  if (programDraft) {
+    if (lower.includes('more') && lower.includes('sled')) {
+      return modifyDraft('more_sleds');
+    }
+    if (lower.includes('less') || lower.includes('reduce')) {
+      return modifyDraft('reduce_volume');
+    }
+    if (lower.includes('add') && lower.includes('running')) {
+      return modifyDraft('more_running');
+    }
+    if (lower.includes('change') || lower.includes('swap') || lower.includes('different')) {
+      return "What would you like me to change? I can adjust the focus areas, swap exercises, change the weekly structure, or modify the progression.";
+    }
+  }
+  
+  // Simple commands
   if (lower.includes('generate') || lower.includes('create program')) {
-    return generateAIProgram();
+    return "Tell me about the program you want to create! Include details like:\n• Client name and goals\n• Training days per week\n• Program length\n• Any strengths or weaknesses\n• Equipment available";
   } else if (lower.includes('deload')) {
     return addDeloadWeek();
   } else if (lower.includes('chest') && lower.includes('monday')) {
@@ -3042,7 +3577,373 @@ function processAIStudioCommand(message) {
     return balanceVolume();
   }
   
-  return "I can help with that! Try commands like 'Generate a 4-week program', 'Add chest exercises to Monday', or 'Make week 4 a deload week'.";
+  return "I can help build your program! Tell me about your client - their goals, how many days they can train, program length, and any specific needs. For example:\n\n<em>'I need a 12-week Hyrox program for Jamie who can train 3 days/week, has a 21 min 5k but struggles with sleds and wall balls'</em>";
+}
+
+function isDetailedProgramRequest(text) {
+  const hasGoal = text.includes('program') || text.includes('plan') || text.includes('build') || text.includes('create') || text.includes('need');
+  const hasDetails = text.includes('week') || text.includes('day') || text.includes('client') || text.match(/\d+\s*(week|day|min|kg|lb)/);
+  const hasContext = text.length > 50;
+  return hasGoal && (hasDetails || hasContext);
+}
+
+function generateProgramDraft(message) {
+  const lower = message.toLowerCase();
+  
+  // Parse program details
+  const weeks = extractNumber(lower, 'week') || 8;
+  const days = extractNumber(lower, 'day') || 3;
+  const clientName = extractClientName(message) || 'Client';
+  
+  // Detect program type
+  let programType = 'general';
+  if (lower.includes('hyrox')) programType = 'hyrox';
+  else if (lower.includes('strength')) programType = 'strength';
+  else if (lower.includes('hypertrophy') || lower.includes('muscle')) programType = 'hypertrophy';
+  else if (lower.includes('fat loss') || lower.includes('cut') || lower.includes('weight loss')) programType = 'fatloss';
+  else if (lower.includes('endurance') || lower.includes('cardio')) programType = 'endurance';
+  else if (lower.includes('athletic') || lower.includes('sport')) programType = 'athletic';
+  
+  // Extract strengths and weaknesses
+  const strengths = [];
+  const weaknesses = [];
+  
+  if (lower.includes('good at') || lower.includes('great at') || lower.includes('strong')) {
+    if (lower.includes('running') || lower.includes('run') || lower.includes('cardio')) strengths.push('running');
+    if (lower.includes('upper')) strengths.push('upper body');
+    if (lower.includes('lower') || lower.includes('legs')) strengths.push('lower body');
+  }
+  
+  if (lower.includes('bad at') || lower.includes('weak') || lower.includes('struggles') || lower.includes('needs work')) {
+    if (lower.includes('sled')) weaknesses.push('sled push/pull');
+    if (lower.includes('lunge')) weaknesses.push('lunges');
+    if (lower.includes('wall') && lower.includes('ball')) weaknesses.push('wall balls');
+    if (lower.includes('row')) weaknesses.push('rowing');
+    if (lower.includes('burpee')) weaknesses.push('burpees');
+    if (lower.includes('farmer') || lower.includes('carry')) weaknesses.push('farmers carry');
+    if (lower.includes('upper')) weaknesses.push('upper body');
+    if (lower.includes('lower') || lower.includes('legs')) weaknesses.push('lower body');
+  }
+  
+  // Extract any benchmark times
+  let benchmarks = {};
+  const fiveKMatch = lower.match(/(\d+)\s*min.*5k/);
+  if (fiveKMatch) benchmarks['5k'] = fiveKMatch[1] + ' min';
+  
+  // Generate the draft
+  programDraft = {
+    clientName,
+    weeks,
+    daysPerWeek: days,
+    type: programType,
+    strengths,
+    weaknesses,
+    benchmarks,
+    phases: generatePhases(weeks, programType, weaknesses)
+  };
+  
+  return formatProgramDraft(programDraft);
+}
+
+function extractNumber(text, unit) {
+  const regex = new RegExp(`(\\d+)\\s*${unit}`);
+  const match = text.match(regex);
+  return match ? parseInt(match[1]) : null;
+}
+
+function extractClientName(text) {
+  const patterns = [
+    /for\s+([A-Z][a-z]+)/,
+    /client\s+([A-Z][a-z]+)/,
+    /([A-Z][a-z]+)(?:'s|,?\s+who)/
+  ];
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function generatePhases(weeks, type, weaknesses) {
+  const phases = [];
+  const weeksPerPhase = Math.ceil(weeks / 3);
+  
+  if (type === 'hyrox') {
+    phases.push({
+      name: 'Foundation & Weakness Focus',
+      weeks: `1-${weeksPerPhase}`,
+      focus: 'Build base fitness while targeting weak areas',
+      weeklyStructure: [
+        { day: 'Day 1', name: 'Strength + Weakness Work', exercises: ['Sled Push/Pull technique', 'Goblet Squats', 'Wall Ball practice', 'Lunges', 'Core work'] },
+        { day: 'Day 2', name: 'Running + Conditioning', exercises: ['Zone 2 run (30-40 min)', 'Rowing intervals', 'Burpee practice', 'Farmers carry'] },
+        { day: 'Day 3', name: 'Hyrox Simulation (Light)', exercises: ['Mini Hyrox circuit', 'Focus on transitions', 'Weakness stations 2x volume'] }
+      ],
+      notes: weaknesses.length > 0 ? `Extra focus on: ${weaknesses.join(', ')}` : 'Building overall work capacity'
+    });
+    
+    phases.push({
+      name: 'Capacity Building',
+      weeks: `${weeksPerPhase + 1}-${weeksPerPhase * 2}`,
+      focus: 'Increase volume and intensity',
+      weeklyStructure: [
+        { day: 'Day 1', name: 'Heavy Strength', exercises: ['Deadlifts', 'Heavy sled work', 'Weighted lunges', 'Wall balls (heavier)', 'Sandbag carries'] },
+        { day: 'Day 2', name: 'Speed + Intervals', exercises: ['Tempo runs', '1km repeats', 'Ski erg intervals', 'Burpee broad jumps'] },
+        { day: 'Day 3', name: 'Hyrox Simulation (Race Pace)', exercises: ['Full Hyrox simulation', 'Race pace practice', 'Transition drills'] }
+      ],
+      notes: 'Progressive overload on all stations'
+    });
+    
+    phases.push({
+      name: 'Race Prep & Peak',
+      weeks: `${weeksPerPhase * 2 + 1}-${weeks}`,
+      focus: 'Sharpen race fitness, reduce volume',
+      weeklyStructure: [
+        { day: 'Day 1', name: 'Maintenance Strength', exercises: ['Moderate sled work', 'Lunges', 'Wall balls at race weight', 'Core stability'] },
+        { day: 'Day 2', name: 'Race Pace Running', exercises: ['Race pace 5k', 'Negative splits practice', 'Short recovery runs'] },
+        { day: 'Day 3', name: 'Full Simulation or Rest', exercises: ['Week 1: Full sim', 'Week 2: Active recovery', 'Week 3: Light sim', 'Week 4: Taper'] }
+      ],
+      notes: 'Deload in final week before race'
+    });
+  } else {
+    // Generic program phases
+    phases.push({
+      name: 'Foundation Phase',
+      weeks: `1-${weeksPerPhase}`,
+      focus: 'Build base strength and movement quality',
+      weeklyStructure: generateGenericWeek(type, 'foundation'),
+      notes: 'Focus on form and building habits'
+    });
+    
+    phases.push({
+      name: 'Development Phase',
+      weeks: `${weeksPerPhase + 1}-${weeksPerPhase * 2}`,
+      focus: 'Progressive overload and volume increase',
+      weeklyStructure: generateGenericWeek(type, 'development'),
+      notes: 'Increase intensity each week'
+    });
+    
+    phases.push({
+      name: 'Peak Phase',
+      weeks: `${weeksPerPhase * 2 + 1}-${weeks}`,
+      focus: 'Maximize performance, then deload',
+      weeklyStructure: generateGenericWeek(type, 'peak'),
+      notes: 'Final week is deload'
+    });
+  }
+  
+  return phases;
+}
+
+function generateGenericWeek(type, phase) {
+  if (type === 'strength') {
+    return [
+      { day: 'Day 1', name: 'Upper Body', exercises: ['Bench Press', 'Rows', 'Overhead Press', 'Pull-ups', 'Tricep work'] },
+      { day: 'Day 2', name: 'Lower Body', exercises: ['Squats', 'Romanian Deadlifts', 'Leg Press', 'Lunges', 'Calf raises'] },
+      { day: 'Day 3', name: 'Full Body', exercises: ['Deadlifts', 'Incline Press', 'Lat Pulldown', 'Leg Curl', 'Core'] }
+    ];
+  }
+  return [
+    { day: 'Day 1', name: 'Push', exercises: ['Bench Press', 'Shoulder Press', 'Incline DB Press', 'Lateral Raises', 'Triceps'] },
+    { day: 'Day 2', name: 'Pull', exercises: ['Barbell Row', 'Pull-ups', 'Face Pulls', 'Bicep Curls', 'Rear Delts'] },
+    { day: 'Day 3', name: 'Legs', exercises: ['Squats', 'RDL', 'Leg Press', 'Leg Curls', 'Calf Raises'] }
+  ];
+}
+
+function formatProgramDraft(draft) {
+  let html = `<div class="program-draft">
+    <div class="draft-header">
+      <strong>📋 Program Draft: ${draft.clientName}</strong><br>
+      <span style="color:#888;">${draft.weeks} weeks • ${draft.daysPerWeek} days/week • ${draft.type.charAt(0).toUpperCase() + draft.type.slice(1)}</span>
+    </div>`;
+  
+  if (draft.weaknesses.length > 0) {
+    html += `<div class="draft-section"><strong>🎯 Priority Areas:</strong> ${draft.weaknesses.join(', ')}</div>`;
+  }
+  
+  if (Object.keys(draft.benchmarks).length > 0) {
+    html += `<div class="draft-section"><strong>📊 Current Benchmarks:</strong> ${Object.entries(draft.benchmarks).map(([k,v]) => `${k}: ${v}`).join(', ')}</div>`;
+  }
+  
+  html += `<div class="draft-phases">`;
+  
+  draft.phases.forEach((phase, i) => {
+    html += `
+      <div class="draft-phase">
+        <div class="phase-header">
+          <strong>Phase ${i + 1}: ${phase.name}</strong>
+          <span class="phase-weeks">Weeks ${phase.weeks}</span>
+        </div>
+        <div class="phase-focus">${phase.focus}</div>
+        <div class="phase-structure">`;
+    
+    phase.weeklyStructure.forEach(day => {
+      html += `
+        <div class="phase-day">
+          <strong>${day.day}:</strong> ${day.name}
+          <div class="phase-exercises">${day.exercises.join(' • ')}</div>
+        </div>`;
+    });
+    
+    html += `</div>`;
+    if (phase.notes) {
+      html += `<div class="phase-notes">💡 ${phase.notes}</div>`;
+    }
+    html += `</div>`;
+  });
+  
+  html += `</div>
+    <div class="draft-actions">
+      <strong>What do you think?</strong><br>
+      <span style="color:#888;">Say "looks good" to populate the studio, or tell me what to change.</span>
+    </div>
+  </div>`;
+  
+  return html;
+}
+
+function modifyDraft(modification) {
+  if (!programDraft) return "No draft to modify. Tell me about the program you want to create!";
+  
+  switch(modification) {
+    case 'more_sleds':
+      programDraft.phases.forEach(phase => {
+        phase.weeklyStructure.forEach(day => {
+          if (!day.exercises.some(e => e.toLowerCase().includes('sled'))) {
+            day.exercises.push('Sled work');
+          }
+        });
+      });
+      return formatProgramDraft(programDraft) + "\n\n✅ Added more sled work throughout the program.";
+    case 'reduce_volume':
+      programDraft.phases.forEach(phase => {
+        phase.weeklyStructure.forEach(day => {
+          day.exercises = day.exercises.slice(0, 4);
+        });
+      });
+      return formatProgramDraft(programDraft) + "\n\n✅ Reduced volume across all phases.";
+    case 'more_running':
+      programDraft.phases.forEach(phase => {
+        phase.weeklyStructure.forEach(day => {
+          if (day.name.toLowerCase().includes('running') || day.name.toLowerCase().includes('cardio')) {
+            day.exercises.unshift('Additional running block');
+          }
+        });
+      });
+      return formatProgramDraft(programDraft) + "\n\n✅ Added more running volume.";
+  }
+  return formatProgramDraft(programDraft);
+}
+
+function applyProgramDraft() {
+  if (!programDraft) return "No draft to apply. Tell me about the program you want to create!";
+  
+  // Set program title and weeks
+  document.getElementById('program-title').value = `${programDraft.clientName} - ${programDraft.type.charAt(0).toUpperCase() + programDraft.type.slice(1)} ${programDraft.weeks}wk`;
+  
+  // Expand weeks if needed
+  while (programData.weeks < programDraft.weeks) {
+    addWeek();
+  }
+  
+  // Populate exercises based on draft
+  saveToHistory();
+  
+  const dayMapping = { 1: 1, 2: 3, 3: 5 }; // Map 3-day to Mon/Wed/Fri
+  
+  for (let week = 1; week <= programDraft.weeks; week++) {
+    // Determine which phase this week is in
+    const phaseIndex = Math.min(Math.floor((week - 1) / Math.ceil(programDraft.weeks / 3)), programDraft.phases.length - 1);
+    const phase = programDraft.phases[phaseIndex];
+    
+    // Clear the week first
+    for (let d = 1; d <= 7; d++) {
+      programData.days[week][d] = [];
+    }
+    
+    // Populate based on phase structure
+    phase.weeklyStructure.forEach((dayPlan, idx) => {
+      const actualDay = dayMapping[idx + 1] || (idx * 2 + 1);
+      const exercises = mapExercisesToStudio(dayPlan.exercises, dayPlan.name);
+      
+      programData.days[week][actualDay] = exercises.map(ex => ({
+        ...ex,
+        uid: Date.now() + Math.random(),
+        sets: [{ reps: 10 }, { reps: 10 }, { reps: 10 }]
+      }));
+      
+      // Update day focus label
+      const focusEl = document.querySelector(`.day-column[data-day="${actualDay}"] .day-focus`);
+      if (focusEl) focusEl.textContent = dayPlan.name;
+    });
+  }
+  
+  renderWeekTabs();
+  selectWeek(1);
+  renderAllDays();
+  updateProgramStats();
+  
+  const draft = programDraft;
+  programDraft = null; // Clear draft
+  
+  return `✅ <strong>Program populated!</strong><br><br>
+    I've loaded the ${draft.weeks}-week ${draft.type} program for ${draft.clientName} into the studio.<br><br>
+    <strong>What's loaded:</strong><br>
+    • ${draft.phases.length} phases across ${draft.weeks} weeks<br>
+    • ${draft.daysPerWeek} training days per week<br>
+    • Exercises mapped to your library<br><br>
+    You can now drag exercises to customize, adjust sets/reps, or ask me to make changes!`;
+}
+
+function mapExercisesToStudio(exerciseNames, dayType) {
+  const mapped = [];
+  const dayLower = dayType.toLowerCase();
+  
+  exerciseNames.forEach(name => {
+    const nameLower = name.toLowerCase();
+    
+    // Try to find matching exercise in studio library
+    let match = studioExercises.find(ex => 
+      ex.name.toLowerCase().includes(nameLower.split(' ')[0]) ||
+      nameLower.includes(ex.name.toLowerCase().split(' ')[0])
+    );
+    
+    // If no match, create a placeholder based on the exercise type
+    if (!match) {
+      // Map common Hyrox/functional exercises
+      if (nameLower.includes('sled')) {
+        match = { id: 100, name: 'Sled Push/Pull', bodyPart: 'full body', equipment: 'sled' };
+      } else if (nameLower.includes('wall ball')) {
+        match = { id: 101, name: 'Wall Balls', bodyPart: 'full body', equipment: 'medicine ball' };
+      } else if (nameLower.includes('burpee')) {
+        match = { id: 102, name: 'Burpee Broad Jumps', bodyPart: 'full body', equipment: 'body weight' };
+      } else if (nameLower.includes('row') && nameLower.includes('ski')) {
+        match = { id: 103, name: 'Ski Erg', bodyPart: 'full body', equipment: 'machine' };
+      } else if (nameLower.includes('farmer') || nameLower.includes('carry')) {
+        match = { id: 104, name: 'Farmers Carry', bodyPart: 'full body', equipment: 'dumbbell' };
+      } else if (nameLower.includes('sandbag')) {
+        match = { id: 105, name: 'Sandbag Carry', bodyPart: 'full body', equipment: 'sandbag' };
+      } else if (nameLower.includes('run') || nameLower.includes('5k')) {
+        match = { id: 106, name: 'Running', bodyPart: 'cardio', equipment: 'none' };
+      } else if (nameLower.includes('zone 2')) {
+        match = { id: 107, name: 'Zone 2 Cardio', bodyPart: 'cardio', equipment: 'none' };
+      } else if (nameLower.includes('interval')) {
+        match = { id: 108, name: 'Intervals', bodyPart: 'cardio', equipment: 'none' };
+      } else if (nameLower.includes('simulation') || nameLower.includes('circuit')) {
+        match = { id: 109, name: 'Hyrox Simulation', bodyPart: 'full body', equipment: 'mixed' };
+      } else {
+        // Generic fallback
+        match = studioExercises[Math.floor(Math.random() * studioExercises.length)];
+      }
+    }
+    
+    if (match) mapped.push(match);
+  });
+  
+  return mapped.slice(0, 6); // Limit to 6 exercises per day
+}
+
+function showProgramDraftUI() {
+  // Could show a modal or expand the AI panel - for now just prompts in chat
 }
 
 function generateAIProgram() {
@@ -3197,13 +4098,271 @@ function showProgramsTab(tab) {
 }
 
 function editProgram(programId) {
-  // In a real app, this would load the program into the studio
+  // Load program data and show detail view
+  currentProgramId = programId;
+  const programs = {
+    'ppl': { title: 'Push/Pull/Legs', client: 'Sarah Johnson', type: 'Hypertrophy', duration: '8 weeks', frequency: '4 days/week', week: 'Week 3 of 8', completion: '37%', compliance: '85%', workouts: '12', remaining: '20' },
+    'strength': { title: 'Strength Builder', client: 'Mike Chen', type: 'Strength', duration: '12 weeks', frequency: '5 days/week', week: 'Week 6 of 12', completion: '50%', compliance: '92%', workouts: '30', remaining: '30' },
+    'cut': { title: 'Summer Cut', client: 'Emma Wilson', type: 'Fat Loss', duration: '6 weeks', frequency: '6 days/week', week: 'Week 2 of 6', completion: '33%', compliance: '78%', workouts: '12', remaining: '24' },
+    'beginner': { title: 'Beginner Foundations', client: 'David Park', type: 'General', duration: '4 weeks', frequency: '3 days/week', week: 'Week 1 of 4', completion: '25%', compliance: '100%', workouts: '3', remaining: '9' }
+  };
+  
+  const p = programs[programId] || programs['ppl'];
+  document.getElementById('program-detail-title').textContent = p.title;
+  document.getElementById('program-detail-client').textContent = p.client;
+  document.getElementById('program-detail-type').textContent = p.type;
+  document.getElementById('program-detail-duration').textContent = p.duration;
+  document.getElementById('program-detail-frequency').textContent = p.frequency;
+  document.getElementById('program-detail-week').textContent = p.week;
+  document.getElementById('program-detail-completion').textContent = p.completion;
+  document.getElementById('program-detail-compliance').textContent = p.compliance;
+  document.getElementById('program-detail-workouts').textContent = p.workouts;
+  document.getElementById('program-detail-remaining').textContent = p.remaining;
+  document.getElementById('program-detail-progress-bar').style.width = p.completion;
+  
+  showPage('program-detail');
+}
+
+let currentProgramId = null;
+
+function editInStudio() {
+  // Load the current program into the studio for editing
   showPage('studio');
+}
+
+function duplicateProgram() {
+  alert('Program duplicated! You can now edit the copy.');
+  showPage('studio');
+}
+
+function viewProgramWeek(weekNum) {
+  document.querySelectorAll('#page-program-detail .period-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  // In a real app, this would load the week's data
 }
 
 function useTemplate(templateId) {
   // In a real app, this would create a new program from the template
   showPage('studio');
+}
+
+// ==================== CLIENT DETAIL ====================
+let currentClientId = null;
+
+const clientData = {
+  sarah: {
+    name: 'Sarah Johnson', initials: 'SJ', meta: 'Hypertrophy • 3x/week • Since Oct 2024',
+    avatar: 'linear-gradient(135deg, #4169E1, #00ff88)',
+    compliance: '94%', complianceTrend: '↑ 8% vs last month',
+    workouts: '12', weight: '142 lbs', weightTrend: '↓ 3 lbs this month', streak: '8'
+  },
+  mike: {
+    name: 'Mike Chen', initials: 'MC', meta: 'Strength • 4x/week • Since Aug 2024',
+    avatar: 'linear-gradient(135deg, #00ff88, #4169E1)',
+    compliance: '88%', complianceTrend: '↑ 3% vs last month',
+    workouts: '18', weight: '185 lbs', weightTrend: '↑ 4 lbs (muscle)', streak: '12'
+  },
+  emma: {
+    name: 'Emma Wilson', initials: 'EW', meta: 'Fat Loss • 3x/week • Since Nov 2024',
+    avatar: 'linear-gradient(135deg, #ff6b6b, #ffcc00)',
+    compliance: '76%', complianceTrend: '↓ 5% vs last month',
+    workouts: '8', weight: '158 lbs', weightTrend: '↓ 6 lbs this month', streak: '3'
+  },
+  david: {
+    name: 'David Park', initials: 'DP', meta: 'Athletic Performance • 5x/week • Since Jun 2024',
+    avatar: 'linear-gradient(135deg, #ffcc00, #ff6b6b)',
+    compliance: '98%', complianceTrend: '↑ 2% vs last month',
+    workouts: '24', weight: '175 lbs', weightTrend: 'Stable', streak: '21'
+  }
+};
+
+function viewClient(clientId) {
+  currentClientId = clientId;
+  const client = clientData[clientId];
+  if (!client) return;
+  
+  document.getElementById('client-detail-name').textContent = client.name;
+  document.getElementById('client-detail-meta').textContent = client.meta;
+  document.getElementById('client-detail-avatar').textContent = client.initials;
+  document.getElementById('client-detail-avatar').style.background = client.avatar;
+  document.getElementById('client-stat-compliance').textContent = client.compliance;
+  document.getElementById('client-stat-compliance-trend').textContent = client.complianceTrend;
+  document.getElementById('client-stat-workouts').textContent = client.workouts;
+  document.getElementById('client-stat-weight').textContent = client.weight;
+  document.getElementById('client-stat-weight-trend').textContent = client.weightTrend;
+  document.getElementById('client-stat-streak').textContent = client.streak;
+  
+  showPage('client-detail');
+  initClientCharts();
+}
+
+function initClientCharts() {
+  // Strength Progress Chart
+  const strengthCtx = document.getElementById('clientStrengthChart');
+  if (strengthCtx && !strengthCtx.chart) {
+    strengthCtx.chart = new Chart(strengthCtx, {
+      type: 'line',
+      data: {
+        labels: ['Oct', 'Nov', 'Dec'],
+        datasets: [{
+          label: 'Bench Press',
+          data: [95, 100, 107],
+          borderColor: '#4169E1',
+          backgroundColor: '#4169E120',
+          tension: 0.3,
+          fill: true
+        }, {
+          label: 'Squat',
+          data: [135, 165, 185],
+          borderColor: '#00ff88',
+          backgroundColor: '#00ff8820',
+          tension: 0.3,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'bottom', labels: { color: '#888', boxWidth: 12, padding: 10 } } },
+        scales: {
+          x: { grid: { color: '#222' }, ticks: { color: '#666' } },
+          y: { grid: { color: '#222' }, ticks: { color: '#666' } }
+        }
+      }
+    });
+  }
+  
+  // Body Composition Chart
+  const bodyCtx = document.getElementById('clientBodyChart');
+  if (bodyCtx && !bodyCtx.chart) {
+    bodyCtx.chart = new Chart(bodyCtx, {
+      type: 'line',
+      data: {
+        labels: ['Wk 1', 'Wk 4', 'Wk 8', 'Wk 12'],
+        datasets: [{
+          label: 'Weight (lbs)',
+          data: [148, 146, 144, 142],
+          borderColor: '#fff',
+          tension: 0.3,
+          yAxisID: 'y'
+        }, {
+          label: 'Body Fat %',
+          data: [28, 26.5, 25, 24],
+          borderColor: '#ff6b6b',
+          tension: 0.3,
+          yAxisID: 'y1'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'bottom', labels: { color: '#888', boxWidth: 12, padding: 10 } } },
+        scales: {
+          x: { grid: { color: '#222' }, ticks: { color: '#666' } },
+          y: { type: 'linear', position: 'left', grid: { color: '#222' }, ticks: { color: '#666' } },
+          y1: { type: 'linear', position: 'right', grid: { display: false }, ticks: { color: '#ff6b6b' } }
+        }
+      }
+    });
+  }
+}
+
+function messageClient() {
+  showPage('messages');
+}
+
+function editClientProgram() {
+  showPage('studio');
+}
+
+function applyInsight(action) {
+  if (action === 'deload') {
+    alert('Deload week applied to ' + clientData[currentClientId]?.name + "'s program. Volume reduced by 20% for the next week.");
+  }
+}
+
+function dismissInsight(btn) {
+  btn.closest('.insight-card').style.display = 'none';
+}
+
+function sendNutritionTip() {
+  alert('Nutrition tip sent to ' + clientData[currentClientId]?.name + ' via in-app message.');
+}
+
+function askClientAI(question) {
+  const input = document.getElementById('client-ai-input');
+  const q = question || input.value.trim();
+  if (!q) return;
+  
+  const client = clientData[currentClientId];
+  const feed = document.getElementById('client-insights-feed');
+  
+  // Add user question
+  feed.innerHTML = `
+    <div class="insight-card" style="border-left:3px solid #4169E1;background:#4169E110;">
+      <div class="insight-header">
+        <span class="insight-icon">💬</span>
+        <span class="insight-type">Your Question</span>
+        <span class="insight-time">Just now</span>
+      </div>
+      <div class="insight-body" style="color:#fff;margin:0;">${q}</div>
+    </div>
+  ` + feed.innerHTML;
+  
+  // Simulate AI response
+  setTimeout(() => {
+    let response = generateClientAIResponse(q, client);
+    feed.innerHTML = `
+      <div class="insight-card positive">
+        <div class="insight-header">
+          <span class="insight-icon">🤖</span>
+          <span class="insight-type"><span style="color:#fff;">Lift</span><span style="color:#00ff88;">Assistant</span></span>
+          <span class="insight-time">Just now</span>
+        </div>
+        <div class="insight-body" style="color:#ccc;margin:0;line-height:1.6;">${response}</div>
+      </div>
+    ` + feed.innerHTML;
+  }, 800);
+  
+  input.value = '';
+}
+
+function generateClientAIResponse(question, client) {
+  const q = question.toLowerCase();
+  
+  if (q.includes('next session') || q.includes('focus')) {
+    return `Based on ${client.name}'s recent data:<br><br>
+    <strong>Priority for next session:</strong><br>
+    • Check in on sleep/stress levels (HRV trending down)<br>
+    • Consider lighter weights, focus on form and mind-muscle connection<br>
+    • If energy is low, swap the planned workout for active recovery<br><br>
+    Her compliance is strong at ${client.compliance}, so this is about recovery optimization, not motivation.`;
+  }
+  
+  if (q.includes('program change') || q.includes('ready')) {
+    return `Looking at ${client.name}'s 12-week progression:<br><br>
+    <strong>Signs she's ready for change:</strong><br>
+    ✓ Strength gains plateauing (bench +2 lbs last 3 weeks vs +5 lbs prior)<br>
+    ✓ RPE consistently 7-8 (adapted to current stimulus)<br>
+    ✓ Compliance stable above 90%<br><br>
+    <strong>Recommendation:</strong> Yes, consider transitioning to a new mesocycle. Options:<br>
+    1. Increase volume (add 1 set per exercise)<br>
+    2. Change rep ranges (switch to 6-8 from 8-12)<br>
+    3. New exercise variations to challenge different movement patterns`;
+  }
+  
+  if (q.includes('summary') || q.includes('month')) {
+    return `<strong>${client.name} - December Summary:</strong><br><br>
+    📊 <strong>Compliance:</strong> ${client.compliance} (excellent)<br>
+    🏋️ <strong>Workouts:</strong> ${client.workouts} completed<br>
+    💪 <strong>PRs:</strong> Squat 185 lbs, Bench 107 lbs<br>
+    ⚖️ <strong>Weight:</strong> ${client.weight} (${client.weightTrend})<br>
+    🔥 <strong>Streak:</strong> ${client.streak} days<br><br>
+    <strong>Key wins:</strong> Consistent logging, strength PRs, body composition improving<br>
+    <strong>Watch:</strong> Weekend compliance, recovery metrics trending down`;
+  }
+  
+  return `I analyzed ${client.name}'s data for your question. Based on her ${client.compliance} compliance rate and current ${client.streak}-day streak, she's showing strong commitment. Her weight trend (${client.weightTrend}) aligns with her goals. Would you like me to dive deeper into any specific area - nutrition, programming, or recovery?`;
 }
 
 function openNewProgramModal() {
