@@ -107,8 +107,12 @@
       <div class="nav-section">
         <div class="nav-section-title">Programming</div>
         <div class="nav-item" onclick="showPage('programs')">
-          <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
           Programs
+        </div>
+        <div class="nav-item" onclick="showPage('studio')">
+          <svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2zm-4 10H4V5h14v14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"/></svg>
+          Program Studio
         </div>
         <div class="nav-item" onclick="showPage('exercises')">
           <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
@@ -923,12 +927,176 @@
       <div class="content"><div class="card"><p style="color:#666;">Messages interface coming soon...</p></div></div>
     </div>
     
-    <!-- Programs Page with Program Studio -->
+    <!-- Programs Repository Page -->
     <div id="page-programs" class="page">
+      <header class="header">
+        <h1 class="header-title">Programs</h1>
+        <div class="header-actions">
+          <button class="btn btn-secondary btn-sm">
+            <svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
+            Filter
+          </button>
+          <button class="btn" onclick="showPage('studio')">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            Create New
+          </button>
+        </div>
+      </header>
+      
+      <div class="content">
+        <!-- Program Stats -->
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <div class="stat-card">
+            <div class="stat-value blue">8</div>
+            <div class="stat-label">Active Programs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">15</div>
+            <div class="stat-label">Templates</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value green">12</div>
+            <div class="stat-label">Clients Assigned</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">94%</div>
+            <div class="stat-label">Avg Completion</div>
+          </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <button class="nutrition-tab active" onclick="showProgramsTab('active')">Active Programs</button>
+          <button class="nutrition-tab" onclick="showProgramsTab('templates')">Templates</button>
+          <button class="nutrition-tab" onclick="showProgramsTab('archived')">Archived</button>
+        </div>
+        
+        <!-- Active Programs Grid -->
+        <div id="programs-active" class="grid-3">
+          <div class="plan-card" onclick="editProgram('ppl')">
+            <div class="plan-header">
+              <div class="plan-avatar">SJ</div>
+              <div>
+                <div class="plan-client">Push/Pull/Legs</div>
+                <div class="plan-meta">Sarah Johnson • Week 3 of 8</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <span class="exercise-tag bodypart">Hypertrophy</span>
+              <span class="exercise-tag equipment">4 days/week</span>
+            </div>
+            <div class="plan-compliance"><div class="plan-compliance-bar" style="width:85%;"></div></div>
+            <div class="plan-compliance-text">85% compliance this week</div>
+          </div>
+          
+          <div class="plan-card" onclick="editProgram('strength')">
+            <div class="plan-header">
+              <div class="plan-avatar" style="background:linear-gradient(135deg,#00ff88,#4169E1);">MC</div>
+              <div>
+                <div class="plan-client">Strength Builder</div>
+                <div class="plan-meta">Mike Chen • Week 6 of 12</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <span class="exercise-tag bodypart">Strength</span>
+              <span class="exercise-tag equipment">5 days/week</span>
+            </div>
+            <div class="plan-compliance"><div class="plan-compliance-bar" style="width:92%;"></div></div>
+            <div class="plan-compliance-text">92% compliance this week</div>
+          </div>
+          
+          <div class="plan-card" onclick="editProgram('cut')">
+            <div class="plan-header">
+              <div class="plan-avatar" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);">EW</div>
+              <div>
+                <div class="plan-client">Summer Cut</div>
+                <div class="plan-meta">Emma Wilson • Week 2 of 6</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <span class="exercise-tag bodypart">Fat Loss</span>
+              <span class="exercise-tag equipment">6 days/week</span>
+            </div>
+            <div class="plan-compliance"><div class="plan-compliance-bar" style="width:78%;"></div></div>
+            <div class="plan-compliance-text">78% compliance this week</div>
+          </div>
+          
+          <div class="plan-card" onclick="editProgram('beginner')">
+            <div class="plan-header">
+              <div class="plan-avatar" style="background:linear-gradient(135deg,#4169E1,#00ff88);">DP</div>
+              <div>
+                <div class="plan-client">Beginner Foundations</div>
+                <div class="plan-meta">David Park • Week 1 of 4</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+              <span class="exercise-tag bodypart">General</span>
+              <span class="exercise-tag equipment">3 days/week</span>
+            </div>
+            <div class="plan-compliance"><div class="plan-compliance-bar" style="width:100%;"></div></div>
+            <div class="plan-compliance-text">100% compliance this week</div>
+          </div>
+        </div>
+        
+        <!-- Templates (hidden by default) -->
+        <div id="programs-templates" class="grid-3" style="display:none;">
+          <div class="plan-card" style="border-style:dashed;cursor:pointer;" onclick="showPage('studio')">
+            <div style="text-align:center;padding:20px 0;">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+              <div style="margin-top:8px;color:#888;">Create New Template</div>
+            </div>
+          </div>
+          
+          <div class="plan-card" onclick="useTemplate('ppl')">
+            <div class="plan-header">
+              <div class="plan-avatar" style="background:#333;">📋</div>
+              <div>
+                <div class="plan-client">PPL Classic</div>
+                <div class="plan-meta">Push/Pull/Legs • 6 days</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:#888;margin-top:8px;">Used 24 times • Last updated Nov 15</div>
+          </div>
+          
+          <div class="plan-card" onclick="useTemplate('upper-lower')">
+            <div class="plan-header">
+              <div class="plan-avatar" style="background:#333;">📋</div>
+              <div>
+                <div class="plan-client">Upper/Lower Split</div>
+                <div class="plan-meta">4 day split • Intermediate</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:#888;margin-top:8px;">Used 18 times • Last updated Dec 1</div>
+          </div>
+          
+          <div class="plan-card" onclick="useTemplate('fullbody')">
+            <div class="plan-header">
+              <div class="plan-avatar" style="background:#333;">📋</div>
+              <div>
+                <div class="plan-client">Full Body 3x</div>
+                <div class="plan-meta">3 day full body • Beginner</div>
+              </div>
+            </div>
+            <div style="font-size:12px;color:#888;margin-top:8px;">Used 31 times • Last updated Oct 20</div>
+          </div>
+        </div>
+        
+        <!-- Archived (hidden by default) -->
+        <div id="programs-archived" style="display:none;">
+          <div class="card" style="text-align:center;padding:40px;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="#333"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/></svg>
+            <div style="color:#666;margin-top:12px;">No archived programs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Program Studio Page -->
+    <div id="page-studio" class="page">
       <header class="header">
         <h1 class="header-title">Program Studio</h1>
         <div class="header-actions">
-          <button class="btn btn-secondary btn-sm" onclick="showProgramsList()">
+          <button class="btn btn-secondary btn-sm" onclick="showPage('programs')">
             <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
             My Programs
           </button>
@@ -3015,7 +3183,27 @@ function saveProgramStudio() {
 }
 
 function showProgramsList() {
-  alert('Programs list would open here. This demo focuses on the Program Studio builder.');
+  showPage('programs');
+}
+
+// Programs page tab switching
+function showProgramsTab(tab) {
+  document.querySelectorAll('#page-programs .nutrition-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  document.getElementById('programs-active').style.display = tab === 'active' ? 'grid' : 'none';
+  document.getElementById('programs-templates').style.display = tab === 'templates' ? 'grid' : 'none';
+  document.getElementById('programs-archived').style.display = tab === 'archived' ? 'block' : 'none';
+}
+
+function editProgram(programId) {
+  // In a real app, this would load the program into the studio
+  showPage('studio');
+}
+
+function useTemplate(templateId) {
+  // In a real app, this would create a new program from the template
+  showPage('studio');
 }
 
 function openNewProgramModal() {
@@ -3043,7 +3231,7 @@ function openNewProgramModal() {
 const originalShowPage = showPage;
 showPage = function(pageId) {
   originalShowPage(pageId);
-  if (pageId === 'programs') {
+  if (pageId === 'studio') {
     loadStudioExercises();
     renderWeekTabs();
     renderAllDays();
