@@ -975,6 +975,171 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     </div>
   </div>
 
+  <!-- TRAINER: Nutrition Planning -->
+  <div id="trainer-nutrition" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">NUTRITION PLANNING</div>
+      
+      <!-- Quick Actions -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button class="btn-small" style="flex:1;" onclick="showMobileNutritionTab('ai')">🤖 AI Generate</button>
+        <button class="btn-small btn-secondary" style="flex:1;" onclick="showMobileNutritionTab('custom')">✏️ Custom</button>
+        <button class="btn-small btn-secondary" style="flex:1;" onclick="showMobileNutritionTab('plans')">📋 Plans</button>
+      </div>
+      
+      <!-- AI Generator Tab (Default) -->
+      <div id="mobile-nutrition-ai">
+        <div class="card" style="padding:14px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#00ff88,#4169E1);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04z"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:14px;">Nutrition AI</div>
+              <div style="font-size:11px;color:#666;">Generate meal plans instantly</div>
+            </div>
+          </div>
+          
+          <!-- Quick Prompts -->
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+            <button class="mobile-prompt-btn" onclick="useMobileNutritionPrompt('fat-loss')">Fat Loss</button>
+            <button class="mobile-prompt-btn" onclick="useMobileNutritionPrompt('muscle')">Muscle Gain</button>
+            <button class="mobile-prompt-btn" onclick="useMobileNutritionPrompt('keto')">Keto</button>
+            <button class="mobile-prompt-btn" onclick="useMobileNutritionPrompt('vegan')">Vegan</button>
+          </div>
+          
+          <textarea id="mobile-nutrition-input" class="input" style="margin-bottom:8px;min-height:80px;" placeholder="Describe the meal plan you need...&#10;e.g., Fat loss plan for Sarah, 145lbs, 1650 cal target"></textarea>
+          <button class="btn" onclick="generateMobileMealPlan()">Generate Meal Plan</button>
+        </div>
+        
+        <!-- Generated Plan Preview -->
+        <div id="mobile-generated-plan" style="margin-top:12px;"></div>
+      </div>
+      
+      <!-- Custom Builder Tab -->
+      <div id="mobile-nutrition-custom" style="display:none;">
+        <div class="card" style="padding:14px;">
+          <div class="input-label">SELECT CLIENT</div>
+          <select id="mobile-nutrition-client" class="input" style="margin-bottom:12px;" onchange="loadMobileClientStats()">
+            <option value="">Choose client...</option>
+            <option value="sarah">Sarah Johnson</option>
+            <option value="mike">Mike Chen</option>
+            <option value="emma">Emma Wilson</option>
+            <option value="david">David Park</option>
+          </select>
+          
+          <div class="input-label">GOAL</div>
+          <select id="mobile-nutrition-goal" class="input" style="margin-bottom:12px;" onchange="calculateMobileMacros()">
+            <option value="fat-loss">Fat Loss (-500 cal)</option>
+            <option value="aggressive">Aggressive Loss (-750 cal)</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="lean-gain">Lean Gain (+250 cal)</option>
+            <option value="bulk">Bulk (+500 cal)</option>
+          </select>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+            <div>
+              <div class="input-label">WEIGHT (lbs)</div>
+              <input type="number" id="mobile-client-weight" class="input" value="145" style="margin-bottom:0;" onchange="calculateMobileMacros()">
+            </div>
+            <div>
+              <div class="input-label">BODY FAT %</div>
+              <input type="number" id="mobile-client-bf" class="input" value="22" style="margin-bottom:0;" onchange="calculateMobileMacros()">
+            </div>
+          </div>
+          
+          <div class="input-label">ACTIVITY LEVEL</div>
+          <select id="mobile-activity" class="input" style="margin-bottom:12px;" onchange="calculateMobileMacros()">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375">Light (1-3x/week)</option>
+            <option value="1.55" selected>Moderate (3-5x/week)</option>
+            <option value="1.725">Active (6-7x/week)</option>
+            <option value="1.9">Very Active (2x/day)</option>
+          </select>
+        </div>
+        
+        <!-- Calculated Macros -->
+        <div class="card" style="margin-top:12px;padding:14px;background:#0a0a0a;">
+          <div class="card-header" style="margin-bottom:12px;">CALCULATED MACROS</div>
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-value" style="font-size:22px;" id="mobile-calc-cal">1,850</div>
+              <div class="stat-label">Calories</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-value" style="font-size:22px;color:#4169E1;" id="mobile-calc-p">145g</div>
+              <div class="stat-label">Protein</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-value" style="font-size:22px;color:#ffcc00;" id="mobile-calc-c">185g</div>
+              <div class="stat-label">Carbs</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-value" style="font-size:22px;color:#ff6b6b;" id="mobile-calc-f">52g</div>
+              <div class="stat-label">Fats</div>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn" style="margin-top:12px;" onclick="saveMobileNutritionPlan()">Save Plan to Client</button>
+      </div>
+      
+      <!-- Client Plans Tab -->
+      <div id="mobile-nutrition-plans" style="display:none;">
+        <div class="client-card" onclick="viewMobileClientPlan('sarah')">
+          <div class="client-avatar">SJ</div>
+          <div class="client-info">
+            <div class="client-name">Sarah Johnson</div>
+            <div class="client-meta">Fat Loss • 1,650 cal • Updated 2d ago</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:14px;font-weight:600;color:#00ff88;">85%</div>
+            <div style="font-size:10px;color:#666;">Compliance</div>
+          </div>
+        </div>
+        
+        <div class="client-card" onclick="viewMobileClientPlan('mike')">
+          <div class="client-avatar" style="background:#ff6b6b;">MC</div>
+          <div class="client-info">
+            <div class="client-name">Mike Chen</div>
+            <div class="client-meta">Muscle Gain • 2,800 cal • Updated 5d ago</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:14px;font-weight:600;color:#ffcc00;">72%</div>
+            <div style="font-size:10px;color:#666;">Compliance</div>
+          </div>
+        </div>
+        
+        <div class="client-card" onclick="viewMobileClientPlan('emma')">
+          <div class="client-avatar" style="background:#00ff88;color:#000;">EW</div>
+          <div class="client-info">
+            <div class="client-name">Emma Wilson</div>
+            <div class="client-meta">Fat Loss • 1,500 cal • Updated today</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:14px;font-weight:600;color:#00ff88;">91%</div>
+            <div style="font-size:10px;color:#666;">Compliance</div>
+          </div>
+        </div>
+        
+        <div class="client-card" onclick="viewMobileClientPlan('david')">
+          <div class="client-avatar" style="background:#ffcc00;color:#000;">DP</div>
+          <div class="client-info">
+            <div class="client-name">David Park</div>
+            <div class="client-meta">Performance • 3,200 cal • Updated 1w ago</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:14px;font-weight:600;color:#00ff88;">88%</div>
+            <div style="font-size:10px;color:#666;">Compliance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TRAINER: Business/Billing -->
   <div id="business" class="screen">
     <div style="padding:16px;">
@@ -1637,15 +1802,15 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     </div>
     <div class="tab" onclick="showScreen('templates')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></span>
-      Programming
+      Programs
+    </div>
+    <div class="tab" onclick="showScreen('trainer-nutrition')">
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05l-5 2v16.94h.06zM1 21.99h15.03V3.95l-5-2-10 2v18.04z"/></svg></span>
+      Nutrition
     </div>
     <div class="tab" onclick="showScreen('business')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
       Business
-    </div>
-    <div class="tab" onclick="showScreen('settings')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
-      Settings
     </div>
   </div>
 </div>
@@ -1702,6 +1867,15 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     .client-info { flex: 1; }
     .client-name { font-weight: 600; font-size: 15px; }
     .client-meta { font-size: 11px; color: #666; margin-top: 2px; }
+    
+    /* Mobile Nutrition Styles */
+    .mobile-prompt-btn { padding: 8px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 16px; color: #888; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+    .mobile-prompt-btn:hover, .mobile-prompt-btn:active { border-color: #00ff88; color: #00ff88; background: #00ff8810; }
+    .mobile-meal-card { background: #1a1a1a; border: 1px solid #222; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+    .mobile-meal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .mobile-meal-name { font-weight: 600; font-size: 14px; }
+    .mobile-meal-cal { font-size: 12px; color: #00ff88; }
+    .mobile-meal-foods { font-size: 12px; color: #888; line-height: 1.5; }
     
     /* Quick Actions */
     .quick-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
@@ -3197,6 +3371,156 @@ init();
 const style = document.createElement('style');
 style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
 document.head.appendChild(style);
+
+// ==================== MOBILE NUTRITION PLANNING ====================
+function showMobileNutritionTab(tab) {
+  document.getElementById('mobile-nutrition-ai').style.display = tab === 'ai' ? 'block' : 'none';
+  document.getElementById('mobile-nutrition-custom').style.display = tab === 'custom' ? 'block' : 'none';
+  document.getElementById('mobile-nutrition-plans').style.display = tab === 'plans' ? 'block' : 'none';
+  
+  if (tab === 'custom') calculateMobileMacros();
+}
+
+function useMobileNutritionPrompt(type) {
+  const prompts = {
+    'fat-loss': 'Create a fat loss meal plan for Sarah. 145lbs, 22% body fat, trains 4x/week. Target 1,650 calories with high protein.',
+    'muscle': 'Create a muscle building plan for Mike. 185lbs, 15% body fat, trains 5x/week. Target 2,800 calories.',
+    'keto': 'Create a ketogenic meal plan with under 30g net carbs, high fat, moderate protein.',
+    'vegan': 'Create a high-protein vegan meal plan for muscle building with complete protein sources.'
+  };
+  document.getElementById('mobile-nutrition-input').value = prompts[type] || '';
+}
+
+function generateMobileMealPlan() {
+  const input = document.getElementById('mobile-nutrition-input').value;
+  if (!input.trim()) {
+    alert('Please describe the meal plan you need');
+    return;
+  }
+  
+  const isLoss = input.toLowerCase().includes('loss') || input.toLowerCase().includes('cut');
+  const isGain = input.toLowerCase().includes('gain') || input.toLowerCase().includes('bulk') || input.toLowerCase().includes('muscle');
+  const isKeto = input.toLowerCase().includes('keto');
+  const isVegan = input.toLowerCase().includes('vegan');
+  
+  const calories = isLoss ? 1650 : isGain ? 2800 : isKeto ? 1800 : 2200;
+  const protein = isLoss ? 145 : isGain ? 200 : isKeto ? 120 : 165;
+  const carbs = isKeto ? 25 : isLoss ? 140 : isGain ? 300 : 220;
+  const fats = isKeto ? 140 : isLoss ? 55 : isGain ? 85 : 70;
+  
+  let meals = [];
+  if (isKeto) {
+    meals = [
+      { name: '🌅 Breakfast', foods: '3 eggs + avocado + bacon', cal: 450 },
+      { name: '☀️ Lunch', foods: 'Salmon salad with olive oil dressing', cal: 550 },
+      { name: '🌙 Dinner', foods: 'Ribeye steak + asparagus + butter', cal: 650 },
+      { name: '🥤 Snacks', foods: 'Cheese + macadamia nuts', cal: 150 }
+    ];
+  } else if (isVegan) {
+    meals = [
+      { name: '🌅 Breakfast', foods: 'Tofu scramble + tempeh bacon + toast', cal: 420 },
+      { name: '☀️ Lunch', foods: 'Lentil curry + quinoa + vegetables', cal: 580 },
+      { name: '🌙 Dinner', foods: 'Seitan stir-fry + edamame + rice', cal: 620 },
+      { name: '🥤 Snacks', foods: 'Vegan protein shake + almonds', cal: 380 }
+    ];
+  } else {
+    meals = [
+      { name: '🌅 Breakfast', foods: 'Eggs + oatmeal + berries', cal: isLoss ? 380 : 520 },
+      { name: '☀️ Lunch', foods: 'Chicken breast + rice + vegetables', cal: isLoss ? 480 : 680 },
+      { name: '🌙 Dinner', foods: 'Salmon + sweet potato + salad', cal: isLoss ? 520 : 720 },
+      { name: '🥤 Snacks', foods: 'Greek yogurt + protein shake', cal: isLoss ? 270 : 380 }
+    ];
+  }
+  
+  const previewEl = document.getElementById('mobile-generated-plan');
+  previewEl.innerHTML = `
+    <div class="card" style="padding:14px;background:#0a0a0a;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+        <span style="font-weight:600;">Daily Targets</span>
+        <span style="color:#00ff88;font-size:12px;">✓ Generated</span>
+      </div>
+      <div class="stats-row" style="margin-bottom:0;">
+        <div class="stat-item"><div style="font-size:18px;font-weight:700;">${calories.toLocaleString()}</div><div class="stat-label">cal</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div style="font-size:18px;font-weight:700;color:#4169E1;">${protein}g</div><div class="stat-label">protein</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div style="font-size:18px;font-weight:700;color:#ffcc00;">${carbs}g</div><div class="stat-label">carbs</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div style="font-size:18px;font-weight:700;color:#ff6b6b;">${fats}g</div><div class="stat-label">fats</div></div>
+      </div>
+    </div>
+    
+    ${meals.map(m => `
+      <div class="mobile-meal-card">
+        <div class="mobile-meal-header">
+          <span class="mobile-meal-name">${m.name}</span>
+          <span class="mobile-meal-cal">${m.cal} cal</span>
+        </div>
+        <div class="mobile-meal-foods">${m.foods}</div>
+      </div>
+    `).join('')}
+    
+    <button class="btn" style="margin-top:8px;" onclick="assignMobilePlanToClient()">Assign to Client</button>
+  `;
+}
+
+function assignMobilePlanToClient() {
+  alert('Select a client to assign this meal plan to:\n\n• Sarah Johnson\n• Mike Chen\n• Emma Wilson\n• David Park\n\n(In the full app, this would open a client selector)');
+}
+
+function loadMobileClientStats() {
+  const client = document.getElementById('mobile-nutrition-client').value;
+  const stats = {
+    sarah: { weight: 145, bf: 22 },
+    mike: { weight: 185, bf: 15 },
+    emma: { weight: 135, bf: 28 },
+    david: { weight: 175, bf: 12 }
+  };
+  if (stats[client]) {
+    document.getElementById('mobile-client-weight').value = stats[client].weight;
+    document.getElementById('mobile-client-bf').value = stats[client].bf;
+    calculateMobileMacros();
+  }
+}
+
+function calculateMobileMacros() {
+  const weight = parseFloat(document.getElementById('mobile-client-weight').value) || 145;
+  const bf = parseFloat(document.getElementById('mobile-client-bf').value) || 22;
+  const activity = parseFloat(document.getElementById('mobile-activity').value) || 1.55;
+  const goal = document.getElementById('mobile-nutrition-goal').value;
+  
+  const leanMass = weight * (1 - bf / 100);
+  const bmr = 370 + (21.6 * leanMass * 0.453592);
+  let tdee = bmr * activity;
+  
+  const adjustments = { 'aggressive': -750, 'fat-loss': -500, 'maintenance': 0, 'lean-gain': 250, 'bulk': 500 };
+  const calories = Math.round(tdee + (adjustments[goal] || 0));
+  const protein = Math.round(weight * 1.0);
+  const fats = Math.round((calories * 0.25) / 9);
+  const carbs = Math.round((calories - (protein * 4) - (fats * 9)) / 4);
+  
+  document.getElementById('mobile-calc-cal').textContent = calories.toLocaleString();
+  document.getElementById('mobile-calc-p').textContent = protein + 'g';
+  document.getElementById('mobile-calc-c').textContent = carbs + 'g';
+  document.getElementById('mobile-calc-f').textContent = fats + 'g';
+}
+
+function saveMobileNutritionPlan() {
+  const client = document.getElementById('mobile-nutrition-client').value;
+  if (!client) {
+    alert('Please select a client first');
+    return;
+  }
+  const cal = document.getElementById('mobile-calc-cal').textContent;
+  const p = document.getElementById('mobile-calc-p').textContent;
+  alert(`Nutrition plan saved!\n\nClient: ${client.charAt(0).toUpperCase() + client.slice(1)}\nCalories: ${cal}\nProtein: ${p}`);
+}
+
+function viewMobileClientPlan(clientId) {
+  showMobileNutritionTab('custom');
+  document.getElementById('mobile-nutrition-client').value = clientId;
+  loadMobileClientStats();
+}
 </script>
 </body>
 </html>
