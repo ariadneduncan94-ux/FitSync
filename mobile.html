@@ -14,15 +14,15 @@
     
     /* Header */
     .header { background: #000; padding: 50px 20px 16px; display: flex; justify-content: center; align-items: center; position: relative; }
-    .header-left { position: absolute; left: 20px; top: 50px; }
-    .header-right { position: absolute; right: 20px; top: 50px; }
+    .header-left { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; }
+    .header-right { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
     .logo-text { font-size: 26px; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; letter-spacing: 1px; }
     .logo-lift { color: #fff; }
     .logo-wise { background: linear-gradient(90deg, #4169E1, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .role-badge { font-size: 10px; padding: 6px 12px; border-radius: 20px; background: #1a1a1a; border: 1px solid #333; cursor: pointer; }
     .role-badge.trainer { background: #4169E120; border-color: #4169E1; color: #4169E1; }
-    .msg-btn { position: relative; }
-    .msg-badge { position: absolute; top: -6px; right: -6px; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+    .msg-btn { position: relative; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
+    .msg-badge { position: absolute; top: 0; right: 0; background: #ff6b6b; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
     
     /* Screen Transitions */
     .screen { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.25s ease, transform 0.25s ease; }
