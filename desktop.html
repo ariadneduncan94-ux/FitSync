@@ -8,12 +8,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; }
+    html, body { height: 100%; overflow: hidden; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0a; color: #fff; }
     
     /* Layout */
-    .app { display: flex; min-height: 100vh; }
-    .sidebar { width: 240px; background: #111; border-right: 1px solid #222; display: flex; flex-direction: column; position: fixed; height: 100vh; }
-    .main { flex: 1; margin-left: 240px; display: flex; flex-direction: column; }
+    .app { display: flex; height: 100vh; overflow: hidden; }
+    .sidebar { width: 240px; background: #111; border-right: 1px solid #222; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
+    .main { flex: 1; margin-left: 240px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
     
     /* Sidebar */
     .sidebar-header { padding: 24px 20px; border-bottom: 1px solid #222; }
@@ -21,7 +22,7 @@
     .logo-lift { color: #fff; }
     .logo-wise { background: linear-gradient(90deg, #4169E1, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     
-    .sidebar-nav { flex: 1; padding: 16px 12px; }
+    .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
     .nav-section { margin-bottom: 24px; }
     .nav-section-title { font-size: 10px; color: #666; letter-spacing: 1.5px; text-transform: uppercase; padding: 0 12px; margin-bottom: 8px; }
     .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; cursor: pointer; color: #888; font-size: 14px; font-weight: 500; transition: all 0.2s; }
@@ -38,12 +39,16 @@
     .user-role { font-size: 11px; color: #666; }
     
     /* Header */
-    .header { padding: 16px 32px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; }
-    .header-title { font-size: 20px; font-weight: 600; }
+    .header { padding: 12px 24px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; flex-shrink: 0; }
+    .header-title { font-size: 18px; font-weight: 600; }
     .header-actions { display: flex; gap: 12px; }
     
     /* Content */
-    .content { flex: 1; padding: 16px 32px; overflow-y: auto; }
+    .content { flex: 1; padding: 16px 24px; overflow-y: auto; }
+    
+    /* Page container */
+    .page { display: none; height: 100%; }
+    .page.active { display: flex; flex-direction: column; height: 100%; }
     
     /* Cards */
     .card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 20px; }
@@ -224,10 +229,6 @@
     .client-stat-value { font-size: 18px; font-weight: 700; }
     .client-stat-label { font-size: 11px; color: #666; }
     
-    /* Page transitions */
-    .page { display: none; opacity: 0; transform: translateY(10px); transition: opacity 0.25s ease, transform 0.25s ease; }
-    .page.active { display: block; opacity: 1; transform: translateY(0); }
-    
     /* Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #111; }
@@ -332,6 +333,109 @@
     
     .preset-btn { padding: 8px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #ccc; font-size: 12px; cursor: pointer; transition: all 0.2s; }
     .preset-btn:hover { border-color: #00ff88; background: #00ff8810; }
+    
+    /* Program Studio Styles */
+    .studio-panel { background: #111; border-right: 1px solid #222; display: flex; flex-direction: column; height: 100%; }
+    .studio-panel:last-child { border-right: none; }
+    .studio-panel-header { padding: 12px 16px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .studio-panel-title { font-size: 13px; font-weight: 600; color: #fff; }
+    .studio-panel-count { font-size: 11px; color: #666; }
+    
+    .studio-exercises { width: 280px; flex-shrink: 0; }
+    .studio-search { padding: 12px; border-bottom: 1px solid #222; display: flex; align-items: center; gap: 8px; background: #0a0a0a; }
+    .studio-search input { flex: 1; background: transparent; border: none; color: #fff; font-size: 13px; outline: none; }
+    .studio-search input::placeholder { color: #555; }
+    .studio-filters { padding: 8px 12px; display: flex; gap: 8px; border-bottom: 1px solid #222; }
+    .studio-filters select { flex: 1; padding: 6px 8px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px; color: #ccc; font-size: 11px; cursor: pointer; }
+    .studio-exercise-list { flex: 1; overflow-y: auto; padding: 8px; }
+    
+    .studio-exercise-item { padding: 10px 12px; background: #1a1a1a; border: 1px solid #222; border-radius: 8px; margin-bottom: 6px; cursor: grab; transition: all 0.2s; }
+    .studio-exercise-item:hover { border-color: #4169E1; background: #1a1a2a; }
+    .studio-exercise-item:active { cursor: grabbing; }
+    .studio-exercise-item.dragging { opacity: 0.5; border-color: #4169E1; }
+    .studio-exercise-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+    .studio-exercise-meta { display: flex; gap: 6px; }
+    .studio-exercise-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #333; color: #888; }
+    .studio-exercise-tag.bodypart { background: #4169E120; color: #4169E1; }
+    .studio-exercise-tag.equipment { background: #00ff8820; color: #00ff88; }
+    
+    .studio-builder { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .program-title-input { background: transparent; border: none; color: #fff; font-size: 16px; font-weight: 600; width: 180px; outline: none; border-bottom: 1px solid transparent; }
+    .program-title-input:focus { border-bottom-color: #4169E1; }
+    .studio-select-sm { padding: 6px 10px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px; color: #ccc; font-size: 12px; cursor: pointer; }
+    .studio-actions { display: flex; gap: 6px; }
+    
+    .week-nav { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid #222; background: #0a0a0a; flex-shrink: 0; }
+    .week-nav-btn { width: 28px; height: 28px; border-radius: 6px; background: #1a1a1a; border: 1px solid #333; color: #888; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .week-nav-btn:hover { border-color: #4169E1; color: #fff; }
+    .week-tabs { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+    .week-tab { padding: 6px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px; color: #888; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .week-tab:hover { border-color: #4169E1; color: #fff; }
+    .week-tab.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    .week-add-btn { padding: 6px 12px; background: transparent; border: 1px dashed #333; border-radius: 6px; color: #666; font-size: 12px; cursor: pointer; }
+    .week-add-btn:hover { border-color: #00ff88; color: #00ff88; }
+    
+    .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); flex: 1; overflow: hidden; }
+    .day-column { border-right: 1px solid #222; display: flex; flex-direction: column; min-width: 0; }
+    .day-column:last-child { border-right: none; }
+    .day-header { padding: 10px 8px; border-bottom: 1px solid #222; background: #0a0a0a; text-align: center; flex-shrink: 0; }
+    .day-name { display: block; font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .day-focus { display: block; font-size: 12px; color: #4169E1; margin-top: 2px; outline: none; }
+    .day-focus:focus { background: #1a1a1a; border-radius: 4px; padding: 2px 4px; }
+    .day-exercises { flex: 1; padding: 8px; overflow-y: auto; min-height: 100px; }
+    .day-exercises.drag-over { background: #4169E110; }
+    .drop-zone-hint { font-size: 11px; color: #444; text-align: center; padding: 20px 8px; border: 1px dashed #333; border-radius: 6px; }
+    
+    .program-exercise { padding: 8px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px; margin-bottom: 6px; cursor: grab; position: relative; }
+    .program-exercise:hover { border-color: #4169E1; }
+    .program-exercise-name { font-size: 11px; font-weight: 500; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .program-exercise-sets { display: flex; gap: 4px; flex-wrap: wrap; }
+    .program-exercise-set { font-size: 10px; padding: 2px 6px; background: #333; border-radius: 4px; color: #888; }
+    .program-exercise-remove { position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; border-radius: 50%; background: #333; color: #666; font-size: 10px; cursor: pointer; display: none; align-items: center; justify-content: center; }
+    .program-exercise:hover .program-exercise-remove { display: flex; }
+    .program-exercise-remove:hover { background: #ff6b6b; color: #fff; }
+    
+    .studio-ai { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; }
+    .ai-icon-sm { width: 24px; height: 24px; border-radius: 6px; background: linear-gradient(135deg, #4169E1, #00ff88); display: flex; align-items: center; justify-content: center; }
+    .ai-studio-chat { flex: 1; overflow-y: auto; padding: 12px; }
+    .ai-studio-msg { margin-bottom: 12px; }
+    .ai-studio-msg.assistant .ai-studio-msg-content { background: #1a1a1a; border-radius: 12px; padding: 12px; font-size: 13px; line-height: 1.5; }
+    .ai-studio-msg.assistant ul { margin: 8px 0 0 16px; padding: 0; }
+    .ai-studio-msg.assistant li { margin-bottom: 4px; color: #888; font-size: 12px; }
+    .ai-studio-msg.user .ai-studio-msg-content { background: #4169E1; border-radius: 12px; padding: 10px 14px; font-size: 13px; margin-left: 20px; }
+    .ai-studio-quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; border-top: 1px solid #222; }
+    .ai-quick-chip { padding: 5px 10px; background: #1a1a1a; border: 1px solid #333; border-radius: 14px; color: #888; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+    .ai-quick-chip:hover { border-color: #4169E1; color: #fff; }
+    .ai-studio-input { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #222; }
+    .ai-studio-input textarea { flex: 1; background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 10px; color: #fff; font-size: 13px; resize: none; font-family: inherit; }
+    .ai-studio-input textarea:focus { outline: none; border-color: #4169E1; }
+    .ai-studio-send { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #4169E1, #00ff88); border: none; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ai-studio-send:hover { transform: scale(1.05); }
+    
+    .program-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; border-top: 1px solid #222; background: #0a0a0a; }
+    .program-stat { text-align: center; }
+    .program-stat-value { display: block; font-size: 18px; font-weight: 700; color: #4169E1; }
+    .program-stat-label { font-size: 10px; color: #666; text-transform: uppercase; }
+    
+    /* P&L Chart Styles */
+    .chart-period-btns { display: flex; gap: 4px; }
+    .period-btn { padding: 4px 10px; background: transparent; border: 1px solid #333; border-radius: 6px; color: #666; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .period-btn:hover { border-color: #4169E1; color: #fff; }
+    .period-btn.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    .chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #888; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    
+    /* Client Performance Styles */
+    .client-perf-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #222; }
+    .client-perf-row:last-child { border-bottom: none; }
+    .client-perf-avatar { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+    .client-perf-info { flex: 1; min-width: 0; }
+    .client-perf-name { font-size: 13px; font-weight: 500; }
+    .client-perf-meta { font-size: 11px; color: #666; }
+    .client-perf-bar { width: 80px; height: 6px; background: #222; border-radius: 3px; overflow: hidden; }
+    .client-perf-fill { height: 100%; background: #00ff88; border-radius: 3px; transition: width 0.3s; }
+    .client-perf-score { font-size: 14px; font-weight: 600; color: #00ff88; width: 40px; text-align: right; }
   </style>
 
   <!-- Main Content -->
@@ -362,9 +466,9 @@
             <div class="stat-change up">+12% vs Nov</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">48</div>
-            <div class="stat-label">Sessions This Month</div>
-            <div class="stat-change up">+8 vs last month</div>
+            <div class="stat-value">$5,200</div>
+            <div class="stat-label">Net Profit (Dec)</div>
+            <div class="stat-change up">+18% vs Nov</div>
           </div>
           <div class="stat-card">
             <div class="stat-value">94%</div>
@@ -373,12 +477,34 @@
           </div>
         </div>
         
-        <div class="grid-2">
+        <!-- P&L Chart and Schedule Row -->
+        <div class="grid-2" style="margin-bottom: 16px;">
+          <!-- P&L Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Revenue & Profit</div>
+              <div class="chart-period-btns">
+                <button class="period-btn" onclick="updatePLChart('1m')">1M</button>
+                <button class="period-btn active" onclick="updatePLChart('6m')">6M</button>
+                <button class="period-btn" onclick="updatePLChart('1y')">1Y</button>
+                <button class="period-btn" onclick="updatePLChart('5y')">5Y</button>
+              </div>
+            </div>
+            <div style="height: 220px; position: relative;">
+              <canvas id="plChart"></canvas>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item"><span class="legend-dot" style="background:#4169E1;"></span> Revenue</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#00ff88;"></span> Profit</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#ff6b6b;"></span> Expenses</div>
+            </div>
+          </div>
+          
           <!-- Today's Schedule -->
           <div class="card">
             <div class="card-header">
               <div class="card-title">Today's Schedule</div>
-              <button class="btn btn-secondary btn-sm" onclick="showPage('calendar')">View Calendar</button>
+              <button class="btn btn-secondary btn-sm" onclick="showPage('calendar')">View All</button>
             </div>
             <div class="schedule-item">
               <div class="schedule-time">9:00 AM</div>
@@ -411,6 +537,53 @@
                 <div class="schedule-meta">Virtual • Google Meet</div>
               </div>
               <div class="schedule-avatar" style="background: #ffcc00; color: #000;">DP</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bottom Row: Client Performance & AI -->
+        <div class="grid-2">
+          <!-- Client Performance -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Client Performance</div>
+              <button class="btn btn-secondary btn-sm" onclick="showPage('clients')">View All</button>
+            </div>
+            <div class="client-perf-row">
+              <div class="client-perf-avatar" style="background: #4169E1;">SJ</div>
+              <div class="client-perf-info">
+                <div class="client-perf-name">Sarah Johnson</div>
+                <div class="client-perf-meta">4/4 workouts • 92% nutrition</div>
+              </div>
+              <div class="client-perf-bar"><div class="client-perf-fill" style="width:94%;"></div></div>
+              <div class="client-perf-score">94%</div>
+            </div>
+            <div class="client-perf-row">
+              <div class="client-perf-avatar" style="background: #00ff88; color:#000;">MC</div>
+              <div class="client-perf-info">
+                <div class="client-perf-name">Mike Chen</div>
+                <div class="client-perf-meta">3/4 workouts • 85% nutrition</div>
+              </div>
+              <div class="client-perf-bar"><div class="client-perf-fill" style="width:88%; background:#ffcc00;"></div></div>
+              <div class="client-perf-score" style="color:#ffcc00;">88%</div>
+            </div>
+            <div class="client-perf-row">
+              <div class="client-perf-avatar" style="background: #ff6b6b;">EW</div>
+              <div class="client-perf-info">
+                <div class="client-perf-name">Emma Wilson</div>
+                <div class="client-perf-meta">3/3 workouts • 78% nutrition</div>
+              </div>
+              <div class="client-perf-bar"><div class="client-perf-fill" style="width:82%;"></div></div>
+              <div class="client-perf-score">82%</div>
+            </div>
+            <div class="client-perf-row">
+              <div class="client-perf-avatar" style="background: #ffcc00; color:#000;">DP</div>
+              <div class="client-perf-info">
+                <div class="client-perf-name">David Park</div>
+                <div class="client-perf-meta">5/5 workouts • 95% nutrition</div>
+              </div>
+              <div class="client-perf-bar"><div class="client-perf-fill" style="width:96%;"></div></div>
+              <div class="client-perf-score">96%</div>
             </div>
           </div>
           
@@ -752,9 +925,224 @@
       <header class="header"><h1 class="header-title">Messages</h1></header>
       <div class="content"><div class="card"><p style="color:#666;">Messages interface coming soon...</p></div></div>
     </div>
+    
+    <!-- Programs Page with Program Studio -->
     <div id="page-programs" class="page">
-      <header class="header"><h1 class="header-title">Programs</h1></header>
-      <div class="content"><div class="card"><p style="color:#666;">Program builder coming soon...</p></div></div>
+      <header class="header">
+        <h1 class="header-title">Program Studio</h1>
+        <div class="header-actions">
+          <button class="btn btn-secondary btn-sm" onclick="showProgramsList()">
+            <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+            My Programs
+          </button>
+          <button class="btn" onclick="openNewProgramModal()">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            New Program
+          </button>
+        </div>
+      </header>
+      
+      <div class="content" style="padding: 0; display: flex; height: calc(100vh - 60px);">
+        <!-- Left Panel: Exercise Library -->
+        <div class="studio-panel studio-exercises">
+          <div class="studio-panel-header">
+            <span class="studio-panel-title">Exercise Library</span>
+            <span class="studio-panel-count" id="exercise-count">0 exercises</span>
+          </div>
+          <div class="studio-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#666"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="studio-exercise-search" placeholder="Search exercises..." oninput="filterStudioExercises()">
+          </div>
+          <div class="studio-filters">
+            <select id="studio-bodypart" onchange="filterStudioExercises()">
+              <option value="">All Body Parts</option>
+              <option value="chest">Chest</option>
+              <option value="back">Back</option>
+              <option value="shoulders">Shoulders</option>
+              <option value="upper arms">Arms</option>
+              <option value="upper legs">Legs</option>
+              <option value="waist">Core</option>
+            </select>
+            <select id="studio-equipment" onchange="filterStudioExercises()">
+              <option value="">All Equipment</option>
+              <option value="barbell">Barbell</option>
+              <option value="dumbbell">Dumbbell</option>
+              <option value="cable">Cable</option>
+              <option value="machine">Machine</option>
+              <option value="body weight">Bodyweight</option>
+            </select>
+          </div>
+          <div class="studio-exercise-list" id="studio-exercise-list">
+            <!-- Exercises loaded here -->
+          </div>
+        </div>
+        
+        <!-- Center Panel: Program Builder -->
+        <div class="studio-panel studio-builder">
+          <div class="studio-panel-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <input type="text" id="program-title" class="program-title-input" value="New Program" placeholder="Program Name">
+              <select id="program-client" class="studio-select-sm">
+                <option value="">Select Client</option>
+                <option value="sarah">Sarah Johnson</option>
+                <option value="mike">Mike Chen</option>
+                <option value="emma">Emma Wilson</option>
+                <option value="david">David Park</option>
+              </select>
+            </div>
+            <div class="studio-actions">
+              <button class="btn btn-secondary btn-sm" onclick="undoProgramChange()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="redoProgramChange()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
+              </button>
+              <button class="btn btn-sm" onclick="saveProgramStudio()">Save Program</button>
+            </div>
+          </div>
+          
+          <!-- Week Navigation -->
+          <div class="week-nav">
+            <button class="week-nav-btn" onclick="changeWeek(-1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <div class="week-tabs" id="week-tabs">
+              <button class="week-tab active" onclick="selectWeek(1)">Week 1</button>
+              <button class="week-tab" onclick="selectWeek(2)">Week 2</button>
+              <button class="week-tab" onclick="selectWeek(3)">Week 3</button>
+              <button class="week-tab" onclick="selectWeek(4)">Week 4</button>
+            </div>
+            <button class="week-nav-btn" onclick="changeWeek(1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+            <button class="week-add-btn" onclick="addWeek()">+ Add Week</button>
+          </div>
+          
+          <!-- Days Grid -->
+          <div class="days-grid" id="days-grid">
+            <div class="day-column" data-day="1">
+              <div class="day-header">
+                <span class="day-name">Monday</span>
+                <span class="day-focus" contenteditable="true">Push</span>
+              </div>
+              <div class="day-exercises" id="day-1-exercises" ondrop="dropExercise(event, 1)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Drag exercises here</div>
+              </div>
+            </div>
+            <div class="day-column" data-day="2">
+              <div class="day-header">
+                <span class="day-name">Tuesday</span>
+                <span class="day-focus" contenteditable="true">Pull</span>
+              </div>
+              <div class="day-exercises" id="day-2-exercises" ondrop="dropExercise(event, 2)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Drag exercises here</div>
+              </div>
+            </div>
+            <div class="day-column" data-day="3">
+              <div class="day-header">
+                <span class="day-name">Wednesday</span>
+                <span class="day-focus" contenteditable="true">Rest</span>
+              </div>
+              <div class="day-exercises" id="day-3-exercises" ondrop="dropExercise(event, 3)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Rest Day</div>
+              </div>
+            </div>
+            <div class="day-column" data-day="4">
+              <div class="day-header">
+                <span class="day-name">Thursday</span>
+                <span class="day-focus" contenteditable="true">Legs</span>
+              </div>
+              <div class="day-exercises" id="day-4-exercises" ondrop="dropExercise(event, 4)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Drag exercises here</div>
+              </div>
+            </div>
+            <div class="day-column" data-day="5">
+              <div class="day-header">
+                <span class="day-name">Friday</span>
+                <span class="day-focus" contenteditable="true">Upper</span>
+              </div>
+              <div class="day-exercises" id="day-5-exercises" ondrop="dropExercise(event, 5)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Drag exercises here</div>
+              </div>
+            </div>
+            <div class="day-column" data-day="6">
+              <div class="day-header">
+                <span class="day-name">Saturday</span>
+                <span class="day-focus" contenteditable="true">Cardio</span>
+              </div>
+              <div class="day-exercises" id="day-6-exercises" ondrop="dropExercise(event, 6)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Drag exercises here</div>
+              </div>
+            </div>
+            <div class="day-column" data-day="7">
+              <div class="day-header">
+                <span class="day-name">Sunday</span>
+                <span class="day-focus" contenteditable="true">Rest</span>
+              </div>
+              <div class="day-exercises" id="day-7-exercises" ondrop="dropExercise(event, 7)" ondragover="allowDrop(event)">
+                <div class="drop-zone-hint">Rest Day</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Panel: AI Assistant -->
+        <div class="studio-panel studio-ai">
+          <div class="studio-panel-header">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="ai-icon-sm">
+                <svg width="16" height="16" viewBox="0 0 40 40" fill="none"><path d="M8 20h24M12 14v12M28 14v12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+              </div>
+              <span class="studio-panel-title">AI Assistant</span>
+            </div>
+          </div>
+          
+          <div class="ai-studio-chat" id="ai-studio-chat">
+            <div class="ai-studio-msg assistant">
+              <div class="ai-studio-msg-content">
+                I can help you build this program! Try:
+                <ul>
+                  <li>"Generate a 4-week hypertrophy program"</li>
+                  <li>"Add chest exercises to Monday"</li>
+                  <li>"Swap bench press for dumbbell press"</li>
+                  <li>"Make week 4 a deload week"</li>
+                  <li>"Add progressive overload"</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="ai-studio-quick">
+            <button class="ai-quick-chip" onclick="aiStudioCommand('generate')">Generate Program</button>
+            <button class="ai-quick-chip" onclick="aiStudioCommand('deload')">Add Deload</button>
+            <button class="ai-quick-chip" onclick="aiStudioCommand('progress')">Add Progression</button>
+            <button class="ai-quick-chip" onclick="aiStudioCommand('balance')">Balance Volume</button>
+          </div>
+          
+          <div class="ai-studio-input">
+            <textarea id="ai-studio-input" placeholder="Ask AI to help build your program..." rows="2"></textarea>
+            <button class="ai-studio-send" onclick="sendAIStudioMessage()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+          </div>
+          
+          <!-- Program Stats -->
+          <div class="program-stats">
+            <div class="program-stat">
+              <span class="program-stat-value" id="stat-exercises">0</span>
+              <span class="program-stat-label">Exercises</span>
+            </div>
+            <div class="program-stat">
+              <span class="program-stat-value" id="stat-sets">0</span>
+              <span class="program-stat-label">Total Sets</span>
+            </div>
+            <div class="program-stat">
+              <span class="program-stat-value" id="stat-volume">0</span>
+              <span class="program-stat-label">Weekly Vol</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!-- Nutrition Planning Page -->
@@ -1427,7 +1815,129 @@ function sendDesktopAIMessage() {
 document.addEventListener('DOMContentLoaded', () => {
   generateCalendar();
   loadExerciseLibrary();
+  initPLChart();
 });
+
+// ==================== P&L CHART ====================
+let plChart = null;
+const plData = {
+  '1m': {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    revenue: [2100, 2400, 1950, 2000],
+    profit: [1400, 1600, 1200, 1000],
+    expenses: [700, 800, 750, 1000]
+  },
+  '6m': {
+    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    revenue: [6200, 6800, 7100, 7500, 7800, 8450],
+    profit: [3800, 4200, 4400, 4600, 4800, 5200],
+    expenses: [2400, 2600, 2700, 2900, 3000, 3250]
+  },
+  '1y': {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    revenue: [4500, 4800, 5200, 5100, 5600, 5900, 6200, 6800, 7100, 7500, 7800, 8450],
+    profit: [2700, 2900, 3200, 3000, 3400, 3600, 3800, 4200, 4400, 4600, 4800, 5200],
+    expenses: [1800, 1900, 2000, 2100, 2200, 2300, 2400, 2600, 2700, 2900, 3000, 3250]
+  },
+  '5y': {
+    labels: ['2020', '2021', '2022', '2023', '2024'],
+    revenue: [32000, 48000, 62000, 78000, 92000],
+    profit: [18000, 28000, 38000, 48000, 58000],
+    expenses: [14000, 20000, 24000, 30000, 34000]
+  }
+};
+
+function initPLChart() {
+  const ctx = document.getElementById('plChart');
+  if (!ctx) return;
+  
+  plChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: plData['6m'].labels,
+      datasets: [
+        {
+          label: 'Revenue',
+          data: plData['6m'].revenue,
+          borderColor: '#4169E1',
+          backgroundColor: 'rgba(65, 105, 225, 0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#4169E1'
+        },
+        {
+          label: 'Profit',
+          data: plData['6m'].profit,
+          borderColor: '#00ff88',
+          backgroundColor: 'rgba(0, 255, 136, 0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#00ff88'
+        },
+        {
+          label: 'Expenses',
+          data: plData['6m'].expenses,
+          borderColor: '#ff6b6b',
+          backgroundColor: 'rgba(255, 107, 107, 0.05)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#ff6b6b'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          titleColor: '#fff',
+          bodyColor: '#ccc',
+          borderColor: '#333',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': $' + context.raw.toLocaleString();
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: '#222', drawBorder: false },
+          ticks: { color: '#666', font: { size: 10 } }
+        },
+        y: {
+          grid: { color: '#222', drawBorder: false },
+          ticks: {
+            color: '#666',
+            font: { size: 10 },
+            callback: function(value) { return '$' + (value / 1000) + 'k'; }
+          }
+        }
+      },
+      interaction: { intersect: false, mode: 'index' }
+    }
+  });
+}
+
+function updatePLChart(period) {
+  document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  if (plChart && plData[period]) {
+    plChart.data.labels = plData[period].labels;
+    plChart.data.datasets[0].data = plData[period].revenue;
+    plChart.data.datasets[1].data = plData[period].profit;
+    plChart.data.datasets[2].data = plData[period].expenses;
+    plChart.update();
+  }
+}
 
 // ==================== EXERCISE LIBRARY ====================
 let allExercises = [];
@@ -2074,6 +2584,483 @@ function viewPlan(clientId) {
   document.getElementById('nutrition-client').value = clientId;
   loadClientStats();
 }
+
+// ==================== PROGRAM STUDIO ====================
+
+// Studio State
+let studioExercises = [];
+let programData = {
+  title: 'New Program',
+  client: '',
+  weeks: 4,
+  currentWeek: 1,
+  days: {
+    1: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+    2: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+    3: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+    4: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] }
+  }
+};
+let programHistory = [];
+let historyIndex = -1;
+
+// Load exercises for studio
+function loadStudioExercises() {
+  // Demo exercises for the studio
+  studioExercises = [
+    { id: 1, name: 'Barbell Bench Press', bodyPart: 'chest', equipment: 'barbell' },
+    { id: 2, name: 'Incline Dumbbell Press', bodyPart: 'chest', equipment: 'dumbbell' },
+    { id: 3, name: 'Cable Flyes', bodyPart: 'chest', equipment: 'cable' },
+    { id: 4, name: 'Barbell Row', bodyPart: 'back', equipment: 'barbell' },
+    { id: 5, name: 'Lat Pulldown', bodyPart: 'back', equipment: 'cable' },
+    { id: 6, name: 'Seated Cable Row', bodyPart: 'back', equipment: 'cable' },
+    { id: 7, name: 'Overhead Press', bodyPart: 'shoulders', equipment: 'barbell' },
+    { id: 8, name: 'Lateral Raises', bodyPart: 'shoulders', equipment: 'dumbbell' },
+    { id: 9, name: 'Face Pulls', bodyPart: 'shoulders', equipment: 'cable' },
+    { id: 10, name: 'Barbell Curl', bodyPart: 'upper arms', equipment: 'barbell' },
+    { id: 11, name: 'Tricep Pushdown', bodyPart: 'upper arms', equipment: 'cable' },
+    { id: 12, name: 'Hammer Curls', bodyPart: 'upper arms', equipment: 'dumbbell' },
+    { id: 13, name: 'Barbell Squat', bodyPart: 'upper legs', equipment: 'barbell' },
+    { id: 14, name: 'Romanian Deadlift', bodyPart: 'upper legs', equipment: 'barbell' },
+    { id: 15, name: 'Leg Press', bodyPart: 'upper legs', equipment: 'machine' },
+    { id: 16, name: 'Leg Curl', bodyPart: 'upper legs', equipment: 'machine' },
+    { id: 17, name: 'Leg Extension', bodyPart: 'upper legs', equipment: 'machine' },
+    { id: 18, name: 'Calf Raises', bodyPart: 'lower legs', equipment: 'machine' },
+    { id: 19, name: 'Plank', bodyPart: 'waist', equipment: 'body weight' },
+    { id: 20, name: 'Cable Crunch', bodyPart: 'waist', equipment: 'cable' },
+    { id: 21, name: 'Pull-ups', bodyPart: 'back', equipment: 'body weight' },
+    { id: 22, name: 'Dips', bodyPart: 'chest', equipment: 'body weight' },
+    { id: 23, name: 'Push-ups', bodyPart: 'chest', equipment: 'body weight' },
+    { id: 24, name: 'Deadlift', bodyPart: 'back', equipment: 'barbell' }
+  ];
+  renderStudioExercises();
+}
+
+function renderStudioExercises(exercises = studioExercises) {
+  const list = document.getElementById('studio-exercise-list');
+  list.innerHTML = exercises.map(ex => `
+    <div class="studio-exercise-item" draggable="true" ondragstart="dragStart(event, ${ex.id})" data-id="${ex.id}">
+      <div class="studio-exercise-name">${ex.name}</div>
+      <div class="studio-exercise-meta">
+        <span class="studio-exercise-tag bodypart">${ex.bodyPart}</span>
+        <span class="studio-exercise-tag equipment">${ex.equipment}</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('exercise-count').textContent = `${exercises.length} exercises`;
+}
+
+function filterStudioExercises() {
+  const search = document.getElementById('studio-exercise-search').value.toLowerCase();
+  const bodyPart = document.getElementById('studio-bodypart').value.toLowerCase();
+  const equipment = document.getElementById('studio-equipment').value.toLowerCase();
+  
+  let filtered = studioExercises;
+  if (search) filtered = filtered.filter(ex => ex.name.toLowerCase().includes(search));
+  if (bodyPart) filtered = filtered.filter(ex => ex.bodyPart.toLowerCase().includes(bodyPart));
+  if (equipment) filtered = filtered.filter(ex => ex.equipment.toLowerCase().includes(equipment));
+  
+  renderStudioExercises(filtered);
+}
+
+// Drag and Drop
+function dragStart(event, exerciseId) {
+  event.dataTransfer.setData('exerciseId', exerciseId);
+  event.target.classList.add('dragging');
+}
+
+function allowDrop(event) {
+  event.preventDefault();
+  event.currentTarget.classList.add('drag-over');
+}
+
+function dropExercise(event, dayNum) {
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag-over');
+  
+  const exerciseId = parseInt(event.dataTransfer.getData('exerciseId'));
+  const exercise = studioExercises.find(ex => ex.id === exerciseId);
+  
+  if (exercise) {
+    saveToHistory();
+    const week = programData.currentWeek;
+    const newExercise = {
+      ...exercise,
+      uid: Date.now(),
+      sets: [{ reps: 10, weight: '' }, { reps: 10, weight: '' }, { reps: 10, weight: '' }]
+    };
+    programData.days[week][dayNum].push(newExercise);
+    renderDayExercises(dayNum);
+    updateProgramStats();
+  }
+  
+  document.querySelectorAll('.dragging').forEach(el => el.classList.remove('dragging'));
+}
+
+function renderDayExercises(dayNum) {
+  const container = document.getElementById(`day-${dayNum}-exercises`);
+  const week = programData.currentWeek;
+  const exercises = programData.days[week][dayNum];
+  
+  if (exercises.length === 0) {
+    container.innerHTML = '<div class="drop-zone-hint">Drag exercises here</div>';
+    return;
+  }
+  
+  container.innerHTML = exercises.map((ex, idx) => `
+    <div class="program-exercise" draggable="true">
+      <div class="program-exercise-remove" onclick="removeExercise(${dayNum}, ${idx})">×</div>
+      <div class="program-exercise-name">${ex.name}</div>
+      <div class="program-exercise-sets">
+        ${ex.sets.map((s, i) => `<span class="program-exercise-set">${s.reps}r</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function removeExercise(dayNum, index) {
+  saveToHistory();
+  const week = programData.currentWeek;
+  programData.days[week][dayNum].splice(index, 1);
+  renderDayExercises(dayNum);
+  updateProgramStats();
+}
+
+// Week Management
+function selectWeek(weekNum) {
+  programData.currentWeek = weekNum;
+  document.querySelectorAll('.week-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i + 1 === weekNum);
+  });
+  renderAllDays();
+}
+
+function changeWeek(direction) {
+  const newWeek = programData.currentWeek + direction;
+  if (newWeek >= 1 && newWeek <= programData.weeks) {
+    selectWeek(newWeek);
+  }
+}
+
+function addWeek() {
+  programData.weeks++;
+  programData.days[programData.weeks] = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] };
+  renderWeekTabs();
+  selectWeek(programData.weeks);
+}
+
+function renderWeekTabs() {
+  const container = document.getElementById('week-tabs');
+  container.innerHTML = '';
+  for (let i = 1; i <= programData.weeks; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'week-tab' + (i === programData.currentWeek ? ' active' : '');
+    btn.textContent = `Week ${i}`;
+    btn.onclick = () => selectWeek(i);
+    container.appendChild(btn);
+  }
+}
+
+function renderAllDays() {
+  for (let i = 1; i <= 7; i++) {
+    renderDayExercises(i);
+  }
+}
+
+// History (Undo/Redo)
+function saveToHistory() {
+  programHistory = programHistory.slice(0, historyIndex + 1);
+  programHistory.push(JSON.parse(JSON.stringify(programData.days)));
+  historyIndex++;
+  if (programHistory.length > 50) {
+    programHistory.shift();
+    historyIndex--;
+  }
+}
+
+function undoProgramChange() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    programData.days = JSON.parse(JSON.stringify(programHistory[historyIndex]));
+    renderAllDays();
+    updateProgramStats();
+  }
+}
+
+function redoProgramChange() {
+  if (historyIndex < programHistory.length - 1) {
+    historyIndex++;
+    programData.days = JSON.parse(JSON.stringify(programHistory[historyIndex]));
+    renderAllDays();
+    updateProgramStats();
+  }
+}
+
+// Program Stats
+function updateProgramStats() {
+  let totalExercises = 0;
+  let totalSets = 0;
+  
+  const week = programData.currentWeek;
+  for (let day = 1; day <= 7; day++) {
+    const exercises = programData.days[week][day];
+    totalExercises += exercises.length;
+    exercises.forEach(ex => totalSets += ex.sets.length);
+  }
+  
+  document.getElementById('stat-exercises').textContent = totalExercises;
+  document.getElementById('stat-sets').textContent = totalSets;
+  document.getElementById('stat-volume').textContent = totalSets * 10; // Simplified volume calc
+}
+
+// AI Studio Assistant
+function sendAIStudioMessage() {
+  const input = document.getElementById('ai-studio-input');
+  const message = input.value.trim();
+  if (!message) return;
+  
+  const chat = document.getElementById('ai-studio-chat');
+  chat.innerHTML += `<div class="ai-studio-msg user"><div class="ai-studio-msg-content">${message}</div></div>`;
+  input.value = '';
+  
+  // Simulate AI response
+  setTimeout(() => {
+    let response = processAIStudioCommand(message);
+    chat.innerHTML += `<div class="ai-studio-msg assistant"><div class="ai-studio-msg-content">${response}</div></div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }, 500);
+}
+
+function aiStudioCommand(command) {
+  const chat = document.getElementById('ai-studio-chat');
+  let response = '';
+  
+  switch(command) {
+    case 'generate':
+      response = generateAIProgram();
+      break;
+    case 'deload':
+      response = addDeloadWeek();
+      break;
+    case 'progress':
+      response = addProgression();
+      break;
+    case 'balance':
+      response = balanceVolume();
+      break;
+  }
+  
+  chat.innerHTML += `<div class="ai-studio-msg assistant"><div class="ai-studio-msg-content">${response}</div></div>`;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function processAIStudioCommand(message) {
+  const lower = message.toLowerCase();
+  
+  if (lower.includes('generate') || lower.includes('create program')) {
+    return generateAIProgram();
+  } else if (lower.includes('deload')) {
+    return addDeloadWeek();
+  } else if (lower.includes('chest') && lower.includes('monday')) {
+    addExercisesToDay(1, ['chest']);
+    return "Added chest exercises to Monday. I've included Bench Press, Incline Press, and Cable Flyes.";
+  } else if (lower.includes('back') && lower.includes('tuesday')) {
+    addExercisesToDay(2, ['back']);
+    return "Added back exercises to Tuesday. I've included Barbell Row, Lat Pulldown, and Seated Cable Row.";
+  } else if (lower.includes('legs') && lower.includes('thursday')) {
+    addExercisesToDay(4, ['upper legs']);
+    return "Added leg exercises to Thursday. I've included Squats, Romanian Deadlifts, and Leg Press.";
+  } else if (lower.includes('progression') || lower.includes('progressive')) {
+    return addProgression();
+  } else if (lower.includes('balance')) {
+    return balanceVolume();
+  }
+  
+  return "I can help with that! Try commands like 'Generate a 4-week program', 'Add chest exercises to Monday', or 'Make week 4 a deload week'.";
+}
+
+function generateAIProgram() {
+  saveToHistory();
+  
+  // Generate a PPL split
+  const pushExercises = studioExercises.filter(ex => ['chest', 'shoulders'].includes(ex.bodyPart) || ex.name.includes('Tricep'));
+  const pullExercises = studioExercises.filter(ex => ['back'].includes(ex.bodyPart) || ex.name.includes('Curl'));
+  const legExercises = studioExercises.filter(ex => ['upper legs', 'lower legs'].includes(ex.bodyPart));
+  
+  for (let week = 1; week <= programData.weeks; week++) {
+    // Monday - Push
+    programData.days[week][1] = pushExercises.slice(0, 4).map(ex => ({
+      ...ex, uid: Date.now() + Math.random(),
+      sets: [{ reps: 10 }, { reps: 10 }, { reps: 10 }]
+    }));
+    
+    // Tuesday - Pull
+    programData.days[week][2] = pullExercises.slice(0, 4).map(ex => ({
+      ...ex, uid: Date.now() + Math.random(),
+      sets: [{ reps: 10 }, { reps: 10 }, { reps: 10 }]
+    }));
+    
+    // Wednesday - Rest
+    programData.days[week][3] = [];
+    
+    // Thursday - Legs
+    programData.days[week][4] = legExercises.slice(0, 4).map(ex => ({
+      ...ex, uid: Date.now() + Math.random(),
+      sets: [{ reps: 10 }, { reps: 10 }, { reps: 10 }]
+    }));
+    
+    // Friday - Upper
+    programData.days[week][5] = [...pushExercises.slice(0, 2), ...pullExercises.slice(0, 2)].map(ex => ({
+      ...ex, uid: Date.now() + Math.random(),
+      sets: [{ reps: 10 }, { reps: 10 }, { reps: 10 }]
+    }));
+    
+    // Saturday - Cardio/Active Recovery
+    programData.days[week][6] = [];
+    
+    // Sunday - Rest
+    programData.days[week][7] = [];
+  }
+  
+  renderAllDays();
+  updateProgramStats();
+  
+  return "Generated a 4-week Push/Pull/Legs program! Monday is Push, Tuesday is Pull, Thursday is Legs, Friday is Upper body. Feel free to drag exercises to customize.";
+}
+
+function addExercisesToDay(dayNum, bodyParts) {
+  saveToHistory();
+  const week = programData.currentWeek;
+  const exercises = studioExercises.filter(ex => bodyParts.includes(ex.bodyPart)).slice(0, 3);
+  
+  exercises.forEach(ex => {
+    programData.days[week][dayNum].push({
+      ...ex, uid: Date.now() + Math.random(),
+      sets: [{ reps: 10 }, { reps: 10 }, { reps: 10 }]
+    });
+  });
+  
+  renderDayExercises(dayNum);
+  updateProgramStats();
+}
+
+function addDeloadWeek() {
+  saveToHistory();
+  const lastWeek = programData.weeks;
+  
+  // Copy last week but reduce sets
+  for (let day = 1; day <= 7; day++) {
+    programData.days[lastWeek][day] = programData.days[lastWeek][day].map(ex => ({
+      ...ex,
+      sets: ex.sets.slice(0, 2).map(s => ({ ...s, reps: Math.max(6, s.reps - 2) }))
+    }));
+  }
+  
+  renderAllDays();
+  updateProgramStats();
+  
+  return `Week ${lastWeek} is now a deload week with reduced volume (2 sets per exercise, lower reps).`;
+}
+
+function addProgression() {
+  saveToHistory();
+  
+  // Add progressive overload across weeks
+  for (let week = 2; week <= programData.weeks; week++) {
+    for (let day = 1; day <= 7; day++) {
+      programData.days[week][day] = programData.days[week][day].map(ex => ({
+        ...ex,
+        sets: ex.sets.map(s => ({ ...s, reps: Math.min(12, s.reps + 1) }))
+      }));
+    }
+  }
+  
+  renderAllDays();
+  return "Added progressive overload: reps increase by 1 each week (up to 12). This creates a natural progression curve.";
+}
+
+function balanceVolume() {
+  const week = programData.currentWeek;
+  let bodyPartVolume = {};
+  
+  for (let day = 1; day <= 7; day++) {
+    programData.days[week][day].forEach(ex => {
+      if (!bodyPartVolume[ex.bodyPart]) bodyPartVolume[ex.bodyPart] = 0;
+      bodyPartVolume[ex.bodyPart] += ex.sets.length;
+    });
+  }
+  
+  let report = "Weekly volume by body part:\n";
+  Object.entries(bodyPartVolume).forEach(([part, sets]) => {
+    report += `• ${part}: ${sets} sets\n`;
+  });
+  
+  return report + "\nFor balanced development, aim for 10-20 sets per muscle group per week.";
+}
+
+// Save Program
+function saveProgramStudio() {
+  const title = document.getElementById('program-title').value;
+  const client = document.getElementById('program-client').value;
+  
+  const program = {
+    title,
+    client,
+    weeks: programData.weeks,
+    days: programData.days,
+    createdAt: new Date().toISOString()
+  };
+  
+  // In a real app, this would save to a database
+  console.log('Saving program:', program);
+  alert(`Program "${title}" saved successfully!`);
+}
+
+function showProgramsList() {
+  alert('Programs list would open here. This demo focuses on the Program Studio builder.');
+}
+
+function openNewProgramModal() {
+  // Reset program data
+  programData = {
+    title: 'New Program',
+    client: '',
+    weeks: 4,
+    currentWeek: 1,
+    days: {
+      1: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+      2: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+      3: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] },
+      4: { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] }
+    }
+  };
+  document.getElementById('program-title').value = 'New Program';
+  document.getElementById('program-client').value = '';
+  renderWeekTabs();
+  renderAllDays();
+  updateProgramStats();
+}
+
+// Initialize studio when Programs page is shown
+const originalShowPage = showPage;
+showPage = function(pageId) {
+  originalShowPage(pageId);
+  if (pageId === 'programs') {
+    loadStudioExercises();
+    renderWeekTabs();
+    renderAllDays();
+    updateProgramStats();
+  }
+};
+
+// Add drag leave handler
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.day-exercises').forEach(el => {
+    el.addEventListener('dragleave', function(e) {
+      this.classList.remove('drag-over');
+    });
+  });
+});
 </script>
 </body>
 </html>
