@@ -1502,7 +1502,7 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
       <!-- Community Cards -->
       <div class="mobile-community-card" onclick="openMobileCommunity('6am-crew')">
         <div class="mobile-community-header">
-          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);">🌅</div>
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12.5 7.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v4.29l-2.15 2.15c-.2.2-.2.51 0 .71.1.1.23.15.35.15s.26-.05.35-.15l2.29-2.29c.09-.09.16-.21.16-.35V7.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
           <div class="mobile-community-info">
             <div class="mobile-community-name">6AM Crew</div>
             <div class="mobile-community-type">Accountability • 8 members</div>
@@ -1510,13 +1510,13 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
           <div class="mobile-community-badge">3</div>
         </div>
         <div class="mobile-community-preview">
-          <span style="color:#888;">Sarah:</span> Crushed my 5am workout today! 💪
+          <span style="color:#888;">Sarah:</span> Crushed my 5am workout today!
         </div>
       </div>
       
       <div class="mobile-community-card" onclick="openMobileCommunity('hyrox-prep')">
         <div class="mobile-community-header">
-          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#4169E1,#00ff88);">🏃</div>
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#4169E1,#00ff88);"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div>
           <div class="mobile-community-info">
             <div class="mobile-community-name">HYROX Prep 2025</div>
             <div class="mobile-community-type">Program • 12 members</div>
@@ -1530,14 +1530,14 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
       
       <div class="mobile-community-card" onclick="openMobileCommunity('nutrition-challenge')">
         <div class="mobile-community-header">
-          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#00ff88,#4169E1);">🥗</div>
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#00ff88,#4169E1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg></div>
           <div class="mobile-community-info">
             <div class="mobile-community-name">Nutrition Challenge</div>
             <div class="mobile-community-type">Challenge • Day 12 of 30</div>
           </div>
         </div>
         <div class="mobile-community-preview">
-          <span style="color:#888;">Emma:</span> Here's my meal prep for the week! 🥦
+          <span style="color:#888;">Emma:</span> Here's my meal prep for the week!
         </div>
       </div>
       
@@ -1554,7 +1554,7 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
           <div class="mobile-event-meta">9:00 AM • Golden Gate Park</div>
           <div class="mobile-event-community">6AM Crew</div>
         </div>
-        <button class="btn-small" onclick="event.stopPropagation();alert('RSVP updated!')">Going ✓</button>
+        <button class="btn-small" onclick="event.stopPropagation();alert('RSVP updated!')">Going</button>
       </div>
       
       <div class="mobile-event-card">
@@ -1683,6 +1683,109 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
       </div>
       
       <button class="btn btn-outline" style="margin:16px;" onclick="alert('Logging out...')">Log Out</button>
+    </div>
+  </div>
+
+  <!-- TRAINER: Communities -->
+  <div id="trainer-communities" class="screen">
+    <div style="padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div class="card-header" style="margin:0;">MY COMMUNITIES</div>
+        <button class="btn-small" onclick="openTrainerCreateCommunity()">+ New</button>
+      </div>
+      
+      <!-- Community Cards -->
+      <div class="mobile-community-card" onclick="openMobileCommunity('6am-crew')">
+        <div class="mobile-community-header">
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12.5 7.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v4.29l-2.15 2.15c-.2.2-.2.51 0 .71.1.1.23.15.35.15s.26-.05.35-.15l2.29-2.29c.09-.09.16-.21.16-.35V7.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+          <div class="mobile-community-info">
+            <div class="mobile-community-name">6AM Crew</div>
+            <div class="mobile-community-type">Accountability • 8 members</div>
+          </div>
+          <div class="mobile-community-badge">3</div>
+        </div>
+        <div class="mobile-community-preview">
+          <span style="color:#888;">Sarah:</span> Crushed my 5am workout today!
+        </div>
+      </div>
+      
+      <div class="mobile-community-card" onclick="openMobileCommunity('hyrox-prep')">
+        <div class="mobile-community-header">
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#4169E1,#00ff88);"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div>
+          <div class="mobile-community-info">
+            <div class="mobile-community-name">HYROX Prep 2025</div>
+            <div class="mobile-community-type">Program • 12 members</div>
+          </div>
+          <div class="mobile-community-badge" style="background:#4169E1;">1</div>
+        </div>
+        <div class="mobile-community-preview">
+          <span style="color:#888;">David:</span> Just finished the sled push practice
+        </div>
+      </div>
+      
+      <div class="mobile-community-card" onclick="openMobileCommunity('nutrition-challenge')">
+        <div class="mobile-community-header">
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#00ff88,#4169E1);"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg></div>
+          <div class="mobile-community-info">
+            <div class="mobile-community-name">Nutrition Challenge</div>
+            <div class="mobile-community-type">Challenge • Day 12 of 30</div>
+          </div>
+          <div class="mobile-community-badge" style="background:#00ff88;color:#000;">5</div>
+        </div>
+        <div class="mobile-community-preview">
+          <span style="color:#888;">Emma:</span> Here's my meal prep for the week!
+        </div>
+      </div>
+      
+      <!-- Quick Stats -->
+      <div class="card" style="margin-top:20px;background:#0a0a0a;">
+        <div class="card-header">COMMUNITY STATS</div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-value" style="font-size:24px;background:linear-gradient(90deg,#764ba2,#667eea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">3</div>
+            <div class="stat-label">Communities</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-value" style="font-size:24px;">35</div>
+            <div class="stat-label">Members</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-value" style="font-size:24px;color:#00ff88;">89%</div>
+            <div class="stat-label">Engagement</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Upcoming Events -->
+      <div class="card-header" style="margin-top:20px;">UPCOMING EVENTS</div>
+      
+      <div class="mobile-event-card">
+        <div class="mobile-event-date">
+          <div class="mobile-event-month">DEC</div>
+          <div class="mobile-event-day">26</div>
+        </div>
+        <div class="mobile-event-info">
+          <div class="mobile-event-title">Saturday Group Workout</div>
+          <div class="mobile-event-meta">9:00 AM • Golden Gate Park</div>
+          <div class="mobile-event-community">6AM Crew • 6 RSVPs</div>
+        </div>
+        <button class="btn-small btn-secondary" onclick="event.stopPropagation();alert('Edit event...')">Edit</button>
+      </div>
+      
+      <div class="mobile-event-card">
+        <div class="mobile-event-date" style="background:linear-gradient(135deg,#4169E1,#00ff88);">
+          <div class="mobile-event-month">JAN</div>
+          <div class="mobile-event-day">04</div>
+        </div>
+        <div class="mobile-event-info">
+          <div class="mobile-event-title">HYROX Simulation</div>
+          <div class="mobile-event-meta">8:00 AM • Downtown Gym</div>
+          <div class="mobile-event-community">HYROX Prep • 10 RSVPs</div>
+        </div>
+        <button class="btn-small btn-secondary" onclick="event.stopPropagation();alert('Edit event...')">Edit</button>
+      </div>
     </div>
   </div>
 
@@ -2069,7 +2172,7 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     </div>
     <div class="tab" onclick="showScreen('client-communities')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></span>
-      Groups
+      Communities
     </div>
     <div class="tab" onclick="showScreen('client-progress')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>
@@ -2091,13 +2194,13 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg></span>
       Sessions
     </div>
+    <div class="tab" onclick="showScreen('trainer-communities')">
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></span>
+      Communities
+    </div>
     <div class="tab" onclick="showScreen('templates')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></span>
-      Programming
-    </div>
-    <div class="tab" onclick="showScreen('business')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
-      Business
+      Programs
     </div>
     <div class="tab" onclick="showScreen('settings')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
@@ -4390,6 +4493,15 @@ function sendMobileCommunityMessage() {
   
   renderMobileCommunityMessages(community.messages);
   input.value = '';
+}
+
+function openTrainerCreateCommunity() {
+  const name = prompt('Community Name:');
+  if (!name) return;
+  
+  const type = prompt('Type (accountability, program, challenge, general):') || 'general';
+  
+  alert(`Community "${name}" created!\n\nType: ${type}\nYou can now add members and start posting.`);
 }
 </script>
 <!-- Supabase config temporarily disabled until Amplify routing is fixed -->
