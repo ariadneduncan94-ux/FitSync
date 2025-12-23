@@ -68,10 +68,103 @@
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    
+    /* ==================== RESPONSIVE STYLES ==================== */
+    
+    /* Tablet and small laptops */
+    @media (max-width: 1200px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .calendar-sidebar { width: 280px; }
+      .studio-exercises { width: 240px; }
+    }
+    
+    /* Tablet portrait */
+    @media (max-width: 1024px) {
+      .sidebar { width: 200px; }
+      .main { margin-left: 200px; }
+      .nav-item { padding: 10px; font-size: 13px; }
+      .calendar-container { flex-direction: column; }
+      .calendar-sidebar { width: 100%; flex-direction: row; gap: 16px; max-height: none; }
+      .calendar-sidebar > * { flex: 1; }
+    }
+    
+    /* Small tablets / large phones */
+    @media (max-width: 768px) {
+      .sidebar { 
+        position: fixed;
+        left: -240px;
+        width: 240px;
+        transition: left 0.3s ease;
+        z-index: 1000;
+      }
+      .sidebar.open { left: 0; }
+      .main { margin-left: 0; }
+      .header { padding: 12px 16px; }
+      .content { padding: 12px 16px; }
+      .grid-4 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .calendar-sidebar { flex-direction: column; }
+      .stat-card { padding: 16px; }
+      .stat-value { font-size: 24px; }
+      
+      /* Mobile menu button */
+      .mobile-menu-btn { display: flex !important; }
+      
+      /* Studio adjustments */
+      .studio-exercises { display: none; }
+      .studio-exercises.open { display: flex; position: fixed; left: 0; top: 0; height: 100vh; z-index: 999; background: #111; }
+      .days-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    
+    /* Phone */
+    @media (max-width: 480px) {
+      .header-title { font-size: 16px; }
+      .btn { padding: 10px 16px; font-size: 13px; }
+      .btn-sm { padding: 6px 12px; font-size: 12px; }
+      .card { padding: 16px; border-radius: 12px; }
+      .client-row { padding: 12px; flex-wrap: wrap; }
+      .client-stats { width: 100%; justify-content: space-around; margin-top: 12px; }
+      .days-grid { grid-template-columns: 1fr; }
+      .week-tabs { overflow-x: auto; }
+      .calendar-day { min-height: 60px; padding: 4px; }
+      .calendar-event { font-size: 9px; padding: 2px 4px; }
+    }
+    
+    /* Mobile menu button - hidden by default */
+    .mobile-menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Sidebar overlay for mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+    .sidebar-overlay.open { display: block; }
 </style>
 </head>
 <body>
 <div class="app">
+  <!-- Sidebar Overlay for Mobile -->
+  <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+  
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
