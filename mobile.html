@@ -827,28 +827,231 @@ Try something like: <em>"Build a 12-week HYROX prep program for Jamie. He's inte
     </div>
   </div>
 
-  <!-- TRAINER: Program Builder with Exercise Library -->
+  <!-- TRAINER: Program Studio (Mobile-Optimized) -->
   <div id="program-builder" class="screen">
     <div style="padding:16px;">
+      <!-- Header -->
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
         <span onclick="showScreen('templates')" style="cursor:pointer;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#666"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
         </span>
-        <div class="card-header" style="margin:0;flex:1;">BUILD PROGRAM</div>
-        <button class="btn-small" onclick="saveProgram()">Save</button>
+        <input type="text" id="mobile-program-name" placeholder="Program Name" style="flex:1;background:transparent;border:none;color:#fff;font-size:16px;font-weight:600;outline:none;">
+        <button class="btn-small" onclick="saveMobileProgram()">Save</button>
       </div>
       
-      <div class="input-label">PROGRAM NAME</div>
-      <input type="text" class="input" id="program-name" placeholder="e.g., Sarah - Glute Focus">
+      <!-- Week Selector -->
+      <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;" id="mobile-week-tabs">
+        <button class="week-pill active" onclick="selectMobileWeek(1)">Week 1</button>
+        <button class="week-pill" onclick="selectMobileWeek(2)">Week 2</button>
+        <button class="week-pill" onclick="selectMobileWeek(3)">Week 3</button>
+        <button class="week-pill" onclick="selectMobileWeek(4)">Week 4</button>
+        <button class="week-pill add-week" onclick="addMobileWeek()">+</button>
+      </div>
       
-      <!-- Week View -->
-      <div class="card-header" style="margin-top:16px;">WEEKLY SCHEDULE</div>
-      <div id="program-week-grid"></div>
+      <!-- Day Selector -->
+      <div style="display:flex;gap:4px;margin-bottom:16px;" id="mobile-day-tabs">
+        <button class="day-pill active" onclick="selectMobileDay(1)">M</button>
+        <button class="day-pill" onclick="selectMobileDay(2)">T</button>
+        <button class="day-pill" onclick="selectMobileDay(3)">W</button>
+        <button class="day-pill" onclick="selectMobileDay(4)">T</button>
+        <button class="day-pill" onclick="selectMobileDay(5)">F</button>
+        <button class="day-pill" onclick="selectMobileDay(6)">S</button>
+        <button class="day-pill rest" onclick="selectMobileDay(7)">S</button>
+      </div>
       
-      <button class="btn btn-secondary" style="margin-top:12px;" onclick="showScreen('exercise-library')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-        Add Exercises from Library
+      <!-- Day Focus Input -->
+      <input type="text" id="mobile-day-focus" placeholder="Day focus (e.g., Upper Push, Legs)" class="input" style="margin-bottom:12px;">
+      
+      <!-- Exercises List -->
+      <div id="mobile-exercises-list" style="margin-bottom:16px;">
+        <!-- Demo exercises -->
+        <div class="mobile-exercise-card">
+          <div class="mobile-exercise-header" onclick="toggleExerciseExpand(this)">
+            <div class="mobile-exercise-info">
+              <span class="mobile-exercise-name">Barbell Bench Press</span>
+              <span class="mobile-exercise-summary">4 sets • 8-10 reps</span>
+            </div>
+            <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+          </div>
+          <div class="mobile-exercise-details" style="display:none;">
+            <div class="mobile-sets-grid">
+              <div class="mobile-set-row">
+                <span class="set-num">1</span>
+                <input type="text" class="set-input" placeholder="10" value="10"> reps
+                <input type="text" class="set-input" placeholder="135" value="135"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+              <div class="mobile-set-row">
+                <span class="set-num">2</span>
+                <input type="text" class="set-input" placeholder="10" value="10"> reps
+                <input type="text" class="set-input" placeholder="155" value="155"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+              <div class="mobile-set-row">
+                <span class="set-num">3</span>
+                <input type="text" class="set-input" placeholder="8" value="8"> reps
+                <input type="text" class="set-input" placeholder="175" value="175"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+              <div class="mobile-set-row">
+                <span class="set-num">4</span>
+                <input type="text" class="set-input" placeholder="8" value="8"> reps
+                <input type="text" class="set-input" placeholder="185" value="185"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button class="mini-btn" onclick="addSetToExercise(this)">+ Add Set</button>
+              <button class="mini-btn danger" onclick="removeExercise(this)">Remove</button>
+            </div>
+            <input type="text" class="notes-input" placeholder="Notes (e.g., pause at bottom)">
+          </div>
+        </div>
+        
+        <div class="mobile-exercise-card">
+          <div class="mobile-exercise-header" onclick="toggleExerciseExpand(this)">
+            <div class="mobile-exercise-info">
+              <span class="mobile-exercise-name">Incline Dumbbell Press</span>
+              <span class="mobile-exercise-summary">3 sets • 10-12 reps</span>
+            </div>
+            <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+          </div>
+          <div class="mobile-exercise-details" style="display:none;">
+            <div class="mobile-sets-grid">
+              <div class="mobile-set-row">
+                <span class="set-num">1</span>
+                <input type="text" class="set-input" placeholder="12" value="12"> reps
+                <input type="text" class="set-input" placeholder="50" value="50"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+              <div class="mobile-set-row">
+                <span class="set-num">2</span>
+                <input type="text" class="set-input" placeholder="10" value="10"> reps
+                <input type="text" class="set-input" placeholder="55" value="55"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+              <div class="mobile-set-row">
+                <span class="set-num">3</span>
+                <input type="text" class="set-input" placeholder="10" value="10"> reps
+                <input type="text" class="set-input" placeholder="55" value="55"> lbs
+                <span class="remove-set" onclick="removeSet(this)">×</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button class="mini-btn" onclick="addSetToExercise(this)">+ Add Set</button>
+              <button class="mini-btn danger" onclick="removeExercise(this)">Remove</button>
+            </div>
+            <input type="text" class="notes-input" placeholder="Notes">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Add Exercise Button -->
+      <button class="btn btn-secondary" onclick="openMobileExerciseSearch()" style="margin-bottom:12px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Add Exercise
       </button>
+      
+      <!-- AI Assist Button -->
+      <button class="btn" onclick="openMobileAIAssist()" style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        AI: Generate Workout
+      </button>
+    </div>
+  </div>
+  
+  <!-- Mobile Exercise Search Modal -->
+  <div id="mobile-exercise-search" class="modal">
+    <div class="modal-content" style="height:90vh;display:flex;flex-direction:column;">
+      <div class="modal-header">
+        <span onclick="closeMobileExerciseSearch()" style="cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#666"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </span>
+        <span style="font-weight:600;">Add Exercise</span>
+        <span style="width:20px;"></span>
+      </div>
+      
+      <input type="text" class="input" id="mobile-exercise-search-input" placeholder="Search exercises..." oninput="searchMobileExercises(this.value)" style="margin-bottom:12px;">
+      
+      <!-- Body Part Filters -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="filter-chip active" onclick="filterMobileExercises('all', this)">All</button>
+        <button class="filter-chip" onclick="filterMobileExercises('chest', this)">Chest</button>
+        <button class="filter-chip" onclick="filterMobileExercises('back', this)">Back</button>
+        <button class="filter-chip" onclick="filterMobileExercises('shoulders', this)">Shoulders</button>
+        <button class="filter-chip" onclick="filterMobileExercises('legs', this)">Legs</button>
+        <button class="filter-chip" onclick="filterMobileExercises('arms', this)">Arms</button>
+        <button class="filter-chip" onclick="filterMobileExercises('core', this)">Core</button>
+      </div>
+      
+      <!-- Exercise Results -->
+      <div id="mobile-exercise-results" style="flex:1;overflow-y:auto;">
+        <div class="mobile-search-exercise" onclick="addExerciseToProgram('Barbell Squat', 'legs')">
+          <div class="search-exercise-info">
+            <span class="search-exercise-name">Barbell Squat</span>
+            <span class="search-exercise-meta">Legs • Barbell</span>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </div>
+        <div class="mobile-search-exercise" onclick="addExerciseToProgram('Romanian Deadlift', 'legs')">
+          <div class="search-exercise-info">
+            <span class="search-exercise-name">Romanian Deadlift</span>
+            <span class="search-exercise-meta">Legs • Barbell</span>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </div>
+        <div class="mobile-search-exercise" onclick="addExerciseToProgram('Lat Pulldown', 'back')">
+          <div class="search-exercise-info">
+            <span class="search-exercise-name">Lat Pulldown</span>
+            <span class="search-exercise-meta">Back • Cable</span>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </div>
+        <div class="mobile-search-exercise" onclick="addExerciseToProgram('Dumbbell Shoulder Press', 'shoulders')">
+          <div class="search-exercise-info">
+            <span class="search-exercise-name">Dumbbell Shoulder Press</span>
+            <span class="search-exercise-meta">Shoulders • Dumbbell</span>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </div>
+        <div class="mobile-search-exercise" onclick="addExerciseToProgram('Cable Fly', 'chest')">
+          <div class="search-exercise-info">
+            <span class="search-exercise-name">Cable Fly</span>
+            <span class="search-exercise-meta">Chest • Cable</span>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile AI Assist Modal -->
+  <div id="mobile-ai-assist" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span onclick="closeMobileAIAssist()" style="cursor:pointer;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#666"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </span>
+        <span style="font-weight:600;">AI Generate Workout</span>
+        <span style="width:20px;"></span>
+      </div>
+      
+      <textarea class="input" id="mobile-ai-prompt" rows="4" placeholder="Describe the workout you need...&#10;&#10;e.g., Upper body push day for intermediate lifter, focus on chest and shoulders, 45 min"></textarea>
+      
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;">
+        <button class="filter-chip" onclick="setAIPrompt('Upper push day, 4-5 exercises')">Upper Push</button>
+        <button class="filter-chip" onclick="setAIPrompt('Lower body, squat focus, 5 exercises')">Lower - Squat</button>
+        <button class="filter-chip" onclick="setAIPrompt('Pull day, back and biceps, 5 exercises')">Pull Day</button>
+        <button class="filter-chip" onclick="setAIPrompt('Full body workout, compound movements')">Full Body</button>
+      </div>
+      
+      <button class="btn" onclick="generateAIWorkout()">Generate Workout</button>
+      
+      <div id="mobile-ai-result" style="margin-top:16px;display:none;">
+        <div class="card-header">GENERATED WORKOUT</div>
+        <div id="mobile-ai-workout-preview"></div>
+        <button class="btn" onclick="applyAIWorkout()" style="margin-top:12px;">Apply to Program</button>
+      </div>
     </div>
   </div>
 
@@ -1800,6 +2003,49 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
 
 <style>
     /* Additional Styles */
+    
+    /* Mobile Program Studio Styles */
+    .week-pill { padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; color: #888; font-size: 13px; font-weight: 500; white-space: nowrap; cursor: pointer; }
+    .week-pill.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    .week-pill.add-week { background: transparent; border-style: dashed; color: #666; }
+    
+    .day-pill { flex: 1; padding: 10px 0; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #888; font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; }
+    .day-pill.active { background: #4169E1; border-color: #4169E1; color: #fff; }
+    .day-pill.rest { color: #666; }
+    .day-pill.has-exercises { border-color: #00ff88; }
+    
+    .mobile-exercise-card { background: #111; border: 1px solid #222; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+    .mobile-exercise-header { display: flex; align-items: center; justify-content: space-between; padding: 14px; cursor: pointer; }
+    .mobile-exercise-info { flex: 1; }
+    .mobile-exercise-name { display: block; font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+    .mobile-exercise-summary { font-size: 12px; color: #666; }
+    .expand-icon { transition: transform 0.2s; }
+    .mobile-exercise-header.expanded .expand-icon { transform: rotate(180deg); }
+    
+    .mobile-exercise-details { padding: 0 14px 14px; border-top: 1px solid #222; }
+    .mobile-sets-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .mobile-set-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #888; }
+    .set-num { width: 20px; height: 20px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #fff; }
+    .set-input { width: 50px; padding: 8px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 14px; text-align: center; }
+    .set-input:focus { outline: none; border-color: #4169E1; }
+    .remove-set { color: #ff6b6b; cursor: pointer; padding: 4px; font-size: 18px; }
+    
+    .mini-btn { padding: 6px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px; color: #888; font-size: 11px; cursor: pointer; }
+    .mini-btn:hover { border-color: #4169E1; color: #fff; }
+    .mini-btn.danger { border-color: #ff6b6b30; color: #ff6b6b; }
+    .mini-btn.danger:hover { background: #ff6b6b20; }
+    
+    .notes-input { width: 100%; padding: 8px 12px; background: #0a0a0a; border: 1px solid #222; border-radius: 6px; color: #888; font-size: 12px; margin-top: 10px; }
+    .notes-input:focus { outline: none; border-color: #4169E1; color: #fff; }
+    
+    .filter-chip { padding: 6px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 16px; color: #888; font-size: 12px; cursor: pointer; }
+    .filter-chip.active { background: #4169E120; border-color: #4169E1; color: #4169E1; }
+    
+    .mobile-search-exercise { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: #111; border: 1px solid #222; border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+    .mobile-search-exercise:active { background: #1a1a1a; border-color: #4169E1; }
+    .search-exercise-info { flex: 1; }
+    .search-exercise-name { display: block; font-weight: 500; font-size: 14px; }
+    .search-exercise-meta { font-size: 11px; color: #666; }
     
     /* Buttons */
     .btn { padding: 14px 24px; background: linear-gradient(135deg, #4169E1 0%, #00ff88 100%); border: none; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; }
@@ -3343,6 +3589,219 @@ function addFoodToLog(name, description) {
 
 function openBarcodeScanner() {
   alert('Barcode Scanner\n\nIn the full app, this would open your camera to scan food barcodes and automatically look up nutrition info via FatSecret API.');
+}
+
+// ==================== MOBILE PROGRAM STUDIO ====================
+let mobileCurrentWeek = 1;
+let mobileCurrentDay = 1;
+let mobileProgramData = {
+  name: '',
+  weeks: {}
+};
+
+function selectMobileWeek(week) {
+  mobileCurrentWeek = week;
+  document.querySelectorAll('.week-pill').forEach((p, i) => {
+    p.classList.toggle('active', i + 1 === week);
+  });
+  // Load exercises for this week/day
+  loadMobileDayExercises();
+}
+
+function selectMobileDay(day) {
+  mobileCurrentDay = day;
+  document.querySelectorAll('.day-pill').forEach((p, i) => {
+    p.classList.toggle('active', i + 1 === day);
+  });
+  loadMobileDayExercises();
+}
+
+function addMobileWeek() {
+  const tabs = document.getElementById('mobile-week-tabs');
+  const weekCount = tabs.querySelectorAll('.week-pill:not(.add-week)').length;
+  const newWeek = document.createElement('button');
+  newWeek.className = 'week-pill';
+  newWeek.textContent = `Week ${weekCount + 1}`;
+  newWeek.onclick = () => selectMobileWeek(weekCount + 1);
+  tabs.insertBefore(newWeek, tabs.querySelector('.add-week'));
+}
+
+function loadMobileDayExercises() {
+  // In real app, load from mobileProgramData
+  console.log(`Loading Week ${mobileCurrentWeek}, Day ${mobileCurrentDay}`);
+}
+
+function toggleExerciseExpand(header) {
+  const details = header.nextElementSibling;
+  const isExpanded = details.style.display !== 'none';
+  details.style.display = isExpanded ? 'none' : 'block';
+  header.classList.toggle('expanded', !isExpanded);
+}
+
+function addSetToExercise(btn) {
+  const grid = btn.closest('.mobile-exercise-details').querySelector('.mobile-sets-grid');
+  const setCount = grid.querySelectorAll('.mobile-set-row').length + 1;
+  const newSet = document.createElement('div');
+  newSet.className = 'mobile-set-row';
+  newSet.innerHTML = `
+    <span class="set-num">${setCount}</span>
+    <input type="text" class="set-input" placeholder="10"> reps
+    <input type="text" class="set-input" placeholder="0"> lbs
+    <span class="remove-set" onclick="removeSet(this)">×</span>
+  `;
+  grid.appendChild(newSet);
+}
+
+function removeSet(btn) {
+  const row = btn.closest('.mobile-set-row');
+  const grid = row.parentElement;
+  row.remove();
+  // Renumber sets
+  grid.querySelectorAll('.mobile-set-row').forEach((r, i) => {
+    r.querySelector('.set-num').textContent = i + 1;
+  });
+}
+
+function removeExercise(btn) {
+  if (confirm('Remove this exercise?')) {
+    btn.closest('.mobile-exercise-card').remove();
+  }
+}
+
+function openMobileExerciseSearch() {
+  document.getElementById('mobile-exercise-search').classList.add('active');
+  document.getElementById('mobile-exercise-search-input').focus();
+}
+
+function closeMobileExerciseSearch() {
+  document.getElementById('mobile-exercise-search').classList.remove('active');
+}
+
+function searchMobileExercises(query) {
+  // In real app, search exerciseLibrary
+  console.log('Searching:', query);
+}
+
+function filterMobileExercises(bodyPart, btn) {
+  document.querySelectorAll('#mobile-exercise-search .filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  // Filter results
+  console.log('Filtering by:', bodyPart);
+}
+
+function addExerciseToProgram(name, bodyPart) {
+  const list = document.getElementById('mobile-exercises-list');
+  const card = document.createElement('div');
+  card.className = 'mobile-exercise-card';
+  card.innerHTML = `
+    <div class="mobile-exercise-header" onclick="toggleExerciseExpand(this)">
+      <div class="mobile-exercise-info">
+        <span class="mobile-exercise-name">${name}</span>
+        <span class="mobile-exercise-summary">3 sets • 10 reps</span>
+      </div>
+      <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </div>
+    <div class="mobile-exercise-details" style="display:none;">
+      <div class="mobile-sets-grid">
+        <div class="mobile-set-row">
+          <span class="set-num">1</span>
+          <input type="text" class="set-input" placeholder="10"> reps
+          <input type="text" class="set-input" placeholder="0"> lbs
+          <span class="remove-set" onclick="removeSet(this)">×</span>
+        </div>
+        <div class="mobile-set-row">
+          <span class="set-num">2</span>
+          <input type="text" class="set-input" placeholder="10"> reps
+          <input type="text" class="set-input" placeholder="0"> lbs
+          <span class="remove-set" onclick="removeSet(this)">×</span>
+        </div>
+        <div class="mobile-set-row">
+          <span class="set-num">3</span>
+          <input type="text" class="set-input" placeholder="10"> reps
+          <input type="text" class="set-input" placeholder="0"> lbs
+          <span class="remove-set" onclick="removeSet(this)">×</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="mini-btn" onclick="addSetToExercise(this)">+ Add Set</button>
+        <button class="mini-btn danger" onclick="removeExercise(this)">Remove</button>
+      </div>
+      <input type="text" class="notes-input" placeholder="Notes">
+    </div>
+  `;
+  list.appendChild(card);
+  closeMobileExerciseSearch();
+}
+
+function openMobileAIAssist() {
+  document.getElementById('mobile-ai-assist').classList.add('active');
+}
+
+function closeMobileAIAssist() {
+  document.getElementById('mobile-ai-assist').classList.remove('active');
+}
+
+function setAIPrompt(text) {
+  document.getElementById('mobile-ai-prompt').value = text;
+}
+
+function generateAIWorkout() {
+  const prompt = document.getElementById('mobile-ai-prompt').value;
+  if (!prompt.trim()) {
+    alert('Please describe the workout you need');
+    return;
+  }
+  
+  // Demo response
+  const preview = document.getElementById('mobile-ai-workout-preview');
+  preview.innerHTML = `
+    <div class="mobile-search-exercise" style="cursor:default;">
+      <div class="search-exercise-info">
+        <span class="search-exercise-name">1. Barbell Bench Press</span>
+        <span class="search-exercise-meta">4 sets × 8-10 reps</span>
+      </div>
+    </div>
+    <div class="mobile-search-exercise" style="cursor:default;">
+      <div class="search-exercise-info">
+        <span class="search-exercise-name">2. Incline Dumbbell Press</span>
+        <span class="search-exercise-meta">3 sets × 10-12 reps</span>
+      </div>
+    </div>
+    <div class="mobile-search-exercise" style="cursor:default;">
+      <div class="search-exercise-info">
+        <span class="search-exercise-name">3. Cable Fly</span>
+        <span class="search-exercise-meta">3 sets × 12-15 reps</span>
+      </div>
+    </div>
+    <div class="mobile-search-exercise" style="cursor:default;">
+      <div class="search-exercise-info">
+        <span class="search-exercise-name">4. Overhead Press</span>
+        <span class="search-exercise-meta">3 sets × 8-10 reps</span>
+      </div>
+    </div>
+    <div class="mobile-search-exercise" style="cursor:default;">
+      <div class="search-exercise-info">
+        <span class="search-exercise-name">5. Lateral Raises</span>
+        <span class="search-exercise-meta">3 sets × 12-15 reps</span>
+      </div>
+    </div>
+  `;
+  document.getElementById('mobile-ai-result').style.display = 'block';
+}
+
+function applyAIWorkout() {
+  // Add generated exercises to program
+  addExerciseToProgram('Barbell Bench Press', 'chest');
+  addExerciseToProgram('Incline Dumbbell Press', 'chest');
+  addExerciseToProgram('Cable Fly', 'chest');
+  addExerciseToProgram('Overhead Press', 'shoulders');
+  addExerciseToProgram('Lateral Raises', 'shoulders');
+  closeMobileAIAssist();
+}
+
+function saveMobileProgram() {
+  const name = document.getElementById('mobile-program-name').value || 'Untitled Program';
+  alert(`Program "${name}" saved!`);
 }
 
 // ==================== INITIALIZE ====================
