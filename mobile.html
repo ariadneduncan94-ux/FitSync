@@ -1494,6 +1494,111 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
     </div>
   </div>
 
+  <!-- CLIENT: Communities -->
+  <div id="client-communities" class="screen">
+    <div style="padding:16px;">
+      <div class="card-header">MY COMMUNITIES</div>
+      
+      <!-- Community Cards -->
+      <div class="mobile-community-card" onclick="openMobileCommunity('6am-crew')">
+        <div class="mobile-community-header">
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);">🌅</div>
+          <div class="mobile-community-info">
+            <div class="mobile-community-name">6AM Crew</div>
+            <div class="mobile-community-type">Accountability • 8 members</div>
+          </div>
+          <div class="mobile-community-badge">3</div>
+        </div>
+        <div class="mobile-community-preview">
+          <span style="color:#888;">Sarah:</span> Crushed my 5am workout today! 💪
+        </div>
+      </div>
+      
+      <div class="mobile-community-card" onclick="openMobileCommunity('hyrox-prep')">
+        <div class="mobile-community-header">
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#4169E1,#00ff88);">🏃</div>
+          <div class="mobile-community-info">
+            <div class="mobile-community-name">HYROX Prep 2025</div>
+            <div class="mobile-community-type">Program • 12 members</div>
+          </div>
+          <div class="mobile-community-badge" style="background:#4169E1;">1</div>
+        </div>
+        <div class="mobile-community-preview">
+          <span style="color:#888;">Coach:</span> Race simulation this Saturday!
+        </div>
+      </div>
+      
+      <div class="mobile-community-card" onclick="openMobileCommunity('nutrition-challenge')">
+        <div class="mobile-community-header">
+          <div class="mobile-community-icon" style="background:linear-gradient(135deg,#00ff88,#4169E1);">🥗</div>
+          <div class="mobile-community-info">
+            <div class="mobile-community-name">Nutrition Challenge</div>
+            <div class="mobile-community-type">Challenge • Day 12 of 30</div>
+          </div>
+        </div>
+        <div class="mobile-community-preview">
+          <span style="color:#888;">Emma:</span> Here's my meal prep for the week! 🥦
+        </div>
+      </div>
+      
+      <!-- Upcoming Events -->
+      <div class="card-header" style="margin-top:24px;">UPCOMING EVENTS</div>
+      
+      <div class="mobile-event-card">
+        <div class="mobile-event-date">
+          <div class="mobile-event-month">DEC</div>
+          <div class="mobile-event-day">26</div>
+        </div>
+        <div class="mobile-event-info">
+          <div class="mobile-event-title">Saturday Group Workout</div>
+          <div class="mobile-event-meta">9:00 AM • Golden Gate Park</div>
+          <div class="mobile-event-community">6AM Crew</div>
+        </div>
+        <button class="btn-small" onclick="event.stopPropagation();alert('RSVP updated!')">Going ✓</button>
+      </div>
+      
+      <div class="mobile-event-card">
+        <div class="mobile-event-date" style="background:linear-gradient(135deg,#4169E1,#00ff88);">
+          <div class="mobile-event-month">JAN</div>
+          <div class="mobile-event-day">04</div>
+        </div>
+        <div class="mobile-event-info">
+          <div class="mobile-event-title">HYROX Simulation</div>
+          <div class="mobile-event-meta">8:00 AM • Downtown Gym</div>
+          <div class="mobile-event-community">HYROX Prep 2025</div>
+        </div>
+        <button class="btn-small btn-secondary" onclick="event.stopPropagation();alert('RSVP sent!')">RSVP</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile Community Chat Modal -->
+  <div class="mobile-community-modal" id="mobile-community-modal">
+    <div class="mobile-community-modal-header">
+      <button class="mobile-back-btn" onclick="closeMobileCommunity()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      </button>
+      <div class="mobile-community-modal-title">
+        <span id="mobile-modal-community-name">6AM Crew</span>
+        <span id="mobile-modal-community-members">8 members</span>
+      </div>
+      <button class="mobile-info-btn" onclick="alert('Community info')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      </button>
+    </div>
+    
+    <div class="mobile-community-messages" id="mobile-community-messages">
+      <!-- Messages will be rendered here -->
+    </div>
+    
+    <div class="mobile-community-input">
+      <input type="text" id="mobile-community-input" placeholder="Message..." onkeypress="if(event.key==='Enter')sendMobileCommunityMessage()">
+      <button class="mobile-send-btn" onclick="sendMobileCommunityMessage()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+
   <!-- CLIENT: Settings (Wearables & Biometrics) -->
   <div id="client-settings" class="screen">
     <div style="padding:16px;">
@@ -1962,13 +2067,13 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>
       Program
     </div>
+    <div class="tab" onclick="showScreen('client-communities')">
+      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></span>
+      Groups
+    </div>
     <div class="tab" onclick="showScreen('client-progress')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></span>
       Progress
-    </div>
-    <div class="tab" onclick="showScreen('messages')">
-      <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
-      Chat
     </div>
     <div class="tab" onclick="showScreen('client-settings')">
       <span class="tab-icon"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58z"/></svg></span>
@@ -2003,6 +2108,234 @@ Try something like: <em>"Create a 12-week HYROX prep program for Jamie. He's int
 
 <style>
     /* Additional Styles */
+    
+    /* Mobile Communities Styles */
+    .mobile-community-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mobile-community-card:active {
+      transform: scale(0.98);
+      background: #1a1a1a;
+    }
+    .mobile-community-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .mobile-community-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .mobile-community-info {
+      flex: 1;
+    }
+    .mobile-community-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .mobile-community-type {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2px;
+    }
+    .mobile-community-badge {
+      background: #ff6b6b;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 10px;
+      min-width: 20px;
+      text-align: center;
+    }
+    .mobile-community-preview {
+      font-size: 13px;
+      color: #ccc;
+      padding-left: 56px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .mobile-event-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .mobile-event-date {
+      width: 48px;
+      text-align: center;
+      padding: 8px 4px;
+      background: linear-gradient(135deg, #764ba2, #667eea);
+      border-radius: 10px;
+    }
+    .mobile-event-month {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .mobile-event-day {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .mobile-event-info {
+      flex: 1;
+    }
+    .mobile-event-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .mobile-event-meta {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .mobile-event-community {
+      font-size: 10px;
+      color: #764ba2;
+      margin-top: 4px;
+    }
+    
+    /* Mobile Community Modal */
+    .mobile-community-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 100;
+      flex-direction: column;
+    }
+    .mobile-community-modal.open {
+      display: flex;
+    }
+    .mobile-community-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 50px 16px 12px;
+      background: #111;
+      border-bottom: 1px solid #222;
+    }
+    .mobile-back-btn, .mobile-info-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .mobile-community-modal-title {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-community-modal-title span:first-child {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .mobile-community-modal-title span:last-child {
+      font-size: 11px;
+      color: #666;
+    }
+    .mobile-community-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .mobile-chat-message {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .mobile-chat-message.announcement {
+      background: linear-gradient(135deg, #764ba210 0%, #667eea10 100%);
+      border: 1px solid #764ba230;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .mobile-chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4169E1, #00ff88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .mobile-chat-body {
+      flex: 1;
+    }
+    .mobile-chat-sender {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .mobile-chat-time {
+      font-size: 10px;
+      color: #666;
+      margin-left: 8px;
+    }
+    .mobile-chat-content {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.4;
+    }
+    .mobile-community-input {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px 30px;
+      background: #111;
+      border-top: 1px solid #222;
+    }
+    .mobile-community-input input {
+      flex: 1;
+      padding: 12px 16px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 24px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .mobile-community-input input:focus {
+      outline: none;
+      border-color: #764ba2;
+    }
+    .mobile-send-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #764ba2, #667eea);
+      border: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
     
     /* Mobile Program Studio Styles */
     .week-pill { padding: 8px 16px; background: #1a1a1a; border: 1px solid #333; border-radius: 20px; color: #888; font-size: 13px; font-weight: 500; white-space: nowrap; cursor: pointer; }
@@ -3960,6 +4293,103 @@ function viewMobileClientPlan(clientId) {
   showMobileNutritionTab('custom');
   document.getElementById('mobile-nutrition-client').value = clientId;
   loadMobileClientStats();
+}
+
+// ==================== MOBILE COMMUNITIES ====================
+let currentMobileCommunity = null;
+
+const mobileCommunitiesData = {
+  '6am-crew': {
+    name: '6AM Crew',
+    members: 8,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Welcome to the 6AM Crew! Let\'s crush it together. Post your morning workout wins here! 💪', time: 'Yesterday', type: 'announcement' },
+      { sender: 'Sarah Johnson', initials: 'SJ', content: 'Crushed my 5am workout today! 💪 New PR on deadlifts - 185 lbs!', time: '2h ago' },
+      { sender: 'Mike Chen', initials: 'MC', content: 'Nice Sarah! I hit a new PR on deadlifts this morning too. Something in the water today 🔥', time: '1h ago' },
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Love seeing this energy! Keep it up team 🔥 Remember, Saturday we have the group workout at the park!', time: '30m ago' }
+    ]
+  },
+  'hyrox-prep': {
+    name: 'HYROX Prep 2025',
+    members: 12,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Welcome to HYROX Prep! Race day is Jan 18. Let\'s get after it.', time: '3 days ago', type: 'announcement' },
+      { sender: 'David Kim', initials: 'DK', content: 'Just finished the sled push practice. My legs are toast 😅', time: '1h ago' },
+      { sender: 'Lisa Park', initials: 'LP', content: 'Same! But we\'re getting stronger every day!', time: '45m ago' }
+    ]
+  },
+  'nutrition-challenge': {
+    name: 'Nutrition Challenge',
+    members: 15,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Day 1 of the challenge starts Monday! Post your meal prep pics 📸', time: '2 days ago', type: 'announcement' },
+      { sender: 'Emma Wilson', initials: 'EW', content: 'Here\'s my meal prep for the week! Chicken, rice, and veggies 🥦', time: '5h ago' },
+      { sender: 'Sarah Johnson', initials: 'SJ', content: 'Looks amazing Emma! I need to up my prep game', time: '4h ago' }
+    ]
+  }
+};
+
+function openMobileCommunity(communityId) {
+  currentMobileCommunity = communityId;
+  const community = mobileCommunitiesData[communityId];
+  if (!community) return;
+  
+  document.getElementById('mobile-modal-community-name').textContent = community.name;
+  document.getElementById('mobile-modal-community-members').textContent = community.members + ' members';
+  
+  renderMobileCommunityMessages(community.messages);
+  
+  document.getElementById('mobile-community-modal').classList.add('open');
+}
+
+function renderMobileCommunityMessages(messages) {
+  const container = document.getElementById('mobile-community-messages');
+  container.innerHTML = messages.map(msg => {
+    if (msg.type === 'announcement') {
+      return `
+        <div class="mobile-chat-message announcement">
+          <div class="mobile-chat-sender">📢 ${msg.sender} <span class="mobile-chat-time">${msg.time}</span></div>
+          <div class="mobile-chat-content">${msg.content}</div>
+        </div>
+      `;
+    }
+    return `
+      <div class="mobile-chat-message">
+        <div class="mobile-chat-avatar">${msg.initials}</div>
+        <div class="mobile-chat-body">
+          <div class="mobile-chat-sender">${msg.sender} <span class="mobile-chat-time">${msg.time}</span></div>
+          <div class="mobile-chat-content">${msg.content}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Scroll to bottom
+  container.scrollTop = container.scrollHeight;
+}
+
+function closeMobileCommunity() {
+  document.getElementById('mobile-community-modal').classList.remove('open');
+  currentMobileCommunity = null;
+}
+
+function sendMobileCommunityMessage() {
+  const input = document.getElementById('mobile-community-input');
+  const message = input.value.trim();
+  if (!message || !currentMobileCommunity) return;
+  
+  const community = mobileCommunitiesData[currentMobileCommunity];
+  
+  // Add message
+  community.messages.push({
+    sender: 'You',
+    initials: 'ME',
+    content: message,
+    time: 'Just now'
+  });
+  
+  renderMobileCommunityMessages(community.messages);
+  input.value = '';
 }
 </script>
 <!-- Supabase config temporarily disabled until Amplify routing is fixed -->
