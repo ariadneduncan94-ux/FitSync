@@ -74,10 +74,25 @@
   </div>
 
   <script>
+    // Immediate test to verify script is running
+    console.log('Script starting...');
+    document.getElementById('log').innerHTML = '<div class="log-entry info">Script loaded, initializing...</div>';
+    
     // Supabase config
     const SUPABASE_URL = 'https://brmxwnvwpgjmmjgqtzty.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJybXh3bnZ3cGdqbW1qZ3F0enR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0Mzg2ODksImV4cCI6MjA4MjAxNDY4OX0.sxAXUKgSgex9FSRReqNcFmpnAqlkN--QMPfXzfgee6k';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let supabase;
+    try {
+      if (window.supabase) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        document.getElementById('log').innerHTML += '<div class="log-entry success">Supabase client created</div>';
+      } else {
+        document.getElementById('log').innerHTML += '<div class="log-entry error">ERROR: Supabase library not loaded!</div>';
+      }
+    } catch (e) {
+      document.getElementById('log').innerHTML += '<div class="log-entry error">ERROR creating client: ' + e.message + '</div>';
+    }
     
     // ExerciseDB config
     const EXERCISEDB_API_KEY = '9124d57c83msh0c85c857c3a0ac7p1ce14bjsn778e0824ad6e';
