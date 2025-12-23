@@ -76,6 +76,253 @@
       display: none;
     }
     
+    /* ==================== IMPORT MODAL STYLES ==================== */
+    .import-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .import-modal.open { display: flex; }
+    .import-modal-content {
+      background: #111;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .import-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 24px;
+      border-bottom: 1px solid #222;
+    }
+    .import-modal-title { font-size: 20px; font-weight: 600; }
+    .import-modal-subtitle { font-size: 13px; color: #666; margin-top: 4px; }
+    
+    .import-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 24px;
+      background: #0a0a0a;
+      border-bottom: 1px solid #222;
+    }
+    .import-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.4;
+    }
+    .import-step.active { opacity: 1; }
+    .import-step.completed { opacity: 0.7; }
+    .import-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .import-step.active .import-step-num { background: #4169E1; }
+    .import-step.completed .import-step-num { background: #00ff88; color: #000; }
+    .import-step-label { font-size: 13px; font-weight: 500; }
+    .import-step-line {
+      width: 60px;
+      height: 2px;
+      background: #333;
+      margin: 0 12px;
+    }
+    
+    .import-step-content {
+      display: none;
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .import-step-content.active { display: block; }
+    
+    .import-upload-area {
+      border: 2px dashed #333;
+      border-radius: 16px;
+      padding: 48px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .import-upload-area:hover { border-color: #4169E1; background: #4169E110; }
+    .import-upload-area.dragover { border-color: #00ff88; background: #00ff8810; }
+    .import-upload-text { font-size: 16px; font-weight: 500; margin-top: 16px; }
+    .import-upload-hint { font-size: 13px; color: #666; margin-top: 8px; }
+    
+    .import-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+      color: #666;
+      font-size: 13px;
+    }
+    .import-divider::before, .import-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #333;
+    }
+    
+    .import-paste-section { margin-bottom: 20px; }
+    .import-textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 16px;
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 13px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      resize: vertical;
+    }
+    .import-textarea:focus { outline: none; border-color: #4169E1; }
+    
+    .import-template-section { margin-bottom: 24px; }
+    
+    .import-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding-top: 20px;
+      border-top: 1px solid #222;
+      margin-top: 20px;
+    }
+    
+    .import-mapping-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #4169E110;
+      border: 1px solid #4169E130;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .import-mapping-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .import-mapping-col label { margin-bottom: 6px; }
+    
+    .import-preview-table { margin-bottom: 20px; }
+    .import-table-wrapper {
+      overflow-x: auto;
+      border: 1px solid #222;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+    .import-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .import-table th, .import-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #222;
+      white-space: nowrap;
+    }
+    .import-table th { background: #1a1a1a; color: #888; font-weight: 500; }
+    .import-table tr:last-child td { border-bottom: none; }
+    
+    .import-program-name { margin-bottom: 24px; }
+    
+    .import-smart-matching {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .import-matching-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .import-match-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: #00ff88;
+    }
+    .import-match-info { font-size: 13px; color: #888; margin-bottom: 16px; }
+    
+    .import-matches-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .import-match-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: #111;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .import-match-row.matched { border-left: 3px solid #00ff88; }
+    .import-match-row.unmatched { border-left: 3px solid #ffcc00; }
+    .import-match-original { flex: 1; font-size: 13px; }
+    .import-match-arrow { color: #666; }
+    .import-match-result { flex: 1; }
+    .import-match-result select {
+      width: 100%;
+      padding: 6px 10px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 12px;
+    }
+    .import-match-status {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .import-match-status.good { background: #00ff8820; color: #00ff88; }
+    .import-match-status.warn { background: #ffcc0020; color: #ffcc00; }
+    
+    .import-summary {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .import-summary-item { text-align: center; }
+    .import-summary-value { font-size: 28px; font-weight: 700; color: #4169E1; display: block; }
+    .import-summary-label { font-size: 12px; color: #666; }
+    
     /* ==================== COMMUNITIES STYLES ==================== */
     
     /* Community Cards */
@@ -506,7 +753,7 @@
         <div class="nav-section-title">Clients</div>
         <div class="nav-item" onclick="showPage('clients')">
           <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          All Clients
+          Clients
           <span class="nav-badge">12</span>
         </div>
         <div class="nav-item" onclick="showPage('communities')">
@@ -2047,14 +2294,195 @@
       </div>
     </div>
     
+    <!-- Program Import Modal -->
+    <div class="import-modal" id="import-modal">
+      <div class="import-modal-content">
+        <div class="import-modal-header">
+          <div>
+            <div class="import-modal-title">Import Program</div>
+            <div class="import-modal-subtitle">Import from CSV, spreadsheet, or paste text</div>
+          </div>
+          <button class="community-modal-close" onclick="closeImportModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+        
+        <!-- Import Steps -->
+        <div class="import-steps">
+          <div class="import-step active" data-step="1">
+            <div class="import-step-num">1</div>
+            <div class="import-step-label">Upload</div>
+          </div>
+          <div class="import-step-line"></div>
+          <div class="import-step" data-step="2">
+            <div class="import-step-num">2</div>
+            <div class="import-step-label">Map Columns</div>
+          </div>
+          <div class="import-step-line"></div>
+          <div class="import-step" data-step="3">
+            <div class="import-step-num">3</div>
+            <div class="import-step-label">Review</div>
+          </div>
+        </div>
+        
+        <!-- Step 1: Upload -->
+        <div class="import-step-content active" id="import-step-1">
+          <div class="import-upload-area" id="import-drop-zone" onclick="document.getElementById('import-file-input').click()">
+            <input type="file" id="import-file-input" accept=".csv,.xlsx,.xls,.txt" style="display:none;" onchange="handleFileUpload(event)">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="#4169E1"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+            <div class="import-upload-text">Drop CSV file here or click to browse</div>
+            <div class="import-upload-hint">Supports CSV, Excel, or plain text</div>
+          </div>
+          
+          <div class="import-divider">
+            <span>OR</span>
+          </div>
+          
+          <div class="import-paste-section">
+            <label class="input-label">Paste from spreadsheet or text</label>
+            <textarea class="import-textarea" id="import-paste-area" placeholder="Paste your program data here...
+
+Example formats we can parse:
+Week 1, Day 1, Squat, 4x8, 185lbs
+Monday: Bench Press 3 sets of 10
+Deadlift - 5 sets, 5 reps, heavy"></textarea>
+          </div>
+          
+          <div class="import-template-section">
+            <div class="input-label">Or download our template</div>
+            <button class="btn btn-secondary btn-sm" onclick="downloadImportTemplate()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Download CSV Template
+            </button>
+          </div>
+          
+          <div class="import-actions">
+            <button class="btn btn-secondary" onclick="closeImportModal()">Cancel</button>
+            <button class="btn" onclick="processImportData()">Continue</button>
+          </div>
+        </div>
+        
+        <!-- Step 2: Map Columns -->
+        <div class="import-step-content" id="import-step-2">
+          <div class="import-mapping-info">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#4169E1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span>We detected <strong id="import-row-count">0</strong> exercises. Please verify the column mapping below.</span>
+          </div>
+          
+          <div class="import-mapping-grid">
+            <div class="import-mapping-col">
+              <label class="input-label">Week Column</label>
+              <select class="nutrition-input" id="map-week">
+                <option value="auto">Auto-detect</option>
+              </select>
+            </div>
+            <div class="import-mapping-col">
+              <label class="input-label">Day Column</label>
+              <select class="nutrition-input" id="map-day">
+                <option value="auto">Auto-detect</option>
+              </select>
+            </div>
+            <div class="import-mapping-col">
+              <label class="input-label">Exercise Column</label>
+              <select class="nutrition-input" id="map-exercise">
+                <option value="auto">Auto-detect</option>
+              </select>
+            </div>
+            <div class="import-mapping-col">
+              <label class="input-label">Sets Column</label>
+              <select class="nutrition-input" id="map-sets">
+                <option value="auto">Auto-detect</option>
+              </select>
+            </div>
+            <div class="import-mapping-col">
+              <label class="input-label">Reps Column</label>
+              <select class="nutrition-input" id="map-reps">
+                <option value="auto">Auto-detect</option>
+              </select>
+            </div>
+            <div class="import-mapping-col">
+              <label class="input-label">Weight/Load Column</label>
+              <select class="nutrition-input" id="map-weight">
+                <option value="auto">Auto-detect</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="import-preview-table">
+            <div class="input-label">Preview (first 5 rows)</div>
+            <div class="import-table-wrapper">
+              <table class="import-table" id="import-preview-table">
+                <thead><tr></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="import-actions">
+            <button class="btn btn-secondary" onclick="goToImportStep(1)">Back</button>
+            <button class="btn" onclick="goToImportStep(3)">Continue</button>
+          </div>
+        </div>
+        
+        <!-- Step 3: Review & Smart Matching -->
+        <div class="import-step-content" id="import-step-3">
+          <div class="import-program-name">
+            <label class="input-label">Program Name</label>
+            <input type="text" class="nutrition-input" id="import-program-name" placeholder="e.g., 12-Week Strength Program">
+          </div>
+          
+          <div class="import-smart-matching">
+            <div class="import-matching-header">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ff88"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              <span>Smart Exercise Matching</span>
+              <span class="import-match-count" id="import-match-count">0/0 matched</span>
+            </div>
+            <div class="import-match-info">We'll match your exercise names to our library. Review any that need attention:</div>
+            
+            <div class="import-matches-list" id="import-matches-list">
+              <!-- Matches will be rendered here -->
+            </div>
+          </div>
+          
+          <div class="import-summary">
+            <div class="import-summary-item">
+              <span class="import-summary-value" id="import-weeks">4</span>
+              <span class="import-summary-label">Weeks</span>
+            </div>
+            <div class="import-summary-item">
+              <span class="import-summary-value" id="import-days">5</span>
+              <span class="import-summary-label">Days/Week</span>
+            </div>
+            <div class="import-summary-item">
+              <span class="import-summary-value" id="import-exercises">24</span>
+              <span class="import-summary-label">Exercises</span>
+            </div>
+          </div>
+          
+          <div class="import-actions">
+            <button class="btn btn-secondary" onclick="goToImportStep(2)">Back</button>
+            <button class="btn" onclick="completeImport()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              Import Program
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- Programs Repository Page -->
     <div id="page-programs" class="page">
       <header class="header">
         <h1 class="header-title">Programs</h1>
         <div class="header-actions">
-          <button class="btn btn-secondary btn-sm">
-            <svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>
-            Filter
+          <button class="btn btn-secondary btn-sm" onclick="openImportModal()">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+            Import
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="exportPrograms()">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Export
           </button>
           <button class="btn" onclick="showPage('studio')">
             <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
