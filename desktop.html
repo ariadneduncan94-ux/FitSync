@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=1280, initial-scale=0.25, maximum-scale=2.0, user-scalable=yes">
   <title>LiftWise - Trainer Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -71,93 +71,411 @@
     
     /* ==================== RESPONSIVE STYLES ==================== */
     
-    /* Tablet and small laptops */
-    @media (max-width: 1200px) {
-      .grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .grid-3 { grid-template-columns: repeat(2, 1fr); }
-      .calendar-sidebar { width: 280px; }
-      .studio-exercises { width: 240px; }
-    }
-    
-    /* Tablet portrait */
-    @media (max-width: 1024px) {
-      .sidebar { width: 200px; }
-      .main { margin-left: 200px; }
-      .nav-item { padding: 10px; font-size: 13px; }
-      .calendar-container { flex-direction: column; }
-      .calendar-sidebar { width: 100%; flex-direction: row; gap: 16px; max-height: none; }
-      .calendar-sidebar > * { flex: 1; }
-    }
-    
-    /* Small tablets / large phones */
-    @media (max-width: 768px) {
-      .sidebar { 
-        position: fixed;
-        left: -240px;
-        width: 240px;
-        transition: left 0.3s ease;
-        z-index: 1000;
-      }
-      .sidebar.open { left: 0; }
-      .main { margin-left: 0; }
-      .header { padding: 12px 16px; }
-      .content { padding: 12px 16px; }
-      .grid-4 { grid-template-columns: 1fr; }
-      .grid-3 { grid-template-columns: 1fr; }
-      .grid-2 { grid-template-columns: 1fr; }
-      .calendar-sidebar { flex-direction: column; }
-      .stat-card { padding: 16px; }
-      .stat-value { font-size: 24px; }
-      
-      /* Mobile menu button */
-      .mobile-menu-btn { display: flex !important; }
-      
-      /* Studio adjustments */
-      .studio-exercises { display: none; }
-      .studio-exercises.open { display: flex; position: fixed; left: 0; top: 0; height: 100vh; z-index: 999; background: #111; }
-      .days-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    
-    /* Phone */
-    @media (max-width: 480px) {
-      .header-title { font-size: 16px; }
-      .btn { padding: 10px 16px; font-size: 13px; }
-      .btn-sm { padding: 6px 12px; font-size: 12px; }
-      .card { padding: 16px; border-radius: 12px; }
-      .client-row { padding: 12px; flex-wrap: wrap; }
-      .client-stats { width: 100%; justify-content: space-around; margin-top: 12px; }
-      .days-grid { grid-template-columns: 1fr; }
-      .week-tabs { overflow-x: auto; }
-      .calendar-day { min-height: 60px; padding: 4px; }
-      .calendar-event { font-size: 9px; padding: 2px 4px; }
-    }
-    
-    /* Mobile menu button - hidden by default */
+    /* Mobile menu button - hidden (desktop always shows full layout) */
     .mobile-menu-btn {
       display: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: #fff;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
     }
     
-    /* Sidebar overlay for mobile */
-    .sidebar-overlay {
+    /* ==================== COMMUNITIES STYLES ==================== */
+    
+    /* Community Cards */
+    .community-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .community-card:hover {
+      border-color: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(118, 75, 162, 0.15);
+    }
+    .community-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .community-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .community-badge {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .community-badge.accountability { background: #ff6b6b20; color: #ff6b6b; }
+    .community-badge.program { background: #4169E120; color: #4169E1; }
+    .community-badge.challenge { background: #00ff8820; color: #00ff88; }
+    .community-badge.general { background: #76767620; color: #888; }
+    .community-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .community-desc {
+      font-size: 13px;
+      color: #888;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .community-stats-row {
+      display: flex;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid #222;
+      border-bottom: 1px solid #222;
+      margin-bottom: 12px;
+    }
+    .community-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .community-stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .community-stat-label {
+      font-size: 10px;
+      color: #666;
+      text-transform: uppercase;
+    }
+    .community-activity {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #888;
+    }
+    .community-activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ff88;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Community Modal */
+    .community-modal {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
     }
-    .sidebar-overlay.open { display: block; }
+    .community-modal.open {
+      display: flex;
+    }
+    .community-modal-content {
+      background: #111;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 700px;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .community-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid #222;
+    }
+    .community-modal-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .community-modal-subtitle {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .community-modal-close {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .community-modal-close:hover {
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .community-modal-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 12px 24px;
+      border-bottom: 1px solid #222;
+      background: #0a0a0a;
+    }
+    .community-tab {
+      padding: 10px 20px;
+      background: transparent;
+      border: none;
+      color: #666;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .community-tab:hover {
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .community-tab.active {
+      background: #764ba2;
+      color: #fff;
+    }
+    .community-tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .community-tab-content.active {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Chat */
+    .community-chat-messages {
+      flex: 1;
+      padding: 20px 24px;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+    .community-message {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .community-message.announcement {
+      background: linear-gradient(135deg, #764ba210 0%, #667eea10 100%);
+      border: 1px solid #764ba230;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .community-message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4169E1, #00ff88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .community-message-body {
+      flex: 1;
+    }
+    .community-message-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .community-message-sender {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .community-message-time {
+      font-size: 11px;
+      color: #666;
+    }
+    .community-message-content {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.5;
+    }
+    .community-chat-input {
+      display: flex;
+      gap: 12px;
+      padding: 16px 24px;
+      border-top: 1px solid #222;
+      background: #0a0a0a;
+    }
+    .community-chat-input input {
+      flex: 1;
+      padding: 12px 16px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .community-chat-input input:focus {
+      outline: none;
+      border-color: #764ba2;
+    }
+    
+    /* Events */
+    .community-events-list {
+      padding: 0 24px 24px;
+    }
+    .community-event-card {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: #1a1a1a;
+      border: 1px solid #222;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .community-event-date {
+      width: 56px;
+      text-align: center;
+      padding: 8px;
+      background: linear-gradient(135deg, #764ba2, #667eea);
+      border-radius: 10px;
+    }
+    .community-event-month {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .community-event-day {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .community-event-info {
+      flex: 1;
+    }
+    .community-event-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .community-event-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .community-event-rsvp {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .community-event-going {
+      font-size: 12px;
+      color: #00ff88;
+    }
+    
+    /* Members */
+    .community-members-list {
+      padding: 0 24px 24px;
+    }
+    .community-member {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #1a1a1a;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .community-member-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4169E1, #00ff88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .community-member-info {
+      flex: 1;
+    }
+    .community-member-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .community-member-role {
+      font-size: 11px;
+      color: #666;
+    }
+    .community-member-role.admin {
+      color: #764ba2;
+    }
+    .community-member-status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #333;
+    }
+    .community-member-status.online {
+      background: #00ff88;
+    }
+    
+    /* Settings */
+    .community-settings-section {
+      padding: 0 24px;
+      margin-bottom: 16px;
+    }
+    .community-settings-section:first-child {
+      padding-top: 20px;
+    }
+    .community-settings-section textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    
+    /* Member checkbox */
+    .member-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .member-checkbox:hover {
+      border-color: #764ba2;
+    }
+    .member-checkbox input:checked + span,
+    .member-checkbox:has(input:checked) {
+      border-color: #764ba2;
+      background: #764ba210;
+    }
 </style>
 </head>
 <body>
@@ -1350,6 +1668,383 @@
     <div id="page-messages" class="page">
       <header class="header"><h1 class="header-title">Messages</h1></header>
       <div class="content"><div class="card"><p style="color:#666;">Messages interface coming soon...</p></div></div>
+    </div>
+    
+    <!-- Communities Page -->
+    <div id="page-communities" class="page">
+      <header class="header">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+        <h1 class="header-title">Communities</h1>
+        <div class="header-actions">
+          <button class="btn" onclick="openCreateCommunityModal()">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            New Community
+          </button>
+        </div>
+      </header>
+      
+      <div class="content">
+        <!-- Community Stats -->
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <div class="stat-card">
+            <div class="stat-value" style="background:linear-gradient(90deg,#764ba2,#667eea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">3</div>
+            <div class="stat-label">Active Communities</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value blue">24</div>
+            <div class="stat-label">Total Members</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value green">156</div>
+            <div class="stat-label">Messages This Week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Upcoming Events</div>
+          </div>
+        </div>
+        
+        <!-- Communities Grid -->
+        <div class="grid-3" id="communities-grid">
+          <!-- 6AM Crew -->
+          <div class="community-card" onclick="viewCommunity('6am-crew')">
+            <div class="community-header">
+              <div class="community-icon" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);">🌅</div>
+              <div class="community-badge accountability">Accountability</div>
+            </div>
+            <div class="community-name">6AM Crew</div>
+            <div class="community-desc">Early morning warriors! Share your wins and keep each other accountable.</div>
+            <div class="community-stats-row">
+              <div class="community-stat">
+                <span class="community-stat-value">8</span>
+                <span class="community-stat-label">Members</span>
+              </div>
+              <div class="community-stat">
+                <span class="community-stat-value">45</span>
+                <span class="community-stat-label">Messages</span>
+              </div>
+              <div class="community-stat">
+                <span class="community-stat-value">2</span>
+                <span class="community-stat-label">Events</span>
+              </div>
+            </div>
+            <div class="community-activity">
+              <div class="community-activity-dot"></div>
+              <span>3 new messages today</span>
+            </div>
+          </div>
+          
+          <!-- HYROX Prep -->
+          <div class="community-card" onclick="viewCommunity('hyrox-prep')">
+            <div class="community-header">
+              <div class="community-icon" style="background:linear-gradient(135deg,#4169E1,#00ff88);">🏃</div>
+              <div class="community-badge program">Program</div>
+            </div>
+            <div class="community-name">HYROX Prep 2025</div>
+            <div class="community-desc">Training together for the January HYROX race. Tips, workouts, and motivation.</div>
+            <div class="community-stats-row">
+              <div class="community-stat">
+                <span class="community-stat-value">12</span>
+                <span class="community-stat-label">Members</span>
+              </div>
+              <div class="community-stat">
+                <span class="community-stat-value">89</span>
+                <span class="community-stat-label">Messages</span>
+              </div>
+              <div class="community-stat">
+                <span class="community-stat-value">3</span>
+                <span class="community-stat-label">Events</span>
+              </div>
+            </div>
+            <div class="community-activity">
+              <div class="community-activity-dot"></div>
+              <span>Race simulation this Saturday!</span>
+            </div>
+          </div>
+          
+          <!-- Nutrition Challenge -->
+          <div class="community-card" onclick="viewCommunity('nutrition-challenge')">
+            <div class="community-header">
+              <div class="community-icon" style="background:linear-gradient(135deg,#00ff88,#4169E1);">🥗</div>
+              <div class="community-badge challenge">Challenge</div>
+            </div>
+            <div class="community-name">Nutrition Challenge</div>
+            <div class="community-desc">30-day nutrition challenge group. Daily check-ins and meal sharing.</div>
+            <div class="community-stats-row">
+              <div class="community-stat">
+                <span class="community-stat-value">15</span>
+                <span class="community-stat-label">Members</span>
+              </div>
+              <div class="community-stat">
+                <span class="community-stat-value">122</span>
+                <span class="community-stat-label">Messages</span>
+              </div>
+              <div class="community-stat">
+                <span class="community-stat-value">1</span>
+                <span class="community-stat-label">Events</span>
+              </div>
+            </div>
+            <div class="community-activity">
+              <div class="community-activity-dot" style="background:#ffcc00;"></div>
+              <span>Day 12 of 30 - 85% participation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Community Detail Modal -->
+    <div class="community-modal" id="community-modal">
+      <div class="community-modal-content">
+        <div class="community-modal-header">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div class="community-icon" id="modal-community-icon" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);">🌅</div>
+            <div>
+              <div class="community-modal-title" id="modal-community-name">6AM Crew</div>
+              <div class="community-modal-subtitle" id="modal-community-type">Accountability Group • 8 members</div>
+            </div>
+          </div>
+          <button class="community-modal-close" onclick="closeCommunityModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+        
+        <div class="community-modal-tabs">
+          <button class="community-tab active" onclick="showCommunityTab('chat')">Chat</button>
+          <button class="community-tab" onclick="showCommunityTab('events')">Events</button>
+          <button class="community-tab" onclick="showCommunityTab('members')">Members</button>
+          <button class="community-tab" onclick="showCommunityTab('settings')">Settings</button>
+        </div>
+        
+        <!-- Chat Tab -->
+        <div class="community-tab-content active" id="community-chat">
+          <div class="community-chat-messages" id="community-messages">
+            <div class="community-message announcement">
+              <div class="community-message-header">
+                <span class="community-message-sender">📢 Alex Trainer</span>
+                <span class="community-message-time">Yesterday</span>
+              </div>
+              <div class="community-message-content">Welcome to the 6AM Crew! Let's crush it together. Post your morning workout wins here! 💪</div>
+            </div>
+            <div class="community-message">
+              <div class="community-message-avatar">SJ</div>
+              <div class="community-message-body">
+                <div class="community-message-header">
+                  <span class="community-message-sender">Sarah Johnson</span>
+                  <span class="community-message-time">2h ago</span>
+                </div>
+                <div class="community-message-content">Crushed my 5am workout today! 💪 New PR on deadlifts - 185 lbs!</div>
+              </div>
+            </div>
+            <div class="community-message">
+              <div class="community-message-avatar" style="background:linear-gradient(135deg,#00ff88,#4169E1);">MC</div>
+              <div class="community-message-body">
+                <div class="community-message-header">
+                  <span class="community-message-sender">Mike Chen</span>
+                  <span class="community-message-time">1h ago</span>
+                </div>
+                <div class="community-message-content">Nice Sarah! I hit a new PR on deadlifts this morning too. Something in the water today 🔥</div>
+              </div>
+            </div>
+            <div class="community-message">
+              <div class="community-message-avatar" style="background:linear-gradient(135deg,#4169E1,#00ff88);">AT</div>
+              <div class="community-message-body">
+                <div class="community-message-header">
+                  <span class="community-message-sender">Alex Trainer</span>
+                  <span class="community-message-time">30m ago</span>
+                </div>
+                <div class="community-message-content">Love seeing this energy! Keep it up team 🔥 Remember, Saturday we have the group workout at the park!</div>
+              </div>
+            </div>
+          </div>
+          <div class="community-chat-input">
+            <input type="text" id="community-message-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendCommunityMessage()">
+            <button class="btn btn-sm" onclick="sendCommunityMessage()">Send</button>
+          </div>
+        </div>
+        
+        <!-- Events Tab -->
+        <div class="community-tab-content" id="community-events">
+          <button class="btn btn-secondary" style="margin-bottom:16px;" onclick="openCreateEventModal()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/></svg>
+            Create Event
+          </button>
+          <div class="community-events-list">
+            <div class="community-event-card">
+              <div class="community-event-date">
+                <div class="community-event-month">DEC</div>
+                <div class="community-event-day">26</div>
+              </div>
+              <div class="community-event-info">
+                <div class="community-event-title">Saturday Group Workout</div>
+                <div class="community-event-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                  9:00 AM
+                </div>
+                <div class="community-event-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                  Golden Gate Park
+                </div>
+              </div>
+              <div class="community-event-rsvp">
+                <div class="community-event-going">6 going</div>
+                <button class="btn btn-sm btn-secondary">RSVP</button>
+              </div>
+            </div>
+            <div class="community-event-card">
+              <div class="community-event-date">
+                <div class="community-event-month">JAN</div>
+                <div class="community-event-day">02</div>
+              </div>
+              <div class="community-event-info">
+                <div class="community-event-title">New Year Kickoff Challenge</div>
+                <div class="community-event-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                  6:00 AM
+                </div>
+                <div class="community-event-meta">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#666"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                  Virtual - Zoom
+                </div>
+              </div>
+              <div class="community-event-rsvp">
+                <div class="community-event-going">8 going</div>
+                <button class="btn btn-sm">Going ✓</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Members Tab -->
+        <div class="community-tab-content" id="community-members">
+          <button class="btn btn-secondary" style="margin-bottom:16px;" onclick="openAddMembersModal()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/></svg>
+            Add Members
+          </button>
+          <div class="community-members-list">
+            <div class="community-member">
+              <div class="community-member-avatar" style="background:linear-gradient(135deg,#4169E1,#00ff88);">AT</div>
+              <div class="community-member-info">
+                <div class="community-member-name">Alex Trainer</div>
+                <div class="community-member-role admin">Admin</div>
+              </div>
+              <div class="community-member-status online"></div>
+            </div>
+            <div class="community-member">
+              <div class="community-member-avatar">SJ</div>
+              <div class="community-member-info">
+                <div class="community-member-name">Sarah Johnson</div>
+                <div class="community-member-role">Member</div>
+              </div>
+              <div class="community-member-status online"></div>
+            </div>
+            <div class="community-member">
+              <div class="community-member-avatar" style="background:linear-gradient(135deg,#00ff88,#4169E1);">MC</div>
+              <div class="community-member-info">
+                <div class="community-member-name">Mike Chen</div>
+                <div class="community-member-role">Member</div>
+              </div>
+              <div class="community-member-status"></div>
+            </div>
+            <div class="community-member">
+              <div class="community-member-avatar" style="background:linear-gradient(135deg,#ff6b6b,#ffcc00);">EW</div>
+              <div class="community-member-info">
+                <div class="community-member-name">Emma Wilson</div>
+                <div class="community-member-role">Member</div>
+              </div>
+              <div class="community-member-status online"></div>
+            </div>
+            <div class="community-member">
+              <div class="community-member-avatar" style="background:linear-gradient(135deg,#764ba2,#667eea);">DK</div>
+              <div class="community-member-info">
+                <div class="community-member-name">David Kim</div>
+                <div class="community-member-role">Member</div>
+              </div>
+              <div class="community-member-status"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Settings Tab -->
+        <div class="community-tab-content" id="community-settings">
+          <div class="community-settings-section">
+            <label class="input-label">Community Name</label>
+            <input type="text" class="nutrition-input" value="6AM Crew">
+          </div>
+          <div class="community-settings-section">
+            <label class="input-label">Description</label>
+            <textarea class="nutrition-input" rows="3">Early morning warriors! Share your wins and keep each other accountable.</textarea>
+          </div>
+          <div class="community-settings-section">
+            <label class="input-label">Community Type</label>
+            <select class="nutrition-input">
+              <option value="accountability" selected>Accountability Group</option>
+              <option value="program">Program Group</option>
+              <option value="challenge">Challenge</option>
+              <option value="general">General</option>
+            </select>
+          </div>
+          <div class="community-settings-section">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" checked> Allow members to post
+            </label>
+          </div>
+          <div class="community-settings-section">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox"> Allow members to create events
+            </label>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:20px;">
+            <button class="btn" onclick="saveCommunitySettings()">Save Changes</button>
+            <button class="btn btn-secondary" style="color:#ff6b6b;border-color:#ff6b6b;" onclick="deleteCommunity()">Delete Community</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Create Community Modal -->
+    <div class="community-modal" id="create-community-modal">
+      <div class="community-modal-content" style="max-width:500px;">
+        <div class="community-modal-header">
+          <div class="community-modal-title">Create New Community</div>
+          <button class="community-modal-close" onclick="closeCreateCommunityModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+        <div style="padding:20px;">
+          <div class="community-settings-section">
+            <label class="input-label">Community Name</label>
+            <input type="text" class="nutrition-input" id="new-community-name" placeholder="e.g., Morning Warriors">
+          </div>
+          <div class="community-settings-section">
+            <label class="input-label">Description</label>
+            <textarea class="nutrition-input" id="new-community-desc" rows="3" placeholder="What's this community about?"></textarea>
+          </div>
+          <div class="community-settings-section">
+            <label class="input-label">Community Type</label>
+            <select class="nutrition-input" id="new-community-type">
+              <option value="general">General</option>
+              <option value="accountability">Accountability Group</option>
+              <option value="program">Program Group</option>
+              <option value="challenge">Challenge</option>
+            </select>
+          </div>
+          <div class="community-settings-section">
+            <label class="input-label">Add Members</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+              <label class="member-checkbox"><input type="checkbox" value="sarah"> Sarah Johnson</label>
+              <label class="member-checkbox"><input type="checkbox" value="mike"> Mike Chen</label>
+              <label class="member-checkbox"><input type="checkbox" value="emma"> Emma Wilson</label>
+              <label class="member-checkbox"><input type="checkbox" value="david"> David Kim</label>
+              <label class="member-checkbox"><input type="checkbox" value="lisa"> Lisa Park</label>
+              <label class="member-checkbox"><input type="checkbox" value="james"> James Brown</label>
+            </div>
+          </div>
+          <button class="btn" style="width:100%;margin-top:16px;" onclick="createCommunity()">Create Community</button>
+        </div>
+      </div>
     </div>
     
     <!-- Programs Repository Page -->
@@ -4987,6 +5682,275 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.remove('drag-over');
     });
   });
+});
+
+// ==================== COMMUNITIES FUNCTIONS ====================
+
+let currentCommunityId = null;
+
+const communitiesData = {
+  '6am-crew': {
+    name: '6AM Crew',
+    type: 'accountability',
+    icon: '🌅',
+    gradient: 'linear-gradient(135deg,#ff6b6b,#ffcc00)',
+    desc: 'Early morning warriors! Share your wins and keep each other accountable.',
+    members: 8,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Welcome to the 6AM Crew! Let\'s crush it together. Post your morning workout wins here! 💪', time: 'Yesterday', type: 'announcement' },
+      { sender: 'Sarah Johnson', initials: 'SJ', content: 'Crushed my 5am workout today! 💪 New PR on deadlifts - 185 lbs!', time: '2h ago' },
+      { sender: 'Mike Chen', initials: 'MC', content: 'Nice Sarah! I hit a new PR on deadlifts this morning too. Something in the water today 🔥', time: '1h ago' },
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Love seeing this energy! Keep it up team 🔥 Remember, Saturday we have the group workout at the park!', time: '30m ago' }
+    ]
+  },
+  'hyrox-prep': {
+    name: 'HYROX Prep 2025',
+    type: 'program',
+    icon: '🏃',
+    gradient: 'linear-gradient(135deg,#4169E1,#00ff88)',
+    desc: 'Training together for the January HYROX race. Tips, workouts, and motivation.',
+    members: 12,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Welcome to HYROX Prep! Race day is Jan 18. Let\'s get after it.', time: '3 days ago', type: 'announcement' },
+      { sender: 'David Kim', initials: 'DK', content: 'Just finished the sled push practice. My legs are toast 😅', time: '1h ago' },
+      { sender: 'Lisa Park', initials: 'LP', content: 'Same! But we\'re getting stronger every day!', time: '45m ago' }
+    ]
+  },
+  'nutrition-challenge': {
+    name: 'Nutrition Challenge',
+    type: 'challenge',
+    icon: '🥗',
+    gradient: 'linear-gradient(135deg,#00ff88,#4169E1)',
+    desc: '30-day nutrition challenge group. Daily check-ins and meal sharing.',
+    members: 15,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Day 1 of the challenge starts Monday! Post your meal prep pics 📸', time: '2 days ago', type: 'announcement' },
+      { sender: 'Emma Wilson', initials: 'EW', content: 'Here\'s my meal prep for the week! Chicken, rice, and veggies 🥦', time: '5h ago' },
+      { sender: 'Sarah Johnson', initials: 'SJ', content: 'Looks amazing Emma! I need to up my prep game', time: '4h ago' }
+    ]
+  }
+};
+
+function viewCommunity(communityId) {
+  currentCommunityId = communityId;
+  const community = communitiesData[communityId];
+  if (!community) return;
+  
+  // Update modal header
+  document.getElementById('modal-community-icon').innerHTML = community.icon;
+  document.getElementById('modal-community-icon').style.background = community.gradient;
+  document.getElementById('modal-community-name').textContent = community.name;
+  document.getElementById('modal-community-type').textContent = 
+    community.type.charAt(0).toUpperCase() + community.type.slice(1) + ' Group • ' + community.members + ' members';
+  
+  // Render messages
+  renderCommunityMessages(community.messages);
+  
+  // Show chat tab by default
+  showCommunityTab('chat');
+  
+  // Open modal
+  document.getElementById('community-modal').classList.add('open');
+}
+
+function renderCommunityMessages(messages) {
+  const container = document.getElementById('community-messages');
+  container.innerHTML = messages.map(msg => {
+    if (msg.type === 'announcement') {
+      return `
+        <div class="community-message announcement">
+          <div class="community-message-header">
+            <span class="community-message-sender">📢 ${msg.sender}</span>
+            <span class="community-message-time">${msg.time}</span>
+          </div>
+          <div class="community-message-content">${msg.content}</div>
+        </div>
+      `;
+    }
+    return `
+      <div class="community-message">
+        <div class="community-message-avatar">${msg.initials}</div>
+        <div class="community-message-body">
+          <div class="community-message-header">
+            <span class="community-message-sender">${msg.sender}</span>
+            <span class="community-message-time">${msg.time}</span>
+          </div>
+          <div class="community-message-content">${msg.content}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function closeCommunityModal() {
+  document.getElementById('community-modal').classList.remove('open');
+  currentCommunityId = null;
+}
+
+function showCommunityTab(tabName) {
+  // Update tab buttons
+  document.querySelectorAll('.community-tab').forEach(tab => tab.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  // Update tab content
+  document.querySelectorAll('.community-tab-content').forEach(content => content.classList.remove('active'));
+  document.getElementById('community-' + tabName).classList.add('active');
+}
+
+function sendCommunityMessage() {
+  const input = document.getElementById('community-message-input');
+  const message = input.value.trim();
+  if (!message || !currentCommunityId) return;
+  
+  const community = communitiesData[currentCommunityId];
+  
+  // Add message to data
+  community.messages.push({
+    sender: 'Alex Trainer',
+    initials: 'AT',
+    content: message,
+    time: 'Just now'
+  });
+  
+  // Re-render messages
+  renderCommunityMessages(community.messages);
+  
+  // Clear input
+  input.value = '';
+  
+  // Scroll to bottom
+  const container = document.getElementById('community-messages');
+  container.scrollTop = container.scrollHeight;
+}
+
+function openCreateCommunityModal() {
+  document.getElementById('create-community-modal').classList.add('open');
+}
+
+function closeCreateCommunityModal() {
+  document.getElementById('create-community-modal').classList.remove('open');
+}
+
+function createCommunity() {
+  const name = document.getElementById('new-community-name').value.trim();
+  const desc = document.getElementById('new-community-desc').value.trim();
+  const type = document.getElementById('new-community-type').value;
+  
+  if (!name) {
+    alert('Please enter a community name');
+    return;
+  }
+  
+  // Generate ID
+  const id = name.toLowerCase().replace(/\s+/g, '-');
+  
+  // Get selected members
+  const selectedMembers = [];
+  document.querySelectorAll('#create-community-modal .member-checkbox input:checked').forEach(cb => {
+    selectedMembers.push(cb.value);
+  });
+  
+  // Add to data
+  communitiesData[id] = {
+    name: name,
+    type: type,
+    icon: type === 'challenge' ? '🏆' : type === 'program' ? '📋' : type === 'accountability' ? '🤝' : '💬',
+    gradient: 'linear-gradient(135deg,#764ba2,#667eea)',
+    desc: desc || 'A new community',
+    members: selectedMembers.length + 1,
+    messages: [
+      { sender: 'Alex Trainer', initials: 'AT', content: 'Welcome to ' + name + '! Let\'s get started.', time: 'Just now', type: 'announcement' }
+    ]
+  };
+  
+  // Add card to grid
+  const grid = document.getElementById('communities-grid');
+  const card = document.createElement('div');
+  card.className = 'community-card';
+  card.onclick = () => viewCommunity(id);
+  card.innerHTML = `
+    <div class="community-header">
+      <div class="community-icon" style="background:linear-gradient(135deg,#764ba2,#667eea);">${communitiesData[id].icon}</div>
+      <div class="community-badge ${type}">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+    </div>
+    <div class="community-name">${name}</div>
+    <div class="community-desc">${desc || 'A new community'}</div>
+    <div class="community-stats-row">
+      <div class="community-stat">
+        <span class="community-stat-value">${selectedMembers.length + 1}</span>
+        <span class="community-stat-label">Members</span>
+      </div>
+      <div class="community-stat">
+        <span class="community-stat-value">1</span>
+        <span class="community-stat-label">Messages</span>
+      </div>
+      <div class="community-stat">
+        <span class="community-stat-value">0</span>
+        <span class="community-stat-label">Events</span>
+      </div>
+    </div>
+    <div class="community-activity">
+      <div class="community-activity-dot"></div>
+      <span>Just created</span>
+    </div>
+  `;
+  grid.appendChild(card);
+  
+  // Close modal and reset form
+  closeCreateCommunityModal();
+  document.getElementById('new-community-name').value = '';
+  document.getElementById('new-community-desc').value = '';
+  document.getElementById('new-community-type').value = 'general';
+  document.querySelectorAll('#create-community-modal .member-checkbox input').forEach(cb => cb.checked = false);
+  
+  alert('Community "' + name + '" created successfully!');
+}
+
+function openCreateEventModal() {
+  alert('Create Event modal - Coming soon! For now, events are managed in the demo data.');
+}
+
+function openAddMembersModal() {
+  alert('Add Members modal - Coming soon! For now, members are managed in the demo data.');
+}
+
+function saveCommunitySettings() {
+  alert('Community settings saved!');
+  closeCommunityModal();
+}
+
+function deleteCommunity() {
+  if (confirm('Are you sure you want to delete this community? This cannot be undone.')) {
+    if (currentCommunityId && communitiesData[currentCommunityId]) {
+      delete communitiesData[currentCommunityId];
+      // Remove card from grid
+      const cards = document.querySelectorAll('.community-card');
+      cards.forEach(card => {
+        if (card.querySelector('.community-name').textContent === communitiesData[currentCommunityId]?.name) {
+          card.remove();
+        }
+      });
+      closeCommunityModal();
+      alert('Community deleted.');
+      // Refresh page to update grid
+      showPage('communities');
+    }
+  }
+}
+
+// Close modals on escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeCommunityModal();
+    closeCreateCommunityModal();
+  }
+});
+
+// Close modals on backdrop click
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('community-modal')) {
+    e.target.classList.remove('open');
+  }
 });
 </script>
 <!-- Supabase config temporarily disabled until Amplify routing is fixed -->
